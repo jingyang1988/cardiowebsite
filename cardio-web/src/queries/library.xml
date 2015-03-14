@@ -1,0 +1,2843 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<l:library xmlns:l="http://www.slamb.org/axamol/sql-library/library">
+<l:name>lcec</l:name>
+
+<s:query name="isValidUser" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:param name="username" type="varchar" />
+  <s:param name="password" type="varchar" />
+  <s:sql databases="mysql">
+    Select r.rolename
+    from userroles r join databaseuser u 
+    on r.roleid = u.roleid and u.userid = <s:bind param="username"/> and u.userpassword = <s:bind param="password"/>
+  </s:sql>
+</s:query>
+
+<s:query name="getEmailandUserName" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:param name="username" type="varchar" />
+  <s:param name="password" type="varchar" />
+  <s:sql databases="mysql">
+    Select u.Email, u.UserName
+    from userroles r join databaseuser u 
+    on r.roleid = u.roleid and u.userid = <s:bind param="username"/> and u.userpassword = <s:bind param="password"/>
+  </s:sql>
+</s:query>
+
+<s:update name="deleteTestData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="ID" type="integer" />
+
+<s:sql databases="mysql">
+DELETE FROM
+	`patient-testing` 
+WHERE 
+  `ID` = <s:bind param="ID" />
+</s:sql>
+</s:update>
+
+
+
+<s:update name="deleteLesionData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="AutoNum" type="integer" />  
+
+<s:sql databases="mysql">
+DELETE FROM
+	`patient-lesion` 
+WHERE 
+  `ID` = <s:bind param="AutoNum" /> <!-- ???????? -->
+</s:sql>
+</s:update>
+
+<s:update name="deleteVisitData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="ID" type="integer" />
+
+<s:sql databases="mysql">
+DELETE FROM
+	`patient-visit` 
+WHERE 
+  `ID` = <s:bind param="ID" />
+</s:sql>
+</s:update>
+
+<s:query name="getUsersData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:param name="id" type="varchar" />
+  <s:sql databases="mysql">
+    Select *
+    from `databaseuser`
+    where UserId !=<s:bind param="id" />
+  </s:sql>
+</s:query>
+
+
+<s:query name="getMrnList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  
+  <s:sql databases="mysql">
+    Select `MRN`
+    from `patient`
+    
+  </s:sql>
+</s:query>
+
+<s:query name="getCurrentUserData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:param name="id" type="varchar" />
+  <s:sql databases="mysql">
+    Select *
+    from `databaseuser`
+    where UserId=<s:bind param="id" />
+  </s:sql>
+</s:query>
+
+<s:query name="getCurrentPassword" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+ <s:param name="id" type="varchar" />
+  <s:sql databases="mysql">
+    Select UserPassword
+    from `databaseuser`
+    where UserId=<s:bind param="id" />
+  </s:sql>
+</s:query>
+
+<s:update name="savePassword" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="id" type="varchar" />
+<s:param name="pw" type = "varchar" />
+<s:sql databases="mysql">
+Update 
+	databaseuser
+SET 
+	`UserPassword` = <s:bind param="pw" />
+	
+WHERE
+	`UserId` = <s:bind param="id" />
+</s:sql>
+</s:update>	
+
+<s:update name="saveEmail" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="id" type="varchar" />
+<s:param name="pw" type = "varchar" />
+<s:sql databases="mysql">
+Update 
+	databaseuser
+SET 
+	`Email` = <s:bind param="pw" />
+	
+WHERE
+	`UserId` = <s:bind param="id" />
+</s:sql>
+</s:update>
+
+<s:update name="adduser" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="name" type="varchar" />
+<s:param name="id" type="varchar" />
+<s:param name="pw" type="varchar" />
+<s:param name="email" type="varchar" />
+<s:param name="role" type="integer" />
+<s:sql databases="mysql">
+INSERT INTO 
+	`databaseuser` (`UserName`, `UserId`, `UserPassword`, `Email`, `RoleId`)
+VALUES 
+	(<s:bind param="name" />, 
+	 <s:bind param="id" />, 
+	 <s:bind param="pw" />, 
+	 <s:bind param="email" />,
+	 <s:bind param="role" />)
+</s:sql>
+</s:update>
+
+<s:update name="addInsurance" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="InsurCo" type="varchar" />
+<s:param name="CtPrecert" type="varchar" />
+<s:param name="PetPrecert" type="varchar" />
+<s:param name="PftPrecert" type="varchar" />
+<s:param name="Phonenumber1" type="varchar" />
+<s:param name="Phonenumber2" type="varchar" />
+<s:param name="Phonenumber3" type="varchar" />
+<s:param name="visitReferral" type="varchar" />
+<s:param name="Comment" type="varchar" />
+
+
+
+<s:sql databases="mysql">
+INSERT INTO 
+	`list - insurance`
+VALUES 
+	(<s:bind param="InsurCo" />, 
+	 <s:bind param="Phonenumber1" />, 
+	 <s:bind param="Phonenumber2" />, 
+	 <s:bind param="Phonenumber3" />,
+	 <s:bind param="Comment" />,
+	 <s:bind param="CtPrecert" />,
+	 <s:bind param="PetPrecert" />,
+	 <s:bind param="PftPrecert" />,
+	 <s:bind param="visitReferral" />)
+</s:sql>
+</s:update>
+
+
+<s:update name="removeuser" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="id" type="varchar" />
+<s:sql databases="mysql">
+    DELETE FROM databaseuser
+WHERE UserId = <s:bind param="id" />
+</s:sql>
+</s:update>
+
+<s:query name="getRoleList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	select * from `userroles`
+</s:sql>
+</s:query>
+
+
+<s:update name="savePatient" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="workupId" type = "integer" />
+<s:param name="lcecid" type = "integer" />
+<s:sql databases="mysql">
+Update 
+	`patient` 
+SET
+	`WorkUp Status` = <s:bind param="workupId" />,
+    `LCEC Status` = <s:bind param="lcecid" />
+WHERE 
+	`MRN` =  <s:bind param="mrn" />
+</s:sql>
+</s:update>
+
+<s:query name="searchPatientByMRN" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="input" type="varchar"></s:param>
+<s:sql databases="mysql">
+Select 
+	`MRN`,`Name (Last,First)`,`Workup Status` as `WorkUpId`, `WorkUpStatus` as `Workup Status`,`LCEC Status` as `LCECId`, `Active-Inactive` as `LCEC Status`
+from 
+	patient
+INNER JOIN 
+	`list - workupstatus`
+ON
+	`WorkUpStatusNum` = `Workup Status`
+INNER JOIN
+	`list - patientstatus`
+ON
+	`LCEC Status` = `ID` 
+where 
+	`MRN` like <s:bind param="input" />
+ORDER BY
+	`Name (Last,First)` ASC
+</s:sql>
+</s:query>
+
+<s:query name="searchPatientByName" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="input" type="varchar"></s:param>
+<s:sql databases="mysql">
+Select 
+	`MRN`,`Name (Last,First)`,`Workup Status` as `WorkUpId`, `WorkUpStatus` as `Workup Status`,`LCEC Status` as `LCECId`, `Active-Inactive` as `LCEC Status`
+from 
+	patient
+INNER JOIN 
+	`list - workupstatus`
+ON
+	`WorkUpStatusNum` = `Workup Status`
+INNER JOIN
+	`list - patientstatus`
+ON
+	`LCEC Status` = `ID`
+where 
+	`Name (Last,First)` like <s:bind param="input" />
+ORDER BY
+	`Name (Last,First)` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getMDList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT `Referring Physican` FROM `list - physician-referring` ORDER BY `Referring Physican` ASC
+</s:sql>
+</s:query>
+
+
+<s:query name="getRefMDListByName" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mdName" type="varchar"></s:param>
+<s:sql databases="mysql">
+
+	SELECT `Referring Physican` FROM `list - physician-referring` where `Referring Physican` like <s:bind param="mdName" /> 
+</s:sql>
+</s:query>
+
+
+
+
+
+<s:query name="getInsuranceList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT `InsurCo` from `list - insurance` ORDER BY `InsurCo` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getGenderList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	select `GenderDefn` from `sts-gender` ORDER BY `GenderDefn` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getWorkupList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	select * from `list - workupstatus`
+</s:sql>
+</s:query>
+
+<s:query name="getLCECStatusList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	select `ID` as `LCECId`, `Active-Inactive` as `LCECStatus` from `list - patientstatus` ORDER BY `Active-Inactive` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getLesionClassificaitonList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * FROM `list - lesionclassification` ORDER BY `LesionClassification` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getBiopsyTypesList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * FROM `list - biopsy types` 
+	ORDER BY  `BiopsyType` ASC
+</s:sql>
+</s:query>
+
+
+<s:query name="getBiopsyAccuracyList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT `Biopsy Accuracy` FROM `list - biopsyaccuracy` ORDER BY `Biopsy Accuracy` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getResultDiagnosticList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT `BiopsyResult` FROM `list - biopsyresult` ORDER BY `BiopsyResult` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getLesionDignosisList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * FROM `list - lesiondiagnosis`
+</s:sql>
+</s:query>
+
+<s:query name="getComplicationList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * FROM `list - complication` ORDER BY `Complication` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getLcecPhysiciansList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * FROM `list - physicians-lcec` ORDER BY `LCEC - Physician` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getLcecPhysiciansListByName" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+
+<s:sql databases="mysql">
+
+	SELECT * FROM `list - physicians-lcec` where  ORDER BY `LCEC - Physician` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getLocationList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT `Biopsy Location` FROM `list - location` ORDER BY `Biopsy Location` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getVisittypeList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * FROM `list - visttypes` ORDER BY `Visit Type` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getSmokestatusList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * FROM `list - smokingstatus` ORDER BY `SmokingStatus` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getTestTypeList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * 
+	FROM `list - testtypes` 
+	ORDER BY `TestingType` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getResearchProjList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * 
+	FROM `list - researchproject` 
+	ORDER BY `ReserachProject` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getCancerTypeList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * 
+	FROM `list - cancer types`
+	ORDER BY `TypeOfCancer` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getMedicineNameList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT *
+	FROM `list - medication`
+	ORDER BY `Medicine Name` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getStrengthList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT *
+	FROM `list - medicationStrengthUnit`
+	ORDER BY `Strength Unit` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getDoseList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT *
+	FROM `list - medicationDoseUnit`
+	ORDER BY `Dose Unit` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getHowTakenList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT *
+	FROM `list - medicationHowTaken`
+	ORDER BY `How Taken` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getGivenTypeList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT *
+	FROM `list - medicineGivenType`
+	ORDER BY `Given Type` ASC
+</s:sql>
+</s:query> 
+
+<s:query name="getHistList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT `Histology` 
+	FROM `list - cancerhisto`
+	ORDER BY `Histology` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getStageTList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * 
+	FROM `list - stage t`
+	ORDER BY `T - stage` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getStageNList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * 
+	FROM `list - stage n`
+	ORDER BY `N - stage` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getStageTNMList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * 
+	FROM `list - stagetnm`
+	ORDER BY `Stage - TNM` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getStageMList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * 
+	FROM `list - stage m`
+	ORDER BY `M - stage` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getCancerTxList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT * 
+	FROM `list - cancertxplan`
+	ORDER BY `CancerTherapy` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getTestResultListByType" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="testType" type="integer"></s:param>
+<s:sql databases="mysql">
+	SELECT *
+	FROM `listtestresult`
+	WHERE TestingType = <s:bind param="testType" />
+	ORDER BY `Result` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getLesionCtCharacteristic" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT `CT Characteristic` FROM `list - lesionctcharac` ORDER BY `CT Characteristic` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getPatientData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+Select  `Gender`, `SocSecNumber`, `Date Of Birth`,
+	     `Address`, `City`, `StateOrProvince`, `PostalCode`, `PhoneNumber`, `Alternative Phone`, `EmailAddress`,
+		 `Insurance`, `InsuranceID`, `InsurancePhone`, `InsurComment`,
+		 `Date of Referral`, `Referring MD`, `Primary Care Physician`, `Additional MD`,
+		 `LCEC Chart`, `InactiveDate`, `SchedFUwithMD`, `CT Precert`, `PET Precert`, `PFT Precert`,
+		 `Workup Status` as `WorkUpId`, `WorkUpStatus` as `Workup Status`,`LCEC Status` as `LCECId`, `Active-Inactive` as `LCEC Status`
+FROM
+	Patient
+INNER JOIN 
+	`list - workupstatus`
+ON
+	`WorkUpStatusNum` = `Workup Status`
+INNER JOIN
+	`list - patientstatus`
+ON
+	`LCEC Status` = `ID`
+WHERE
+	`MRN` = <s:bind param="mrn" />
+</s:sql>
+</s:query>
+
+
+
+<s:query name="getAllInsuranceData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+
+<s:sql databases="mysql">
+Select `InsurCo`,
+`Phone Number1`,
+`Phone Number2`,
+`Phone Number3`,
+`Comment`,
+`CTPrecert`,
+`PETPrecert`,
+`PFTPrecert`,
+`VisitReferral`  
+FROM
+	`list - insurance`
+</s:sql>
+</s:query>
+
+<s:query name="getAllPatientData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+
+<s:sql databases="mysql">
+Select  `MRN`,`Name (Last,First)`,`Workup Status` as `WorkUpId`, `Date of Referral`,  `Referring MD`, `Primary Care Physician`, `WorkUpStatus` as `Workup Status`, `Active-Inactive` as `LCEC Status`
+FROM
+	Patient
+INNER JOIN 
+	`list - workupstatus`
+ON
+	`WorkUpStatusNum` = `Workup Status`
+INNER JOIN
+	`list - patientstatus`
+ON
+	`LCEC Status` = `ID` 
+ORDER BY
+	`Date of Referral` DESC
+</s:sql>
+</s:query>
+
+getAllPatientTestingData
+<s:query name="getAllPatientTestingData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+Select
+`patient`.`MRN`, `Name (Last,First)`, `Workup Status` as `WorkUpId`, `WorkUpStatus` as `Workup Status`, `LCEC Status` as `LCECId`, `Active-Inactive` as `LCEC Status`,
+`patient-testing`.`ID`, `patient-testing`.`TestType`, `list - testtypes`.`TestingType`, `RequiredDate`, `TestingDate`, `OrderedByLCEC`, `Comment`
+from 
+`patient`
+INNER JOIN
+`list - workupstatus`
+ON
+`WorkUpStatusNum` = `Workup Status`
+INNER JOIN
+`list - patientstatus`
+ON
+`LCEC Status` = `ID` 
+INNER JOIN
+`patient-testing`
+ON
+`patient`.`MRN` = `patient-testing`.`PatientMRN`
+INNER JOIN
+`list - testtypes`
+ON
+`list - testtypes`.`Autonumber` = `patient-testing`.`TestType`
+ORDER BY
+`TestingDate` DESC;
+</s:sql>
+</s:query>
+
+<s:update name="savePatientData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="name" type="varchar" />
+<s:param name="gender" type = "varchar" />
+<s:param name="ssn" type = "varchar" />
+<s:param name="dob" type = "date" />
+<s:param name="address" type = "varchar" />
+<s:param name="city" type = "varchar" />
+<s:param name="state" type = "varchar" />
+<s:param name="postcode" type = "varchar" />
+<s:param name="phonenum" type = "varchar" />
+<s:param name="altphnum" type = "varchar" />
+<s:param name="email" type = "varchar" />
+<s:param name="insurance" type = "varchar" />
+<s:param name="insuranceid" type = "varchar" />
+<s:param name="insuranceph" type = "varchar" />
+<s:param name="insurancecomment" type = "varchar" />
+<s:param name="dateofref" type = "date" />
+<s:param name="refMD" type = "varchar" />
+<s:param name="primaryCare" type = "varchar" />
+<s:param name="addMD" type = "varchar" />
+<s:param name="workupId" type = "integer" />
+<s:param name="lcecid" type = "integer" />
+<s:param name="lcecChart" type = "integer" />
+<s:param name="inactivedate" type = "date" />
+<s:param name="schedfuwithMD" type = "integer" />
+<s:param name="CT" type = "varchar" />
+<s:param name="PFT" type = "varchar" />
+<s:param name="PET" type = "varchar" />
+<s:sql databases="mysql">
+Update 
+	Patient
+SET 
+	`Name (Last,First)` = <s:bind param="name" />,
+	`Gender` = <s:bind param="gender" />,
+	`SocSecNumber` = <s:bind param="ssn" />, 
+	`Date Of Birth` = <s:bind param="dob" />,
+	`Address` = <s:bind param="address" />, 
+	`City` = <s:bind param="city" />, 
+	`StateOrProvince` = <s:bind param="state" />, 
+	`PostalCode` = <s:bind param="postcode" />, 
+    `PhoneNumber` = <s:bind param="phonenum" />, 
+    `Alternative Phone` = <s:bind param="altphnum" />, 
+    `EmailAddress` = <s:bind param="email" />,
+	`Insurance` = <s:bind param="insurance" />, 
+    `InsuranceID` = <s:bind param="insuranceid" />, 
+    `InsurancePhone` = <s:bind param="insuranceph" />, 
+    `InsurComment` = <s:bind param="insurancecomment" />,
+    `Date of Referral` = <s:bind param="dateofref" />, 
+    `Referring MD` = <s:bind param="refMD" />, 
+    `Primary Care Physician` = <s:bind param="primaryCare" />, 
+    `Additional MD` = <s:bind param="addMD" />,
+    `WorkUp Status` = <s:bind param="workupId" />,
+    `LCEC Status` = <s:bind param="lcecid" />,
+    `LCEC Chart` = <s:bind param="lcecChart" />, 
+    `InactiveDate` = <s:bind param="inactivedate" />, 
+    `SchedFUwithMD` = <s:bind param="schedfuwithMD" />,
+    `CT Precert` = <s:bind param="CT" />,
+    `PET Precert` = <s:bind param="PET" />,
+    `PFT Precert` = <s:bind param="PFT" />
+WHERE
+	`MRN` = <s:bind param="mrn" />
+</s:sql>
+</s:update>	
+
+<s:update name="savePatientDataNewMrn" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="name" type="varchar" />
+<s:param name="oldmrn" type="varchar" />
+<s:param name="gender" type = "varchar" />
+<s:param name="ssn" type = "varchar" />
+<s:param name="dob" type = "date" />
+<s:param name="address" type = "varchar" />
+<s:param name="city" type = "varchar" />
+<s:param name="state" type = "varchar" />
+<s:param name="postcode" type = "varchar" />
+<s:param name="phonenum" type = "varchar" />
+<s:param name="altphnum" type = "varchar" />
+<s:param name="email" type = "varchar" />
+<s:param name="insurance" type = "varchar" />
+<s:param name="insuranceid" type = "varchar" />
+<s:param name="insuranceph" type = "varchar" />
+<s:param name="insurancecomment" type = "varchar" />
+<s:param name="dateofref" type = "date" />
+<s:param name="refMD" type = "varchar" />
+<s:param name="primaryCare" type = "varchar" />
+<s:param name="addMD" type = "varchar" />
+<s:param name="workupId" type = "integer" />
+<s:param name="lcecid" type = "integer" />
+<s:param name="lcecChart" type = "integer" />
+<s:param name="inactivedate" type = "date" />
+<s:param name="schedfuwithMD" type = "integer" />
+<s:param name="CT" type = "varchar" />
+<s:param name="PFT" type = "varchar" />
+<s:param name="PET" type = "varchar" />
+<s:sql databases="mysql">
+Update 
+	Patient
+SET 
+	`Name (Last,First)` = <s:bind param="name" />,
+	`MRN` = <s:bind param="mrn" />,
+	`Gender` = <s:bind param="gender" />,
+	`SocSecNumber` = <s:bind param="ssn" />, 
+	`Date Of Birth` = <s:bind param="dob" />,
+	`Address` = <s:bind param="address" />, 
+	`City` = <s:bind param="city" />, 
+	`StateOrProvince` = <s:bind param="state" />, 
+	`PostalCode` = <s:bind param="postcode" />, 
+    `PhoneNumber` = <s:bind param="phonenum" />, 
+    `Alternative Phone` = <s:bind param="altphnum" />, 
+    `EmailAddress` = <s:bind param="email" />,
+	`Insurance` = <s:bind param="insurance" />, 
+    `InsuranceID` = <s:bind param="insuranceid" />, 
+    `InsurancePhone` = <s:bind param="insuranceph" />, 
+    `InsurComment` = <s:bind param="insurancecomment" />,
+    `Date of Referral` = <s:bind param="dateofref" />, 
+    `Referring MD` = <s:bind param="refMD" />, 
+    `Primary Care Physician` = <s:bind param="primaryCare" />, 
+    `Additional MD` = <s:bind param="addMD" />,
+    `WorkUp Status` = <s:bind param="workupId" />,
+    `LCEC Status` = <s:bind param="lcecid" />,
+    `LCEC Chart` = <s:bind param="lcecChart" />, 
+    `InactiveDate` = <s:bind param="inactivedate" />, 
+    `SchedFUwithMD` = <s:bind param="schedfuwithMD" />,
+    `CT Precert` = <s:bind param="CT" />,
+    `PET Precert` = <s:bind param="PET" />,
+    `PFT Precert` = <s:bind param="PFT" />
+WHERE
+	`MRN` = <s:bind param="oldmrn" />
+</s:sql>
+</s:update>	
+
+<!-- Added by rjosan : createPatient -->
+
+
+<s:update name="createPatient" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="gender" type = "varchar" />
+<s:param name="ssn" type = "varchar" />
+<s:param name="dob" type = "date" />
+<s:param name="address" type = "varchar" />
+<s:param name="city" type = "varchar" />
+<s:param name="state" type = "varchar" />
+<s:param name="postcode" type = "varchar" />
+<s:param name="phonenum" type = "varchar" />
+<s:param name="altphnum" type = "varchar" />
+<s:param name="email" type = "varchar" />
+<s:param name="insurance" type = "varchar" />
+<s:param name="insuranceid" type = "varchar" />
+<s:param name="insuranceph" type = "varchar" />
+<s:param name="insurancecomment" type = "varchar" />
+<s:param name="dateofref" type = "date" />
+<s:param name="refMD" type = "varchar" />
+<s:param name="primaryCare" type = "varchar" />
+<s:param name="addMD" type = "varchar" />
+<s:param name="workupId" type = "integer" />
+<s:param name="lcecid" type = "integer" />
+<s:param name="lcecChart" type = "integer" />
+<s:param name="inactivedate" type = "date" />
+<s:param name="schedfuwithMD" type = "integer" />
+<!-- New Fields -->
+<s:param name="name" type = "varchar" />
+<s:param name="referralVisit" type = "varchar" />
+<s:param name="secInsurance" type = "varchar" />
+<s:param name="secInsuranceID" type = "varchar" />
+<s:param name="CT" type = "varchar" />
+<s:param name="PET" type = "varchar" />
+<s:param name="PFT" type = "varchar" />
+
+<s:sql databases="mysql">
+INSERT INTO 
+	`patient` (`MRN`,`Name (Last,First)`, `Date Of Birth` , `Date of Referral`,`Gender`,`SocSecNumber`,`Referring MD`,`Primary Care Physician`,`Additional MD`,`Workup Status`,`LCEC Status`,`LCEC Chart`,`InactiveDate`,`Insurance`,`InsurComment`,`InsurancePhone`,`InsuranceID`,`Secondary Insurance`,`Secondary InsurID`,`CT Precert`,`PET Precert`,`PFT Precert`,`Referral Needed`,`SchedFUwithMD`,`Address`,`City`,`StateOrProvince`,`PostalCode`,`PhoneNumber`,`Alternative Phone`,`EmailAddress`)
+VALUES 
+    
+	(<s:bind param="mrn" />,
+	 <s:bind param="name" />,
+	 <s:bind param="dob" />,
+	 <s:bind param="dateofref" />,
+	 <s:bind param="gender" />,
+	 <s:bind param="ssn" />,
+	 <s:bind param="refMD" />,
+	 <s:bind param="primaryCare" />,
+	 <s:bind param="addMD" />,
+	 <s:bind param="workupId" />,
+	 <s:bind param="lcecid" />,
+	 <s:bind param="lcecChart" />,
+	 <s:bind param="inactivedate" />,
+	 <s:bind param="insurance" />,
+	 <s:bind param="insurancecomment" />,
+	 <s:bind param="insuranceph" />,
+	 <s:bind param="insuranceid" />,
+	 <s:bind param="secInsurance" />,
+	 <s:bind param="secInsuranceID" />,
+	 <s:bind param="CT" />,
+	 <s:bind param="PET" />,
+	 <s:bind param="PFT" />,
+	 <s:bind param="referralVisit" />,
+	 <s:bind param="schedfuwithMD" />,
+	 <s:bind param="address" />,
+	 <s:bind param="city" />,
+	 <s:bind param="state" />,
+	 <s:bind param="postcode" />,
+	 <s:bind param="phonenum" />,
+	 <s:bind param="altphnum" />,
+	 <s:bind param="email" />)
+	    
+	    
+</s:sql>
+</s:update>	
+
+<!-- End  of  addition by rjosan -->
+
+<!-- added by sun -->
+<s:update name="deletePatient" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="integer"/>
+<s:param name="name" type="varchar"/>
+<s:sql databases="mysql">
+DELETE FROM
+		`patient`
+WHERE
+		`MRN` = <s:bind param="mrn" /> AND `Name (Last,First)` = <s:bind param="name" />
+</s:sql>
+</s:update>
+
+
+<s:query name="getCancerData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:sql databases="mysql">
+Select
+	`InactiveDate`,`LCEC Chart`,
+	`Date of 1st Diagnosis`, `Date of Final Staging`, 
+	`Date of Tumor Board`, `CancerType`, 
+	`CancerHisto`, `CancerTypeComment`, 
+	`Stage - T Clinical`, `Stage - T Pathologic`, 
+    `Stage - T Restage`, `Stage - N Clinical`,
+	`Stage - N Pathologic`, `Stage - N Restage`, 
+    `Stage - M Clinical`, `Stage - M Pathologic`,
+    `Stage - M Restage`, `Stage - TNM Clinical`, 
+    `Stage - TNM Pathologic`, `Stage - TNM Restage`,
+    `Status 1 year`, `Status 2 year`, `Status 3 year`, 
+    `Status 4 year`, `Status 5 year`, `Comment`,
+    `Date 1st Relapse`, `NeoChemoPlan`, `NeoChemoMD`,
+    `NeoChemoEndDate`, `NeoRTPlan`, `NeoRTMD`,
+    `NeoRTEndDate`, `SurgeryPlan`, `SurgeryMD`,
+    `SurgeryDate`, `ChemoPlan`, `ChemoMD`,
+    `ChemoEndDate`, `RTPlan`, `RTMD`, `RTEndDate`
+FROM 
+`patient-cancer`
+INNER JOIN
+`patient`
+ON 
+`patient-cancer`.`PatientMRN` = `patient`.`MRN` 
+WHERE
+	`PatientMRN` = <s:bind param="mrn" />
+</s:sql>
+</s:query>	
+
+<s:query name="getAllCancerData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+Select
+	`PatientMRN`,`Name (Last,First)`,
+	`InactiveDate`,`LCEC Chart`,
+	`Date of 1st Diagnosis`, `Date of Final Staging`, 
+	`Date of Tumor Board`, `CancerType`, 
+	`CancerHisto`, `CancerTypeComment`, 
+	`Stage - T Clinical`, `Stage - T Pathologic`, 
+    `Stage - T Restage`, `Stage - N Clinical`,
+	`Stage - N Pathologic`, `Stage - N Restage`, 
+    `Stage - M Clinical`, `Stage - M Pathologic`,
+    `Stage - M Restage`, `Stage - TNM Clinical`, 
+    `Stage - TNM Pathologic`, `Stage - TNM Restage`,
+    `Status 1 year`, `Status 2 year`, `Status 3 year`, 
+    `Status 4 year`, `Status 5 year`, `Comment`,
+    `Date 1st Relapse`, `NeoChemoPlan`, `NeoChemoMD`,
+    `NeoChemoEndDate`, `NeoRTPlan`, `NeoRTMD`,
+    `NeoRTEndDate`, `SurgeryPlan`, `SurgeryMD`,
+    `SurgeryDate`, `ChemoPlan`, `ChemoMD`,
+    `ChemoEndDate`, `RTPlan`, `RTMD`, `RTEndDate`
+FROM 
+`patient-cancer`
+INNER JOIN
+`patient`
+ON 
+`patient-cancer`.`PatientMRN` = `patient`.`MRN` 
+</s:sql>
+</s:query>	
+
+<!--  Added by Yongxin-->
+<s:query name="getAllLesionsData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT
+	`PatientMRN`,`Name (Last,First)`,
+	`Date1stFollowedLCEC`,`LesionClassification`,
+	`Location`,`LocationComment`,
+	`CT Characteristic`,`PET SUV`
+FROM
+	`patient-lesion`
+INNER JOIN
+`patient`
+ON
+`patient-lesion`.`PatientMRN` = `patient`.`MRN`
+</s:sql>
+</s:query>	         
+<!--  End of addition-->
+
+<s:query name="queryPendingProcedures" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT
+	 `patient-biopsy`.`MRN`, `patient`.`Name (Last,First)`, `patient`.`Date Of Birth`, 
+	 `patient`.`PhoneNumber`,`patient-biopsy`.`ProcedureType`,
+	 `patient-biopsy`.`PerformedBy`,`patient-biopsy`.`ScheduleDate`
+FROM 
+	 `patient`
+INNER JOIN 
+	 `patient-biopsy`
+ON 
+	`patient`.`MRN` = `patient-biopsy`.`MRN`
+ORDER BY (`patient-biopsy`.`MRN`)
+</s:sql>
+</s:query>
+
+<s:query name="searchMRNinCancerInfo" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:sql databases="mysql">
+SELECT
+	`PatientMRN`
+FROM 
+	`patient-cancer`
+WHERE
+	`PatientMRN` = <s:bind param="mrn" />
+</s:sql>
+</s:query>
+
+<s:update name="saveCancerData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="diagnosisDate" type="date" />
+<s:param name="stagingDate" type = "date" />
+<s:param name="tumorDate" type = "date" />
+<s:param name="cancerType" type = "integer" />
+<s:param name="histology" type = "varchar" />
+<s:param name="comment" type = "varchar" />
+<s:param name="clinical_T" type = "integer" />
+<s:param name="pathological_T" type = "integer" />
+<s:param name="postNeo_T" type = "integer" />
+<s:param name="clinical_N" type = "varchar" />
+<s:param name="pathological_N" type = "varchar" />
+<s:param name="postNeo_N" type = "varchar" />
+<s:param name="clinical_M" type = "varchar" />
+<s:param name="pathological_M" type = "varchar" />
+<s:param name="postNeo_M" type = "varchar" />
+<s:param name="clinical_TNM" type = "integer" />
+<s:param name="pathological_TNM" type = "integer" />
+<s:param name="postNeo_TNM" type = "integer" />
+<s:param name="status_1year" type = "varchar" />
+<s:param name="status_2year" type = "varchar" />
+<s:param name="status_3year" type = "varchar" />
+<s:param name="status_4year" type = "varchar" />
+<s:param name="status_5year" type = "varchar" />
+<s:param name="comment1" type = "varchar" />
+<s:param name="relapseDate" type = "date" />
+<s:param name="nAChemoStatus" type = "varchar" />
+<s:param name="nARTStatus" type = "varchar" />
+<s:param name="sBRTStatus" type = "varchar" />
+<s:param name="chemotherapyStatus" type = "varchar" />
+<s:param name="radtherapyStatus" type = "varchar" />
+<s:param name="nAChemoMD" type = "varchar" />
+<s:param name="nARTMD" type = "varchar" />
+<s:param name="sBRTMD" type = "varchar" />
+<s:param name="chemotherapyMD" type = "varchar" />
+<s:param name="radtherapyMD" type = "varchar" />
+<s:param name="nAChemoDate" type = "date" />
+<s:param name="nARTDate" type = "date" />
+<s:param name="sBRTDate" type = "date" />
+<s:param name="chemotherapyDate" type = "date" />
+<s:param name="radtherapyDate" type = "date" />
+<s:sql databases="mysql">
+Update 
+	`patient-cancer`
+SET 
+	`Date of 1st Diagnosis` = <s:bind param="diagnosisDate" />,
+	`Date of Final Staging` = <s:bind param="stagingDate" />, 
+	`Date of Tumor Board` = <s:bind param="tumorDate" />,
+	`CancerType` = <s:bind param="cancerType" />, 
+	`CancerHisto` = <s:bind param="histology" />, 
+	`CancerTypeComment` = <s:bind param="comment1" />, 
+	`Stage - T Clinical` = <s:bind param="clinical_T" />, 
+    `Stage - T Pathologic` = <s:bind param="pathological_T" />, 
+    `Stage - T Restage` = <s:bind param="postNeo_T" />, 
+    `Stage - N Clinical` = <s:bind param="clinical_N" />,
+	`Stage - N Pathologic` = <s:bind param="pathological_N" />, 
+    `Stage - N Restage` = <s:bind param="postNeo_N" />, 
+    `Stage - M Clinical` = <s:bind param="clinical_M" />, 
+    `Stage - M Pathologic` = <s:bind param="pathological_M" />,
+    `Stage - M Restage` = <s:bind param="postNeo_M" />, 
+    `Stage - TNM Clinical` = <s:bind param="clinical_TNM" />, 
+    `Stage - TNM Pathologic` = <s:bind param="pathological_TNM" />, 
+    `Stage - TNM Restage` = <s:bind param="postNeo_TNM" />,
+    `Status 1 year` = <s:bind param="status_1year" />,
+    `Status 2 year` = <s:bind param="status_2year" />,
+    `Status 3 year` = <s:bind param="status_3year" />, 
+    `Status 4 year` = <s:bind param="status_4year" />, 
+    `Status 5 year` = <s:bind param="status_5year" />,
+    `Comment` = <s:bind param="comment" />,
+    `Date 1st Relapse` = <s:bind param="relapseDate" />,
+    `NeoChemoPlan` = <s:bind param="nAChemoStatus" />,
+    `NeoChemoMD` = <s:bind param="nAChemoMD" />,
+    `NeoChemoEndDate` = <s:bind param="nAChemoDate" />,
+    `NeoRTPlan` = <s:bind param="nARTStatus" />,
+    `NeoRTMD` = <s:bind param="nARTMD" />,
+    `NeoRTEndDate` = <s:bind param="nARTDate" />,
+    `SurgeryPlan` = <s:bind param="sBRTStatus" />,
+    `SurgeryMD` = <s:bind param="sBRTMD" />,
+    `SurgeryDate` = <s:bind param="sBRTDate" />,
+    `ChemoPlan` = <s:bind param="chemotherapyStatus" />,
+    `ChemoMD` = <s:bind param="chemotherapyMD" />,
+    `ChemoEndDate` = <s:bind param="chemotherapyDate" />,
+    `RTPlan` = <s:bind param="radtherapyStatus" />,
+    `RTMD` = <s:bind param="radtherapyMD" />,
+    `RTEndDate` = <s:bind param="radtherapyDate" />
+WHERE
+	`PatientMRN` = <s:bind param="mrn" />
+</s:sql>
+</s:update>	
+
+<s:update name="addCancerData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="diagnosisDate" type="date" />
+<s:param name="stagingDate" type = "date" />
+<s:param name="tumorDate" type = "date" />
+<s:param name="cancerType" type = "integer" />
+<s:param name="histology" type = "varchar" />
+<s:param name="comment" type = "varchar" />
+<s:param name="clinical_T" type = "integer" />
+<s:param name="pathological_T" type = "integer" />
+<s:param name="postNeo_T" type = "integer" />
+<s:param name="clinical_N" type = "varchar" />
+<s:param name="pathological_N" type = "varchar" />
+<s:param name="postNeo_N" type = "varchar" />
+<s:param name="clinical_M" type = "varchar" />
+<s:param name="pathological_M" type = "varchar" />
+<s:param name="postNeo_M" type = "varchar" />
+<s:param name="clinical_TNM" type = "integer" />
+<s:param name="pathological_TNM" type = "integer" />
+<s:param name="postNeo_TNM" type = "integer" />
+<s:param name="status_1year" type = "varchar" />
+<s:param name="status_2year" type = "varchar" />
+<s:param name="status_3year" type = "varchar" />
+<s:param name="status_4year" type = "varchar" />
+<s:param name="status_5year" type = "varchar" />
+<s:param name="comment1" type = "varchar" />
+<s:param name="relapseDate" type = "date" />
+<s:param name="nAChemoStatus" type = "varchar" />
+<s:param name="nARTStatus" type = "varchar" />
+<s:param name="sBRTStatus" type = "varchar" />
+<s:param name="chemotherapyStatus" type = "varchar" />
+<s:param name="radtherapyStatus" type = "varchar" />
+<s:param name="nAChemoMD" type = "varchar" />
+<s:param name="nARTMD" type = "varchar" />
+<s:param name="sBRTMD" type = "varchar" />
+<s:param name="chemotherapyMD" type = "varchar" />
+<s:param name="radtherapyMD" type = "varchar" />
+<s:param name="nAChemoDate" type = "date" />
+<s:param name="nARTDate" type = "date" />
+<s:param name="sBRTDate" type = "date" />
+<s:param name="chemotherapyDate" type = "date" />
+<s:param name="radtherapyDate" type = "date" />
+<s:sql databases="mysql">
+INSERT INTO
+	`patient-cancer`(`PatientMRN`, `Date of 1st Diagnosis`,`Date of Final Staging`, `Date of Tumor Board`,`CancerType`, 
+			`CancerHisto`, `CancerTypeComment`, `Stage - T Clinical`, `Stage - T Pathologic`, 
+			`Stage - T Restage`, `Stage - N Clinical`,`Stage - N Pathologic`, `Stage - N Restage`, 
+  			`Stage - M Clinical`, `Stage - M Pathologic`,`Stage - M Restage`, `Stage - TNM Clinical`, 
+    		`Stage - TNM Pathologic`, `Stage - TNM Restage`,`Status 1 year`,`Status 2 year`,
+    		`Status 3 year`, `Status 4 year`, `Status 5 year`,`Comment`,`Date 1st Relapse`,
+    		`NeoChemoPlan`,`NeoChemoMD`,`NeoChemoEndDate`,`NeoRTPlan`,`NeoRTMD`,`NeoRTEndDate`,
+   			`SurgeryPlan`,`SurgeryMD`,`SurgeryDate`,`ChemoPlan`,`ChemoMD`,`ChemoEndDate`,`RTPlan`,
+    		`RTMD`,`RTEndDate`)
+VALUES
+    (<s:bind param="mrn" />,
+    <s:bind param="diagnosisDate" />,
+	<s:bind param="stagingDate" />, 
+	<s:bind param="tumorDate" />,
+	<s:bind param="cancerType" />, 
+	<s:bind param="histology" />, 
+	<s:bind param="comment1" />, 
+	<s:bind param="clinical_T" />, 
+    <s:bind param="pathological_T" />, 
+    <s:bind param="postNeo_T" />, 
+    <s:bind param="clinical_N" />,
+	<s:bind param="pathological_N" />, 
+    <s:bind param="postNeo_N" />, 
+    <s:bind param="clinical_M" />, 
+    <s:bind param="pathological_M" />,
+    <s:bind param="postNeo_M" />, 
+    <s:bind param="clinical_TNM" />, 
+    <s:bind param="pathological_TNM" />, 
+    <s:bind param="postNeo_TNM" />,
+    <s:bind param="status_1year" />,
+    <s:bind param="status_2year" />,
+    <s:bind param="status_3year" />, 
+    <s:bind param="status_4year" />, 
+    <s:bind param="status_5year" />,
+    <s:bind param="comment" />,
+    <s:bind param="relapseDate" />,
+    <s:bind param="nAChemoStatus" />,
+    <s:bind param="nAChemoMD" />,
+    <s:bind param="nAChemoDate" />,
+    <s:bind param="nARTStatus" />,
+    <s:bind param="nARTMD" />,
+    <s:bind param="nARTDate" />,
+    <s:bind param="sBRTStatus" />,
+    <s:bind param="sBRTMD" />,
+    <s:bind param="sBRTDate" />,
+    <s:bind param="chemotherapyStatus" />,
+    <s:bind param="chemotherapyMD" />,
+    <s:bind param="chemotherapyDate" />,
+    <s:bind param="radtherapyStatus" />,
+    <s:bind param="radtherapyMD" />,
+    <s:bind param="radtherapyDate" />)
+</s:sql>
+</s:update>	
+
+<s:query name="getSurBiopsyReport" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+Select 
+	`patient`.`MRN`,`Name (Last,First)`, `Workup Status` as `WorkUpId`, `WorkUpStatus` as `Workup Status`, `LCEC Status` as `LCECId`, `Active-Inactive` as `LCEC Status`, BiopsyType AS `ProcedureName`, `ScheduleDate`, `ProcedureDate`, `PerformedBy`, `BiopsyLocationCode`, `LocationComment`, `Complication`,`Biopsy Result`, `Result-Diagnostic`, `BiopsyAccuracy`,`Comment`
+from 
+	`patient`
+INNER JOIN 
+	`list - workupstatus`
+ON
+	`WorkUpStatusNum` = `Workup Status`
+INNER JOIN
+	`list - patientstatus`
+ON
+	`LCEC Status` = `ID` 
+INNER JOIN
+	`patient-biopsy`
+ON
+	`patient`.`MRN` = `patient-biopsy`.`MRN`
+INNER JOIN
+	`list - biopsy types`
+ON
+	BiopsyNumber = `patient-biopsy`.`ProcedureType`
+ORDER BY
+	`ProcedureDate` ASC
+</s:sql>
+</s:query>
+
+<s:query name="getSurBiopsyData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+SELECT 
+  `ProcedureType`, `ScheduleDate`, `ProcedureDate`, `PerformedBy`, `BiopsyLocationCode`, `LocationComment`,
+  `Complication`,`Biopsy Result`, `Result-Diagnostic`, `BiopsyAccuracy`,`Comment`,
+  `AutoNum`
+FROM 
+	`patient-biopsy` 
+WHERE 
+	`MRN` = <s:bind param="mrn" />
+ORDER BY
+	`ProcedureDate` DESC
+</s:sql>
+</s:query>
+
+<s:query name="getMedicationData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+SELECT *
+
+FROM 
+	`patient-medication` p                 
+WHERE
+	p.`PatientMRN` = <s:bind param="mrn" />
+ORDER BY
+	p.`Medicine Name` ASC
+
+</s:sql>
+</s:query>
+
+<s:query name="getVisitData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+SELECT 
+	 p.`Date Required`, p.`Date Scheduled`, p.`Date of Actual Visit`, p.`Type of Visit`,
+	 p.`To see/Seen by`, p.`Seen by 2`, p.`Seen by 3`, p.`SmokerStatus`, p.`ReferralNeeded`,
+	 p.`ReferralNumber`, p.`PhoneCall`, p.`SmokerCounselled`, p.`Refused`, p.`Plan decided at visit`,
+	 p.`Comment`, p.`ID`
+FROM 
+	`patient-visit` p LEFT JOIN `list - smokingstatus` s ON s.`SmokingStatusNum` = p.`SmokerStatus` 
+				INNER JOIN `list - visttypes` v ON p.`Type of Visit` = v.`TypeNumber`                    
+WHERE
+	`MRN` = <s:bind param="mrn" />
+ORDER BY
+	`Date Scheduled` DESC
+</s:sql>
+</s:query>
+
+<!-- Added by rjosan -->
+<s:query name="getPatientVisitsReport" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT 
+	 p. `MRN` , `patient`. `Name (Last,First)`,  p.`Type of Visit`,  p.`Date of Actual Visit`, p.`To see/Seen by`, p.`Seen by 2`, p.`Refused`, p.`PhoneCall`,  p.`ReferralNumber`, p.`Plan decided at visit`,
+	 p.`Comment`, p.`ID`
+FROM 
+	`patient-visit` p LEFT JOIN `list - smokingstatus` s ON s.`SmokingStatusNum` = p.`SmokerStatus` 
+				INNER JOIN `list - visttypes` v ON p.`Type of Visit` = v.`TypeNumber`  INNER JOIN `patient` 
+				ON p.`MRN` = `patient`.`MRN`                
+WHERE 1
+	
+</s:sql>
+</s:query>
+
+<s:query name="getVisitReport" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT `patient-visit`.MRN, `patient-visit`.`Date Required`, `patient-visit`.`Date of Actual Visit`, `patient-visit`.`To see/Seen by`, `patient-visit`.`Seen by 2`, `patient-visit`.SmokerStatus, `patient-visit`.PhoneCall
+FROM `patient-visit`
+ORDER BY `patient-visit`.`Date Required` DESC
+</s:sql>
+</s:query>
+
+
+
+<s:query name="ClinicSchedule" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT p.`MRN`, p.`Name (Last,First)`, p.`SmokerStatusEntry`, p.`SmokerStatusCurrent`, p.`Alternative Phone`, p.`PhoneNumber`, p.`Date Of Birth`, p.`Insurance`, p.`InsurancePhone`, p.`InsuranceID`, p.`Secondary Insurance`, p.`Secondary InsurID`, p.`Referral Needed`, pv.`Date Required`, pv.`Date Scheduled`, pv.`To see/Seen by`, pv.`ReferralNumber`
+FROM patient p
+INNER JOIN `patient-visit` pv
+ON p.MRN = pv.MRN
+  </s:sql>
+</s:query>
+
+<s:query name="ClinicScheduleForToday" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="date" type="date"/>
+
+<s:sql databases="mysql">
+SELECT p.`MRN`, p.`Name (Last,First)`, p.`SmokerStatusEntry`, p.`SmokerStatusCurrent`, p.`Alternative Phone`, p.`PhoneNumber`, p.`Date Of Birth`, p.`Insurance`, p.`InsurancePhone`, p.`InsuranceID`, p.`Secondary Insurance`, p.`Secondary InsurID`, p.`Referral Needed`, pv.`Date Required`, pv.`Date Scheduled`, pv.`To see/Seen by`, pv.`ReferralNumber`
+FROM patient p
+INNER JOIN `patient-visit` pv
+ON p.MRN = pv.MRN where pv.`Date Scheduled` = <s:bind param="date"></s:bind>  
+  </s:sql>
+</s:query>
+
+
+<!-- End of addition -->
+
+
+
+<s:query name="getPatientMedicineData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+SELECT 
+  `Aspirin`, `Plavix`, `Coumadin`, `OtherAntiCoag`, `MedicationList`, `Workup Status` as `WorkUpId`, `WorkUpStatus` as `Workup Status`,`LCEC Status` as `LCECId`, `Active-Inactive` as `LCEC Status`
+FROM 
+	`patient` 
+INNER JOIN 
+	`list - workupstatus`
+ON
+	`WorkUpStatusNum` = `Workup Status`
+INNER JOIN
+	`list - patientstatus`
+ON
+	`LCEC Status` = `ID` 
+WHERE 
+	`MRN` =  <s:bind param="mrn" />
+</s:sql>
+</s:query>
+
+<s:query name="getPatientLesionData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+SELECT 
+	P.`ID` AS `LesionID`, `Date1stFollowedLCEC`, L.`ID` AS `LesClassId`, L.`LesionClassification`, `Location`
+FROM 
+	`patient-lesion` P
+INNER JOIN
+	`list - lesionclassification` L
+ON
+	L.ID = P.LesionClassification
+where `PatientMRN` =  <s:bind param="mrn" />
+</s:sql>
+</s:query>
+
+<s:query name="getTestData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+SELECT 
+	*
+FROM 
+	`patient-testing` p                   
+WHERE
+	`PatientMRN` = <s:bind param="mrn" />
+ORDER BY
+	`RequiredDate` DESC
+</s:sql>
+</s:query>
+
+<s:query name="getHistoryData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+SELECT 
+	*
+FROM 
+	`patient` p                   
+WHERE
+	`MRN` = <s:bind param="mrn" />
+
+</s:sql>
+</s:query>
+
+<s:query name="getResearchData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+SELECT 
+	*
+FROM 
+	`patient-research`                   
+WHERE
+	`PatientMRN` = <s:bind param="mrn" />
+
+</s:sql>
+</s:query>
+
+<s:query name="getLesionData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+SELECT 
+	*
+FROM 
+	`patient` p                   
+WHERE
+	`MRN` = <s:bind param="mrn" />
+</s:sql>
+</s:query>
+
+
+<s:query name="getLesionData2" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar"></s:param>
+<s:sql databases="mysql">
+SELECT 
+	*
+FROM 
+	`patient-lesion` p                  
+WHERE
+	`PatientMRN` = <s:bind param="mrn" />
+</s:sql>
+
+</s:query>
+<s:update name="savePatientMedicineData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="workupId" type = "integer" />
+<s:param name="lcecid" type = "integer" />
+<s:param name="Aspirin" type = "tinyint" />
+<s:param name="Plavix" type = "tinyint" />
+<s:param name="Coumadin" type = "tinyint" />
+<s:param name="OtherAntiCoag" type = "tinyint" />
+<s:param name="MedicationList" type="varchar" />
+<s:sql databases="mysql">
+Update 
+	`patient` 
+SET 
+	`Aspirin` = <s:bind param="Aspirin" />, 
+	`Plavix` = <s:bind param="Plavix" />, 
+	`Coumadin` = <s:bind param="Coumadin" />, 
+	`OtherAntiCoag` = <s:bind param="OtherAntiCoag" />, 
+	`MedicationList` = <s:bind param="MedicationList" />,
+	`WorkUp Status` = <s:bind param="workupId" />,
+    `LCEC Status` = <s:bind param="lcecid" />
+WHERE 
+	`MRN` =  <s:bind param="mrn" />
+</s:sql>
+</s:update>
+
+<s:update name="updateBiopsyData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="ProcedureType" type="integer" />
+<s:param name="ScheduleDate" type="date" />
+<s:param name="ProcedureDate" type="date" />
+<s:param name="PerformedBy" type="varchar" />
+<s:param name="BiopsyLocationCode" type="varchar" />
+<s:param name="LocationComment" type="varchar" />
+<s:param name="Complication" type="varchar" />
+<s:param name="Biopsy Result" type="varchar" />
+<s:param name="Result-Diagnostic" type="varchar" />
+<s:param name="BiopsyAccuracy" type="varchar" />
+<s:param name="Comment" type="varchar" />
+<s:param name="AutoNum" type="integer" />
+<s:sql databases="mysql">
+Update 
+	`patient-biopsy` 
+SET 
+	`ProcedureType` = <s:bind param="ProcedureType" />, 
+	`ScheduleDate` = <s:bind param="ScheduleDate" />, 
+	`ProcedureDate` = <s:bind param="ProcedureDate" />, 
+	`PerformedBy` = <s:bind param="PerformedBy" />, 
+	`BiopsyLocationCode` = <s:bind param="BiopsyLocationCode" />, 
+ 	`LocationComment` = <s:bind param="LocationComment" />,
+    `Complication` = <s:bind param="Complication" />,
+    `Biopsy Result` = <s:bind param="Biopsy Result" />, 
+    `Result-Diagnostic` = <s:bind param="Result-Diagnostic" />, 
+    `BiopsyAccuracy` = <s:bind param="BiopsyAccuracy" />,
+    `Comment` = <s:bind param="Comment" />,
+    `MRN` = <s:bind param="mrn" />
+WHERE 
+  `AutoNum` = <s:bind param="AutoNum" />
+</s:sql>
+</s:update>
+
+<s:update name="addBiopsyData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="ProcedureType" type="integer" />
+<s:param name="ScheduleDate" type="date" />
+<s:param name="ProcedureDate" type="date" />
+<s:param name="PerformedBy" type="varchar" />
+<s:param name="BiopsyLocationCode" type="varchar" />
+<s:param name="LocationComment" type="varchar" />
+<s:param name="Complication" type="varchar" />
+<s:param name="Biopsy Result" type="varchar" />
+<s:param name="Result-Diagnostic" type="varchar" />
+<s:param name="BiopsyAccuracy" type="varchar" />
+<s:param name="Comment" type="varchar" />
+<s:sql databases="mysql">
+INSERT INTO 
+	`patient-biopsy` (`ProcedureType`, `ScheduleDate`, `ProcedureDate`, `PerformedBy`, `BiopsyLocationCode`, `LocationComment`,
+  `Complication`,`Biopsy Result`, `Result-Diagnostic`, `BiopsyAccuracy`,`Comment`,`MRN`)
+VALUES 
+	(<s:bind param="ProcedureType" />, 
+	 <s:bind param="ScheduleDate" />, 
+	 <s:bind param="ProcedureDate" />, 
+	 <s:bind param="PerformedBy" />, 
+	 <s:bind param="BiopsyLocationCode" />, 
+ 	 <s:bind param="LocationComment" />,
+     <s:bind param="Complication" />,
+     <s:bind param="Biopsy Result" />, 
+     <s:bind param="Result-Diagnostic" />, 
+     <s:bind param="BiopsyAccuracy" />,
+     <s:bind param="Comment" />,
+     <s:bind param="mrn" />)
+</s:sql>
+</s:update>
+
+<s:update name="updateVisitData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="RequiredDate" type="date" />
+<s:param name="ScheduledDate" type="date" />
+<s:param name="ActualVisitDate" type="date" />
+<s:param name="TypeOfVisit" type="integer" />
+<s:param name="PrimaryMD" type="varchar" />
+<s:param name="ScheduledToSee2" type="varchar" />
+<s:param name="ScheduledToSee3" type="varchar" />
+<s:param name="TobaccoStatus" type="integer" />
+<s:param name="ReferralNeeded" type="boolean" />
+<s:param name="Referral" type="varchar" />
+<s:param name="HandledByPhone" type="boolean" />
+<s:param name="Counselled" type="boolean" />
+<s:param name="Refused" type="boolean" />
+<s:param name="Plan" type="varchar" />
+<s:param name="Comment" type="varchar" />
+<s:param name="ID" type="integer" />
+<s:sql databases="mysql">
+Update 
+	`patient-visit` 
+SET 
+	`MRN` = <s:bind param="mrn" />, 
+	`Date Required` = <s:bind param="RequiredDate" />, 
+	`Date Scheduled` = <s:bind param="ScheduledDate" />, 
+	`Date of Actual Visit` = <s:bind param="ActualVisitDate" />, 
+	`Type of Visit` = <s:bind param="TypeOfVisit" />, 
+ 	`To see/Seen by` = <s:bind param="PrimaryMD" />,
+    `Seen by 2` = <s:bind param="ScheduledToSee2" />,
+    `Seen by 3` = <s:bind param="ScheduledToSee3" />, 
+    `SmokerStatus` = <s:bind param="TobaccoStatus" />, 
+    `ReferralNeeded` = <s:bind param="ReferralNeeded" />,
+    `ReferralNumber` = <s:bind param="Referral" />,
+    `PhoneCall` = <s:bind param="HandledByPhone" />,
+    `SmokerCounselled` = <s:bind param="Counselled" />,
+    `Refused` = <s:bind param="Refused" />,
+    `Plan decided at visit` = <s:bind param="Plan" />,
+    `Comment` = <s:bind param="Comment" />
+WHERE 
+  `ID` = <s:bind param="ID" />
+</s:sql>
+</s:update>
+
+<s:update name="addVisitData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="RequiredDate" type="date" />
+<s:param name="ScheduledDate" type="date" />
+<s:param name="ActualVisitDate" type="date" />
+<s:param name="TypeOfVisit" type="integer" />
+<s:param name="PrimaryMD" type="varchar" />
+<s:param name="ScheduledToSee2" type="varchar" />
+<s:param name="ScheduledToSee3" type="varchar" />
+<s:param name="TobaccoStatus" type="integer" />
+<s:param name="ReferralNeeded" type="boolean" />
+<s:param name="Referral" type="varchar" />
+<s:param name="HandledByPhone" type="boolean" />
+<s:param name="Counselled" type="boolean" />
+<s:param name="Refused" type="boolean" />
+<s:param name="Plan" type="varchar" />
+<s:param name="Comment" type="varchar" />
+<s:sql databases="mysql">
+INSERT INTO 
+	`patient-visit` (`MRN`, `Date Required`, `Date Scheduled`, `Date of Actual Visit`, `Type of Visit`, 
+	`To see/Seen by`, `Seen by 2`,`Seen by 3`, `SmokerStatus`, `ReferralNeeded`, `ReferralNumber`,
+	`PhoneCall`, `SmokerCounselled`, `Refused`, `Plan decided at visit`, `Comment`)
+VALUES 
+	(<s:bind param="mrn" />, 
+	 <s:bind param="RequiredDate" />, 
+	 <s:bind param="ScheduledDate" />, 
+	 <s:bind param="ActualVisitDate" />, 
+	 <s:bind param="TypeOfVisit" />, 
+ 	 <s:bind param="PrimaryMD" />,
+     <s:bind param="ScheduledToSee2" />,
+     <s:bind param="ScheduledToSee3" />, 
+     <s:bind param="TobaccoStatus" />, 
+     <s:bind param="ReferralNeeded" />,
+     <s:bind param="Referral" />,
+     <s:bind param="HandledByPhone" />,
+     <s:bind param="Counselled" />,
+     <s:bind param="Refused" />,
+     <s:bind param="Plan" />,
+     <s:bind param="Comment" />)
+</s:sql>
+</s:update>
+
+<s:update name="updateMedicationData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="medicationName" type="varchar" />
+<s:param name="strength" type="varchar" />
+<s:param name="dose" type="varchar" />
+<s:param name="howOftenTaken" type="varchar" />
+<s:param name="howTaken" type="integer" />
+<s:param name="reasonTaking" type="varchar" />
+<s:param name="dateStarted" type="date" />
+<s:param name="dateStopped" type="date" />
+<s:param name="medicineGivenType" type="integer" />
+<s:param name="instruction" type="varchar" />
+<s:param name="prescribedDate" type="date" />
+<s:param name="prescriptionQuantity" type="varchar" />
+<s:param name="prescriptionExpireDate" type="date" />
+<s:param name="prescriptor" type="varchar" />
+<s:param name="strengthUnit" type="integer" />
+<s:param name="plavix" type="boolean" />
+<s:param name="effient" type="boolean" />
+<s:param name="agrylin" type="boolean" />
+<s:param name="aggrenox" type="boolean" />
+<s:param name="pletal" type="boolean" />
+<s:param name="pradaxa" type="boolean" />
+<s:param name="xarelto" type="boolean" />
+<s:param name="coumadin" type="boolean" />
+<s:param name="persantine" type="boolean" />
+<s:param name="eliquis" type="boolean" />
+<s:param name="brilinta" type="boolean" />
+<s:param name="oralHypoglycemic" type="boolean" />
+<s:param name="insulin" type="boolean" />
+<s:param name="nka" type="boolean" />
+<s:param name="additionDate" type="date" />
+<s:param name="allergies" type="varchar" />
+<s:param name="ID" type="integer" />
+<s:sql databases="mysql">
+UPDATE
+	`patient-medication` 
+SET 
+	`PatientMRN` = <s:bind param="mrn" />, 
+	`Medicine Name` = <s:bind param="medicationName" />, 
+	`Strength` = <s:bind param="strength" />, 
+	`Dose` = <s:bind param="dose" />, 
+	`How Often Taken` = <s:bind param="howOftenTaken" />, 
+ 	`How Taken` = <s:bind param="howTaken" />,
+    `Reason` = <s:bind param="reasonTaking" />,
+    `Started Date` = <s:bind param="dateStarted" />, 
+    `Stopped Date` = <s:bind param="dateStopped" />, 
+    `Medication GivenType` = <s:bind param="medicineGivenType" />,
+    `Instructions` = <s:bind param="instruction" />,
+    `Prescribed Date` = <s:bind param="prescribedDate" />,
+    `Prescription Quantity` = <s:bind param="prescriptionQuantity" />,
+    `Prescription Expire Date` = <s:bind param="prescriptionExpireDate" />,
+    `Prescriptor` = <s:bind param="prescriptor" />,
+    `Strength Unit` = <s:bind param="strengthUnit" />,
+     `Plavix` = <s:bind param="plavix" />,
+    `Effient` = <s:bind param="effient" />,
+    `Agrylin` = <s:bind param="agrylin" />,
+    `Aggrenox` = <s:bind param="aggrenox" />,
+    `Pletal` = <s:bind param="pletal" />,
+    `Pradaxa` = <s:bind param="pradaxa" />,
+    `Xarelto` = <s:bind param="xarelto" />,
+    `Coumadin` = <s:bind param="coumadin" />,
+    `Persantine` = <s:bind param="persantine" />,
+    `Eliquis` = <s:bind param="eliquis" />,
+    `Brilinta` = <s:bind param="brilinta" />,
+    `Oral Hypoglycemic` = <s:bind param="oralHypoglycemic" />,
+    `Insulin` = <s:bind param="insulin" />,
+    `NKA` = <s:bind param="nka" />,
+    `Date Of Medicine` = <s:bind param="additionDate" />,
+    `Allergies` = <s:bind param="allergies"/>
+
+WHERE 
+  `ID` = <s:bind param="ID" />
+</s:sql>
+</s:update> 
+
+<s:update name="addMedicationData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="medicationName" type="varchar" />
+<s:param name="strength" type="varchar" />
+<s:param name="dose" type="varchar" />
+<s:param name="howOftenTaken" type="varchar" />
+<s:param name="howTaken" type="integer" />
+<s:param name="reasonTaking" type="varchar" />
+<s:param name="dateStarted" type="date" />
+<s:param name="dateStopped" type="date" />
+<s:param name="medicineGivenType" type="integer" />
+<s:param name="instruction" type="varchar" />
+<s:param name="prescribedDate" type="date" />
+<s:param name="prescriptionQuantity" type="varchar" />
+<s:param name="prescriptionExpireDate" type="date" />
+<s:param name="prescriptor" type="varchar" />
+<s:param name="strengthUnit" type="integer" />
+<s:param name="doseUnit" type="integer" />
+<s:param name="plavix" type="boolean" />
+<s:param name="effient" type="boolean" />
+<s:param name="agrylin" type="boolean" />
+<s:param name="aggrenox" type="boolean" />
+<s:param name="pletal" type="boolean" />
+<s:param name="pradaxa" type="boolean" />
+<s:param name="xarelto" type="boolean" />
+<s:param name="coumadin" type="boolean" />
+<s:param name="persantine" type="boolean" />
+<s:param name="eliquis" type="boolean" />
+<s:param name="brilinta" type="boolean" />
+<s:param name="oralHypoglycemic" type="boolean" />
+<s:param name="insulin" type="boolean" />
+<s:param name="nka" type="boolean" />
+<s:param name="additionDate" type="date" />
+<s:param name="allergies" type="varchar"/>
+<s:sql databases="mysql">
+INSERT INTO
+	`patient-medication` (`PatientMRN`, `Medicine Name`, `Strength`, `Strength Unit`, `Dose`, `Dose Unit`, 
+	`How Often Taken`, `How Taken`, `Reason`, `Started Date`, `Stopped Date`, `Medication GivenType`, `Instructions`,
+		`Prescribed Date`, `Prescription Quantity`, `Prescription Expire Date`, `Prescriptor`, `Plavix`, `Effient`, `Agrylin`, `Aggrenox`,
+	`Pletal`, `Pradaxa`, `Xarelto`, `Coumadin`, `Persantine`, `Eliquis`, `Brilinta`, `Oral Hypoglycemic`, `Insulin`, `NKA`, `Date Of Medicine`, `Allergies`)
+VALUES
+	(<s:bind param="mrn" />,
+	 <s:bind param="medicationName" />,
+	 <s:bind param="strength" />,
+	 <s:bind param="strengthUnit" />,
+	 <s:bind param="dose" />,
+	 <s:bind param="doseUnit" />,
+	 <s:bind param="howOftenTaken" />,
+	 <s:bind param="howTaken" />,
+	 <s:bind param="reasonTaking" />,
+	 <s:bind param="dateStarted" />,
+	 <s:bind param="dateStopped" />,
+	 <s:bind param="medicineGivenType" />,
+	 <s:bind param="instruction" />,
+	 <s:bind param="prescribedDate" />,
+	 <s:bind param="prescriptionQuantity" />,
+	 <s:bind param="prescriptionExpireDate" />,
+	 <s:bind param="prescriptor" />,
+	 <s:bind param="plavix" />,
+     <s:bind param="effient" />,
+     <s:bind param="agrylin" />,
+     <s:bind param="aggrenox" />,
+     <s:bind param="pletal" />,
+     <s:bind param="pradaxa" />,
+     <s:bind param="xarelto" />,
+     <s:bind param="coumadin" />,
+     <s:bind param="persantine" />,
+     <s:bind param="eliquis" />,
+     <s:bind param="brilinta" />,
+     <s:bind param="oralHypoglycemic" />,
+     <s:bind param="insulin" />,
+     <s:bind param="nka" />,
+     <s:bind param="additionDate" />,
+     <s:bind param="allergies"/>)
+</s:sql>
+</s:update>
+
+<s:update name="deleteMedicationData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="ID" type="integer"/>
+<s:sql databases="mysql">
+DELETE FROM 
+	`patient-medication`
+WHERE 
+	`ID` = <s:bind param="ID" />
+</s:sql>
+</s:update>
+
+<s:update name="deleteBiopsyData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="AutoNum" type="integer"/>
+<s:sql databases="mysql">
+DELETE FROM 
+	`patient-biopsy`
+WHERE 
+	`AutoNum` = <s:bind param="AutoNum" />
+</s:sql>
+</s:update>
+
+
+
+<s:update name="deleteBronchData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="BronchAutoNum" type="integer"/>
+<s:sql databases="mysql">
+DELETE FROM 
+	`patient-bronch`
+WHERE 
+	`BronchAutoNum` = <s:bind param="BronchAutoNum" />
+</s:sql>
+
+</s:update>
+<s:update name="updateTestData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="RequiredDate" type="date" />
+<s:param name="ScheduledDate" type="date" />
+<s:param name="TestingDate" type="date" />
+<s:param name="TestType" type="integer" />
+<s:param name="Comment" type="varchar" />
+<s:param name="TestingResult" type="integer" />
+<s:param name="OrderedByLCEC" type="boolean" />
+<s:param name="FUwithMD" type="boolean" />
+<s:param name="Cancelled/Deferred" type="boolean" />
+<s:param name="ID" type="integer" />
+<s:param name="PrecertNumber" type="varchar" />
+<s:sql databases="mysql">
+Update 
+	`patient-testing` 
+SET 
+	`PatientMRN` = <s:bind param="mrn" />, 
+	`RequiredDate` = <s:bind param="RequiredDate" />, 
+	`ScheduleDate` = <s:bind param="ScheduledDate" />, 
+	`TestingDate` = <s:bind param="TestingDate" />, 
+	`TestType` = <s:bind param="TestType" />, 
+ 	`Comment` = <s:bind param="Comment" />,
+    `TestingResult` = <s:bind param="TestingResult" />,
+    `OrderedByLCEC` = <s:bind param="OrderedByLCEC" />, 
+    `FUwithMD` = <s:bind param="FUwithMD" />, 
+    `Cancelled/Deferred` = <s:bind param="Cancelled/Deferred" />,
+    `PrecertNumber`=<s:bind param="PrecertNumber" />
+WHERE 
+  `ID` = <s:bind param="ID" />
+</s:sql>
+</s:update>
+
+<s:update name="addTestData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="RequiredDate" type="date" />
+<s:param name="ScheduledDate" type="date" />
+<s:param name="TestingDate" type="date" />
+<s:param name="TestType" type="integer" />
+<s:param name="Comment" type="varchar" />
+<s:param name="TestingResult" type="integer" />
+<s:param name="OrderedByLCEC" type="boolean" />
+<s:param name="FUwithMD" type="boolean" />
+<s:param name="Cancelled/Deferred" type="boolean" />
+<s:param name="PrecertNumber" type="varchar" />
+
+<s:sql databases="mysql">
+INSERT INTO 
+	`patient-testing` (`PatientMRN`, `RequiredDate`, `ScheduleDate`, `TestingDate`, `TestType`, 
+	`Comment`, `TestingResult`,`OrderedByLCEC`, `FUwithMD`, `Cancelled/Deferred`, `PrecertNumber`)
+VALUES 
+
+	(<s:bind param="mrn" />, 
+	 <s:bind param="RequiredDate" />, 
+	 <s:bind param="ScheduledDate" />, 
+	 <s:bind param="TestingDate" />, 
+	 <s:bind param="TestType" />, 
+ 	 <s:bind param="Comment" />,
+     <s:bind param="TestingResult" />,
+     <s:bind param="OrderedByLCEC" />, 
+     <s:bind param="FUwithMD" />, 
+     <s:bind param="Cancelled/Deferred" />,
+     <s:bind param="PrecertNumber" />)
+</s:sql>
+</s:update>
+
+<s:update name="saveHistoryData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="dateofDataEntry" type = "date" />
+<s:param name="smokeStatusEntry" type = "integer" />
+<s:param name="packYears" type = "float" />
+<s:param name="yearQuit" type = "integer" />
+<s:param name="smokeStatusCurrent" type = "integer" />
+<s:param name="fev1l" type = "float" />
+<s:param name="fvcl" type = "float" />
+<s:param name="fev1pred" type = "float" />
+<s:param name="fvcpred" type = "float" />
+<s:param name="fev1Fvc" type = "float" />
+<s:param name="dlcoAct" type = "float" />
+<s:param name="vo2max" type = "float" />
+<s:param name="dlcopred" type = "float" />
+<s:param name="cad" type = "boolean" />
+<!--  <s:param name="lvef" type = "boolean" />-->
+<s:param name="cva" type = "boolean" />
+<s:param name="asbestos" type = "varchar" />
+<s:param name="asbestosExposure" type="boolean"/>
+<s:param name="silica" type = "varchar" />
+<s:param name="silicaExposure" type="boolean"/>
+<s:param name="tbppd" type = "varchar" />
+<s:param name="wtc" type="boolean"/>
+<s:param name="cabg" type = "boolean" />
+<s:param name="majorSurgery" type = "boolean" />
+<s:param name="majorSurgeryComment" type = "varchar" />
+<s:param name="personalLungCancer" type = "boolean" />
+<s:param name="personalLungCancerComment" type = "varchar" />
+<s:param name="fatherMotherLingCancer" type = "boolean" />
+<s:param name="otherFamilyLungCancer" type = "boolean" />
+<s:param name="commentFamilyLungCancer" type = "varchar" />
+<s:param name="otherCancer" type = "boolean" />
+<s:param name="otherCancerComment" type = "varchar" />
+<s:param name="fatherMotherOtherCancer" type = "boolean" />
+<s:param name="otherFamilyOtherCancer" type = "boolean" />
+<s:param name="commentFamilyOtherCancer" type = "varchar" />
+<s:param name="aspirin" type = "boolean" />
+<s:param name="plavix" type = "boolean" />
+<s:param name="coumadin" type = "boolean" />
+<s:param name="otherAntiCoag" type = "boolean" />
+<s:param name="medications" type = "varchar" />
+<s:param name="allegies" type = "varchar" />
+<s:param name="comment" type = "varchar" />
+<s:param name="startYear" type = "integer" />
+<s:param name="endYear" type = "integer" />
+<s:sql databases="mysql">
+Update 
+	Patient
+SET 
+	`Date of Data Entry` = <s:bind param="dateofDataEntry" />,
+	`SmokerStatusEntry` = <s:bind param="smokeStatusEntry" />, 
+	`PackYears` = <s:bind param="packYears" />,
+	`Year quit` = <s:bind param="yearQuit" />, 
+	`SmokerStatusCurrent` = <s:bind param="smokeStatusCurrent" />, 
+	`FEV-1 (L)` = <s:bind param="fev1l" />, 
+	`FVC (L)` = <s:bind param="fvcl" />, 
+    `FEV-1 %Pred` = <s:bind param="fev1pred" />, 
+    `FVC %Pred` = <s:bind param="fvcpred" />, 
+    `FEV-1/FVC %` = <s:bind param="fev1Fvc" />,
+	`DLCOAct` = <s:bind param="dlcoAct" />, 
+    `VO2max` = <s:bind param="vo2max" />, 
+    `DLCO (% Pred)` = <s:bind param="dlcopred" />, 
+    `CAD` = <s:bind param="cad" />,
+    <!--  `LVEF < 40%` = <s:bind param="lvef" />,--> 
+    `CVA` = <s:bind param="cva" />, 
+    `Asbestos Exposure` = <s:bind param="asbestos" />,
+    `AsbestosExposure` = <s:bind param="asbestosExposure" />,  
+    `Silica Exposure` = <s:bind param="silica" />,
+    `SilicaExposure` = <s:bind param="silicaExposure" />,
+    `TB/PPD History` = <s:bind param="tbppd" />,
+    `WTC` = <s:bind param="wtc" />,
+    `CABG (last 3 years)` = <s:bind param="cabg" />,
+    `Major Surgery (last 3  years)` = <s:bind param="majorSurgery" />, 
+    `MajorSurgery Comment` = <s:bind param="majorSurgeryComment" />, 
+    `Personal Lung Cancer` = <s:bind param="personalLungCancer" />,
+    `Comment-HxLungCancer` = <s:bind param="personalLungCancerComment" />, 
+    `Fath/Moth Lung Cancer` = <s:bind param="fatherMotherLingCancer" />,
+    `Other Family Lung Cancer` = <s:bind param="otherFamilyLungCancer" />, 
+    `Comment-FamLungCancer` = <s:bind param="commentFamilyLungCancer" />, 
+    `Personal Other Cancer` = <s:bind param="otherCancer" />, 
+    `Personal Other Cancer Comment` = <s:bind param="otherCancerComment" />,
+    `Fath/Moth Other Cancer` = <s:bind param="fatherMotherOtherCancer" />,
+    `Other Fam Other Cancer` = <s:bind param="otherFamilyOtherCancer" />,
+    `Comment-FamilyCancer` = <s:bind param="commentFamilyOtherCancer" />, 
+    `Aspirin` = <s:bind param="aspirin" />, 
+    `Plavix` = <s:bind param="plavix" />,
+    `Coumadin` = <s:bind param="coumadin" />,
+    `OtherAntiCoag` = <s:bind param="otherAntiCoag" />,
+    `MedicationList` = <s:bind param="medications" />, 
+    `AllergyList` = <s:bind param="allegies" />, 
+    `DetailComment` = <s:bind param="comment" />,
+    `StartYear` = <s:bind param="startYear" />,
+    `EndYear` = <s:bind param="endYear" />
+    
+WHERE
+	`MRN` = <s:bind param="mrn" />
+</s:sql>
+</s:update>	
+
+
+<s:update name="addResearchData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="ConsentDate" type="date" />
+<s:param name="ResearchProj" type="integer" />
+<s:param name="Comments" type="varchar" />
+
+<s:sql databases="mysql">
+INSERT INTO 
+	`patient-research` (`ConsentDate`, `ResearchProj`, `Comments`, `PatientMRN`)
+VALUES 
+	(<s:bind param="ConsentDate" />, 
+	 <s:bind param="ResearchProj" />, 
+	 <s:bind param="Comments" />, 
+	 <s:bind param="mrn" />)
+</s:sql>
+</s:update>
+
+<s:update name="deleteResearchData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="ResearchID" type="integer" />
+
+<s:sql databases="mysql">
+DELETE FROM
+	`patient-research`
+WHERE
+	`ResearchID` = <s:bind param="ResearchID" />
+</s:sql>
+</s:update>
+
+<s:update name="deleteRegistryData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="patientMRN" type="varchar" />
+
+<s:sql databases="mysql">
+DELETE FROM
+	`patient-registry`
+WHERE
+	`MRN` = <s:bind param="patientMRN" />
+</s:sql>
+</s:update>
+
+<s:update name="updateResearchData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="ConsentDate" type="date" />
+<s:param name="ResearchProj" type="integer" />
+<s:param name="Comments" type="varchar" />
+<s:param name="ID" type="integer" />
+<s:sql databases="mysql">
+Update 
+	`patient-research` 
+SET 
+	`PatientMRN` = <s:bind param="mrn" />, 
+	`ConsentDate` = <s:bind param="ConsentDate" />, 
+	`ResearchProj` = <s:bind param="ResearchProj" />, 
+	`Comments` = <s:bind param="Comments" />
+WHERE 
+  `ResearchID` = <s:bind param="ID" />
+</s:sql>
+</s:update>
+
+
+<s:update name="addRegistryInfo" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+		<s:param name="mrn" type="varchar"/>
+		<s:param name="age"  type="integer" />
+		<s:param name="dob"  type="date" />
+		<s:param name="gender"  type="varchar"/>
+		<s:param name="height"  type="integer"/>
+		<s:param name="weight"  type="integer"/>
+		<s:param name="race1"  type="varchar"/>
+		<s:param name="race2"  type="varchar"/>
+		<s:param name="race3"  type="varchar"/>
+		<s:param name="racecomment"  type="varchar"/>
+		<s:param name="education"  type="varchar"/>
+		<s:param name="priorlung"  type="tinyint"/>
+		<s:param name="priorcancer"  type="tinyint"/>
+		<s:param name="priorhistory"  type="varchar"/>
+		<s:param name="smokerstatus"  type="varchar"/>
+		<s:param name="smokeryearstart"  type="integer"/>
+		<s:param name="smokeryearquit"  type="integer"/>
+		<s:param name="smokerpackday"  type="float"/>
+		<s:param name="smokercomment"  type="varchar"/>
+		<s:param name="secondsmoke"   type="tinyint"/>
+		<s:param name="secondsmokechild"   type="integer"/>
+		<s:param name="secondsmokespouse"  type="integer"/>
+		<s:param name="secondsmokework"   type="integer"/>
+		<s:param name="secondcomment"  type="varchar"/>
+		<s:param name="famlung" type="tinyint"/>
+		<s:param name="lungcancermother"  type="integer"/>
+		<s:param name="lungcancerfather"  type="integer"/>
+		<s:param name="lungcancersister"  type="integer"/>
+		<s:param name="lungcancerbrother"  type="integer"/>
+		<s:param name="lungcancergm"  type="integer"/>
+		<s:param name="lungcancergf" type="integer"/>
+		<s:param name="lungcancerother"  type="varchar"/>
+		<s:param name="familycancer" type="tinyint"/>
+		<s:param name="familycancercomment"  type="varchar"/>
+		<s:param name="occupation"  type="varchar"/>
+		<s:param name="asbestos"   type="tinyint"/>
+		<s:param name="metals"  type="tinyint"/>
+		<s:param name="mining"  type="tinyint"/>
+		<s:param name="chemicals"  type="tinyint"/>
+		<s:param name="exposurecomment"  type="varchar"/>
+		<s:param name="groundzero"  type="varchar"/>
+		<s:param name="copd" type="tinyint"/>
+		<s:param name="tuberculosis" type="tinyint"/>
+		<s:param name="fibrosis" type="tinyint"/>
+		<s:param name="pneumonia" type="tinyint"/>
+		<s:param name="bronchitis" type="tinyint"/>
+		<s:param name="chestrt" type="tinyint"/>
+		<s:param name="dailyvitamins" type="varchar"/>
+		<s:param name="vitamina" type="tinyint"/>
+		<s:param name="vitaminb" type="tinyint"/>
+		<s:param name="vitamine" type="tinyint"/>
+		<s:param name="omega3" type="tinyint"/>
+		<s:param name="redmeat"  type="varchar"/>
+		<s:param name="fish"  type="varchar"/>
+		<s:param name="fruit" type="varchar"/>
+		<s:param name="vegetable"  type="varchar"/>
+		<s:param name="vegetableleafy"  type="varchar"/>
+		<s:param name="vegetablebroccoli"  type="varchar"/>
+		<s:param name="physicalwork" type="integer"/>
+		<s:param name="physicalexercise" type="integer"/>
+		<s:param name="alcohol"   type="varchar"/>
+		<s:param name="alcoholcomment"  type="varchar"/>
+		<s:param name="alcoholred"  type="integer"/>
+		<s:param name="alcoholwhite"  type="integer"/>
+		<s:param name="alcoholbeer"  type="integer"/>
+		<s:param name="alcoholliquor"  type="integer"/>
+		<s:param name="screeningphysical"  type="varchar"/>
+		<s:param name="screeningbreast" type="varchar"/>
+		<s:param name="screeningcolon"  type="varchar"/>
+		<s:param name="screeningpap"  type="varchar"/>
+		<s:param name="screeningprostate" type="varchar"/>
+
+
+<s:sql databases="mysql">
+INSERT INTO 
+	`patient-registry` ( `MRN`,`Age` ,`DateOfBirth`,`Gender` ,`Height` ,`Weight` , `Race1`, `Race2` , `Race3` , `RaceComment` , `Education` , `PriorLung` , `PriorCancer` , `PriorHistory` , 
+	`SmokerStatus` , `SmokerYearStart` , `SmokerYearQuit` , `SmokerPackDay` , `SmokerComment` , `SecondSmoke` , `SecondSmokeChild` , `SecondSmokeSpouse` , `SecondSmokeWork` , `SecondComment` , 
+	`FamLung` , `LungCancerMother` , `LungCancerFather` , `LungCancerSister` , `LungCancerBrother`, `LungCancerGM` , `LungCancerGF` , `LungCancerOther` , `FamilyCancer` , `FamilyCancerComment` ,
+	 `Occupation` , `Asbestos` , `Metals` , `Mining` , `Chemicals` , `ExposureComment` , `GroundZero` , `COPD` , `Tuberculosis` , `Fibrosis` , `Pneumonia` , `Bronchitis` , `ChestRT` , `DailyVitamins` , 
+	 `VitaminA` , `VitaminB` , `VitaminE` , `Omega3` , `RedMeat` , `Fish` , `Fruit` , `Vegetable` , `VegetableLeafy` , `VegetableBroccoli` , `PhysicalWork` , `PhysicalExercise` , `Alcohol` , `AlcoholComment` ,
+	  `AlcoholRed` , `AlcoholWhite` , `AlcoholBeer` , `AlcoholLiquor` , `ScreeningPhysical` , `ScreeningBreast` , `ScreeningColon` , `ScreeningPAP` , `ScreeningProstate`  )
+VALUES 
+	  (
+	  <s:bind param="mrn"/>,
+  <s:bind param="age" />,
+  <s:bind param="dob"/>,
+  <s:bind param="gender" />,
+  <s:bind param="height" />,
+  <s:bind param="weight" />,
+  <s:bind param="race1" />,
+  <s:bind param="race2" />,
+  <s:bind param="race3" />,
+  <s:bind param="racecomment" />,
+  <s:bind param="education" />,
+  <s:bind param="priorlung" />,
+  <s:bind param="priorcancer" />,
+  <s:bind param="priorhistory" />,
+  <s:bind param="smokerstatus" />,
+  <s:bind param="smokeryearstart" />,
+  <s:bind param="smokeryearquit" />,
+  <s:bind param="smokerpackday" />,
+  <s:bind param="smokercomment" />,
+  <s:bind param="secondsmoke" />,
+  <s:bind param="secondsmokechild" />,
+  <s:bind param="secondsmokespouse" />,
+  <s:bind param="secondsmokework" />,
+  <s:bind param="secondcomment" />,
+  <s:bind param="famlung" />,
+  <s:bind param="lungcancermother" />,
+  <s:bind param="lungcancerfather" />,
+  <s:bind param="lungcancersister" />,
+  <s:bind param="lungcancerbrother"/>,
+  <s:bind param="lungcancergm" />,
+  <s:bind param="lungcancergf" />,
+  <s:bind param="lungcancerother" />,
+  <s:bind param="familycancer" />,
+  <s:bind param="familycancercomment" />,
+  <s:bind param="occupation" />,
+  <s:bind param="asbestos" />,
+  <s:bind param="metals" />,
+  <s:bind param="mining" />,
+  <s:bind param="chemicals" />,
+  <s:bind param="exposurecomment" />,
+  <s:bind param="groundzero" />,
+  <s:bind param="copd" />,
+  <s:bind param="tuberculosis" />,
+  <s:bind param="fibrosis" />,
+  <s:bind param="pneumonia" />,
+  <s:bind param="bronchitis" />,
+  <s:bind param="chestrt" />,
+  <s:bind param="dailyvitamins" />,
+  <s:bind param="vitamina" />,
+  <s:bind param="vitaminb" />,
+  <s:bind param="vitamine" />,
+  <s:bind param="omega3" />,
+  <s:bind param="redmeat" />,
+  <s:bind param="fish" />,
+  <s:bind param="fruit" />,
+  <s:bind param="vegetable" />,
+  <s:bind param="vegetableleafy" />,
+  <s:bind param="vegetablebroccoli" />,
+  <s:bind param="physicalwork" />,
+  <s:bind param="physicalexercise" />,
+  <s:bind param="alcohol" />,
+  <s:bind param="alcoholcomment" />,
+  <s:bind param="alcoholred" />,
+  <s:bind param="alcoholwhite" />,
+  <s:bind param="alcoholbeer" />,
+  <s:bind param="alcoholliquor" />,
+  <s:bind param="screeningphysical" />,
+  <s:bind param="screeningbreast" />,
+  <s:bind param="screeningcolon" />,
+  <s:bind param="screeningpap" />,
+  <s:bind param="screeningprostate"/>
+ )
+</s:sql>
+</s:update>
+
+
+<s:update name="saveRegistryInfo" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+		<s:param name="registryno" type="integer"/>
+		<s:param name="mrn" type="varchar"/>
+		<s:param name="age"  type="integer" />
+		<s:param name="dob"  type="date" />
+		<s:param name="gender"  type="varchar"/>
+		<s:param name="height"  type="integer"/>
+		<s:param name="weight"  type="integer"/>
+		<s:param name="race1"  type="varchar"/>
+		<s:param name="race2"  type="varchar"/>
+		<s:param name="race3"  type="varchar"/>
+		<s:param name="racecomment"  type="varchar"/>
+		<s:param name="education"  type="varchar"/>
+		<s:param name="priorlung"  type="tinyint"/>
+		<s:param name="priorcancer"  type="tinyint"/>
+		<s:param name="priorhistory"  type="varchar"/>
+		<s:param name="smokerstatus"  type="varchar"/>
+		<s:param name="smokeryearstart"  type="integer"/>
+		<s:param name="smokeryearquit"  type="integer"/>
+		<s:param name="smokerpackday"  type="float"/>
+		<s:param name="smokercomment"  type="varchar"/>
+		<s:param name="secondsmoke"   type="tinyint"/>
+		<s:param name="secondsmokechild"   type="integer"/>
+		<s:param name="secondsmokespouse"  type="integer"/>
+		<s:param name="secondsmokework"   type="integer"/>
+		<s:param name="secondcomment"  type="varchar"/>
+		<s:param name="famlung" type="tinyint"/>
+		<s:param name="lungcancermother"  type="integer"/>
+		<s:param name="lungcancerfather"  type="integer"/>
+		<s:param name="lungcancersister"  type="integer"/>
+		<s:param name="lungcancerbrother"  type="integer"/>
+		<s:param name="lungcancergm"  type="integer"/>
+		<s:param name="lungcancergf" type="integer"/>
+		<s:param name="lungcancerother"  type="varchar"/>
+		<s:param name="familycancer" type="tinyint"/>
+		<s:param name="familycancercomment"  type="varchar"/>
+		<s:param name="occupation"  type="varchar"/>
+		<s:param name="asbestos"   type="tinyint"/>
+		<s:param name="metals"  type="tinyint"/>
+		<s:param name="mining"  type="tinyint"/>
+		<s:param name="chemicals"  type="tinyint"/>
+		<s:param name="exposurecomment"  type="varchar"/>
+		<s:param name="groundzero"  type="varchar"/>
+		<s:param name="copd" type="tinyint"/>
+		<s:param name="tuberculosis" type="tinyint"/>
+		<s:param name="fibrosis" type="tinyint"/>
+		<s:param name="pneumonia" type="tinyint"/>
+		<s:param name="bronchitis" type="tinyint"/>
+		<s:param name="chestrt" type="tinyint"/>
+		<s:param name="dailyvitamins" type="varchar"/>
+		<s:param name="vitamina" type="tinyint"/>
+		<s:param name="vitaminb" type="tinyint"/>
+		<s:param name="vitamine" type="tinyint"/>
+		<s:param name="omega3" type="tinyint"/>
+		<s:param name="redmeat"  type="varchar"/>
+		<s:param name="fish"  type="varchar"/>
+		<s:param name="fruit" type="varchar"/>
+		<s:param name="vegetable"  type="varchar"/>
+		<s:param name="vegetableleafy"  type="varchar"/>
+		<s:param name="vegetablebroccoli"  type="varchar"/>
+		<s:param name="physicalwork" type="integer"/>
+		<s:param name="physicalexercise" type="integer"/>
+		<s:param name="alcohol"   type="varchar"/>
+		<s:param name="alcoholcomment"  type="varchar"/>
+		<s:param name="alcoholred"  type="integer"/>
+		<s:param name="alcoholwhite"  type="integer"/>
+		<s:param name="alcoholbeer"  type="integer"/>
+		<s:param name="alcoholliquor"  type="integer"/>
+		<s:param name="screeningphysical"  type="varchar"/>
+		<s:param name="screeningbreast" type="varchar"/>
+		<s:param name="screeningcolon"  type="varchar"/>
+		<s:param name="screeningpap"  type="varchar"/>
+		<s:param name="screeningprostate" type="varchar"/>
+
+
+<s:sql databases="mysql">
+UPDATE `patient-registry`
+SET  
+	`MRN` = <s:bind param="mrn"/>,
+  `Age` = <s:bind param="age" />,
+  `DateOfBirth` = <s:bind param="dob"/>,
+  `Gender` = <s:bind param="gender" />,
+  `Height` = <s:bind param="height" />,
+  `Weight` = <s:bind param="weight" />,
+ `Race1` =  <s:bind param="race1" />,
+  `Race2`  = <s:bind param="race2" />,
+  `Race3` = <s:bind param="race3" />,
+  `RaceComment` = <s:bind param="racecomment" />,
+  `Education` = <s:bind param="education" />,
+  `PriorLung` = <s:bind param="priorlung" />,
+  `PriorCancer` = <s:bind param="priorcancer" />,
+ `PriorHistory`=  <s:bind param="priorhistory" />,
+  `SmokerStatus` = <s:bind param="smokerstatus" />,
+ `SmokerYearStart` =  <s:bind param="smokeryearstart" />,
+  `SmokerYearQuit` = <s:bind param="smokeryearquit" />,
+   `SmokerPackDay` = <s:bind param="smokerpackday" />,
+   `SmokerComment` = <s:bind param="smokercomment" />,
+  `SecondSmoke`  = <s:bind param="secondsmoke" />,
+  `SecondSmokeChild`  = <s:bind param="secondsmokechild" />,
+  `SecondSmokeSpouse`  = <s:bind param="secondsmokespouse" />,
+  `SecondSmokeWork`  = <s:bind param="secondsmokework" />,
+  `SecondComment` = <s:bind param="secondcomment" />,
+  `FamLung` = <s:bind param="famlung" />,
+  `LungCancerMother` = <s:bind param="lungcancermother" />,
+  `LungCancerFather` = <s:bind param="lungcancerfather" />,
+  `LungCancerSister` = <s:bind param="lungcancersister" />,
+  `LungCancerBrother` = <s:bind param="lungcancerbrother"/>,
+  `LungCancerGM` = <s:bind param="lungcancergm" />,
+  `LungCancerGF` = <s:bind param="lungcancergf" />,
+  `LungCancerOther` = <s:bind param="lungcancerother" />,
+  `FamilyCancer` = <s:bind param="familycancer" />,
+  `FamilyCancerComment` = <s:bind param="familycancercomment" />,
+  `Occupation`= <s:bind param="occupation" />,
+  `Asbestos` = <s:bind param="asbestos" />,
+ `Metals`=  <s:bind param="metals" />,
+  `Mining` = <s:bind param="mining" />,
+ `Chemicals` = <s:bind param="chemicals" />,
+  `ExposureComment` = <s:bind param="exposurecomment" />,
+ `GroundZero` =  <s:bind param="groundzero" />,
+  `COPD` = <s:bind param="copd" />,
+   `Tuberculosis` = <s:bind param="tuberculosis" />,
+  `Fibrosis` = <s:bind param="fibrosis" />,
+   `Pneumonia` = <s:bind param="pneumonia" />,
+  `Bronchitis` = <s:bind param="bronchitis" />,
+ `ChestRT` =  <s:bind param="chestrt" />,
+ `DailyVitamins` = <s:bind param="dailyvitamins" />,
+ `VitaminA` =  <s:bind param="vitamina" />,  
+  `VitaminB` = <s:bind param="vitaminb" />,
+  `VitaminE` = <s:bind param="vitamine" />,
+ `Omega3` =  <s:bind param="omega3" />,
+ `RedMeat` =  <s:bind param="redmeat" />,
+   `Fish` = <s:bind param="fish" />,
+  `Fruit` = <s:bind param="fruit" />,
+  `Vegetable` = <s:bind param="vegetable" />,
+  `VegetableLeafy` = <s:bind param="vegetableleafy" />,
+   `VegetableBroccoli` = <s:bind param="vegetablebroccoli" />,
+ `PhysicalWork` = <s:bind param="physicalwork" />,
+  `PhysicalExercise` = <s:bind param="physicalexercise" />,
+  `Alcohol` = <s:bind param="alcohol" />,
+  `AlcoholComment` = <s:bind param="alcoholcomment" />,
+  `AlcoholRed` = <s:bind param="alcoholred" />,
+ `AlcoholWhite` =  <s:bind param="alcoholwhite" />,
+  `AlcoholBeer` = <s:bind param="alcoholbeer" />,
+  `AlcoholLiquor` = <s:bind param="alcoholliquor" />,
+ `ScreeningPhysical` =  <s:bind param="screeningphysical" />,
+  `ScreeningBreast` = <s:bind param="screeningbreast" />,
+ `ScreeningColon` =  <s:bind param="screeningcolon" />,
+  `ScreeningPAP` = <s:bind param="screeningpap" />,
+  `ScreeningProstate` = <s:bind param="screeningprostate"/>
+ 
+ WHERE  `RegistryNum` = <s:bind param="registryno" />
+</s:sql>
+</s:update>
+<s:update name="addLesionData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+
+<s:param name="mrn" type="varchar" />
+<s:param name="date" type = "date" />
+<s:param name="LesionClassification" type = "integer" />
+<s:param name="Location" type = "varchar" />
+<s:param name="CT Characteristic" type = "varchar" />
+<s:param name="Pet SUV" type = "float" />
+<s:param name="LinkToCancer" type = "integer" />
+<s:param name="LesionDiagnosis" type = "integer" />
+<s:param name="Comments" type = "varchar" />
+<s:sql databases="mysql">
+INSERT INTO 
+`patient-lesion` (`PatientMRN`, `Date1stFollowedLCEC`, `LesionClassification`, `Location`, `CT Characteristic`, `PET SUV`, `LesionDiagnosis`, `LinkToCancer`,
+  `Comments`)
+VALUES 
+
+(<s:bind param="mrn"/>,
+<s:bind param="date" />,
+<s:bind param="LesionClassification" />,
+<s:bind param="Location" />,
+<s:bind param="CT Characteristic" />,
+<s:bind param="Pet SUV" />,
+<s:bind param="LinkToCancer" />,
+<s:bind param="LesionDiagnosis" />,
+<s:bind param="Comments" />)
+</s:sql>
+</s:update>
+
+
+
+<s:update name="updatelesionData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+
+<s:param name="date" type = "date" />
+<s:param name="LesionClassification" type = "integer" />
+<s:param name="Location" type = "varchar" />
+<s:param name="CT Characteristic" type = "varchar" />
+<s:param name="Pet SUV" type = "float" />
+<s:param name="LinkToCancer" type = "integer" />
+<s:param name="Comments" type = "varchar" />
+<s:param name="mrn" type="varchar" />
+<s:param name="LesionDiagnosis" type = "integer" />
+<s:param name="Id" type="integer" />
+
+<s:sql databases="mysql">
+Update 
+	`patient-lesion`
+	
+SET 
+`Date1stFollowedLCEC` = <s:bind param="date" />,
+`LesionClassification` = <s:bind param="LesionClassification" />,
+`Location` = <s:bind param="Location" />,
+`CT Characteristic` = <s:bind param="CT Characteristic" />,
+`PET SUV` = <s:bind param="Pet SUV" />,
+`LinkToCancer` = <s:bind param="LinkToCancer" />,
+`LesionDiagnosis` = <s:bind param="LesionDiagnosis" />,
+`Comments` = <s:bind param="Comments" />,
+`PatientMRN` = <s:bind param="mrn" />
+	
+WHERE
+	`ID` = <s:bind param="Id" />
+
+</s:sql>
+</s:update>
+
+<s:update name="saveLesionData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:param name="Date of Referral" type = "date" />
+<s:param name="PackYears" type = "float" />
+<s:param name="Asbestos Exposure" type = "varchar" />
+<s:param name="Year quit" type = "integer" />
+<s:param name="silica Exposure" type = "varchar" />
+<s:param name="Personal Lung Cancer" type = "boolean" />
+<s:param name="Fath/Moth Lung Cancer" type = "boolean" />
+<s:param name="Other Family Lung Cancer" type="boolean" />
+<s:param name="Personal Other Cancer" type = "boolean" />
+<s:param name="Fath/Moth Other Cancer" type = "boolean" />
+<s:param name="Other Fam Other Cancer" type="boolean" />
+<s:param name="FEV-1 %Pred" type = "float" />
+<s:param name="FVC %Pred" type = "float" />
+<s:param name="FEV-1/FVC %" type="float" />
+<s:sql databases="mysql">
+Update 
+	`patient` 
+SET 
+	`Date of Referral` = <s:bind param="Date of Referral" />,
+	`PackYears` = <s:bind param="PackYears" />,
+	 `Asbestos Exposure` = <s:bind param="Asbestos Exposure" />, 
+	`Year quit` = <s:bind param="Year quit" />, 
+	`Silica Exposure` = <s:bind param="silica Exposure" />,
+	 `Personal Lung Cancer` = <s:bind param="Personal Lung Cancer" />,
+    `Fath/Moth Lung Cancer` = <s:bind param="Fath/Moth Lung Cancer" />,
+    `Other Family Lung Cancer` = <s:bind param="Other Family Lung Cancer" />, 
+    `Personal Other Cancer` = <s:bind param="Personal Other Cancer" />, 
+    `Fath/Moth Other Cancer` = <s:bind param="Fath/Moth Other Cancer" />,
+    `Other Fam Other Cancer` = <s:bind param="Other Fam Other Cancer" />,
+    `FEV-1 %Pred` = <s:bind param="FEV-1 %Pred" />, 
+    `FVC %Pred` = <s:bind param="FVC %Pred" />, 
+    `FEV-1/FVC %` = <s:bind param="FEV-1/FVC %" />
+WHERE 
+	`MRN` =  <s:bind param="mrn" />
+</s:sql>
+</s:update>
+
+
+<!--  Queries for Reports by rjosan -->
+
+<s:query name="GetQuartCancerDiag" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:sql databases="mysql">
+    SELECT YEAR(  `Date of 1st Diagnosis` ) , QUARTER(  `Date of 1st Diagnosis` ) , COUNT(  * ) 
+	FROM  `patient-cancer` 
+	WHERE 1 
+	GROUP BY QUARTER(  `Date of 1st Diagnosis` ) , YEAR(  `Date of 1st Diagnosis` ) 
+	ORDER BY  Year(`Date of 1st Diagnosis`) ASC 
+  </s:sql>
+</s:query>
+
+<s:query name="GetQuartNewRef" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT YEAR(`Date of Referral`) , QUARTER(`Date of Referral`) , COUNT(  * ) 
+	FROM `patient`
+	WHERE 1
+	GROUP BY QUARTER(`Date of Referral`), YEAR(`Date of Referral`) 
+	ORDER BY  Year(`Date of Referral`), QUARTER(`Date of Referral`) ASC 
+  </s:sql>
+</s:query>
+<!--  Queries for Reports by Abhinav -->
+
+<s:query name="GetQuartLungResec" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT YEAR(`ProcedureDate`) , QUARTER(`ProcedureDate`) , COUNT(  * ) 
+	FROM `Patient-Biopsy`
+	WHERE `ProcedureType`>=700 And `ProcedureType` &lt;= 900 AND `ProcedureDate` Is Not Null
+	GROUP BY QUARTER(`ProcedureDate`), YEAR(`ProcedureDate`) 
+	ORDER BY  Year(`ProcedureDate`), QUARTER(`ProcedureDate`) ASC 
+  </s:sql>
+</s:query>
+
+<s:query name="GetPatientAge" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT `Date Of Birth` 
+FROM `patient` LEFT JOIN `Patient-Biopsy` ON `Patient`.`MRN` = `Patient-Biopsy`.`MRN`
+</s:sql>
+</s:query>
+
+<s:query name="GetChartStatus" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT `noChart` 
+FROM `chartstatus` 
+</s:sql>
+</s:query>
+
+<s:query name="GetsetState" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT `noChart` 
+FROM `chartstatus` where `MRN`=1 
+</s:sql>
+</s:query>
+
+<s:update name="SaveState" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+update `chartstatus` set `noChart` = 1
+	where `MRN` = 1
+</s:sql>
+</s:update>
+
+<s:update name="SaveState0" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+update `chartstatus` set `noChart` = 0
+	where `MRN` = 1
+</s:sql>
+</s:update>
+
+
+<s:query name="automrn" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	select `NextDummyMRN` from `dummymrn` where `id` = 2 
+</s:sql>
+</s:query>
+
+<s:update name="updatemrn" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="newmrn" type="integer" />
+<s:sql databases="mysql">
+	update `dummymrn` set `NextDummyMRN` =  <s:bind param="newmrn"/>
+	where `id` = 2 
+</s:sql>
+</s:update>
+
+<!--  End for Reports by Abhinav -->
+
+<!--  Queries for Reports by sai -->
+<s:query name="GetYearlyNewRef" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+	SELECT count(MRN), Year(`Date Scheduled`) FROM `patient-visit` 
+	WHERE `Date Scheduled` Is Not Null
+GROUP BY Year(`Date Scheduled`);
+  </s:sql>
+  </s:query>
+  <s:query name="rptPreOps" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+  SELECT `MRN`, `Name (Last,First)`, `WorkUp Status`, `PhoneNumber`
+FROM patient
+WHERE `WorkUp Status`>=300 And `WorkUp Status` &lt;=450 ;
+  </s:sql>
+  </s:query>
+    <s:query name="rptVisitTesting" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT `Patient-Testing`.PatientMRN, `Patient-Testing`.TestType, `Patient-Testing`.RequiredDate, `Patient-Testing`.TestingDate, ListTestResult.Result, `Patient-Testing`.TestingResult, `Patient-Testing`.OkToCallResults, `Patient-Testing`.Comment
+FROM ListTestResult INNER JOIN `Patient-Testing` ON ListTestResult.AutoNum = `Patient-Testing`.TestingResult
+ORDER BY `Patient-Testing`.RequiredDate DESC;
+ </s:sql>
+  </s:query>
+<s:query name="GetYearlyPETScans" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:sql databases="mysql">
+	SELECT YEAR(`TestingDate`),  COUNT(*)
+	FROM `patient-testing`
+	WHERE `TestType`=200 AND `TestingDate` Is Not Null
+	GROUP BY YEAR(`TestingDate`);
+  </s:sql>
+</s:query>
+
+<s:query name="GetQuartNewConsults" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:sql databases="mysql">
+    
+SELECT YEAR(  `Date of Actual Visit` ) , QUARTER(  `Date of Actual Visit` ) , COUNT( * ) 
+	FROM  `patient-visit` 
+	WHERE `Date of Actual Visit` is not null
+	GROUP BY QUARTER(  `Date of Actual Visit` ) , YEAR(  `Date of Actual Visit` ), `type of visit`
+	having `Type of Visit`=100
+	ORDER BY  Year(`Date of Actual Visit`),QUARTER(  `Date of Actual Visit` ) ASC 
+  </s:sql>
+</s:query>
+
+    <s:query name="GetYearlyNewConsults" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:sql databases="mysql">
+    
+SELECT YEAR(  `Date of Actual Visit` ) ,'New Consultation', COUNT( * ) 
+	FROM  `patient-visit` 
+	WHERE `Date of Actual Visit` is not null
+	GROUP BY  YEAR(  `Date of Actual Visit` ), `type of visit`
+	having `Type of Visit`=100
+	ORDER BY  Year(`Date of Actual Visit`) ASC 
+  </s:sql>
+</s:query>
+<s:query name="GetQuartProcedures" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:sql databases="mysql">
+    
+
+SELECT YEAR(  `proceduredate` ) , QUARTER(  `proceduredate` ) , COUNT( MRN ) 
+	FROM  `patient-biopsy` 
+	WHERE `proceduredate` is not null
+	GROUP BY QUARTER(  `proceduredate` ) , YEAR(  `proceduredate` )
+	order by year(`proceduredate`)
+	
+
+  </s:sql>
+</s:query>
+    
+<s:query name="GetYearlyProcedures" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:sql databases="mysql">
+    
+
+
+SELECT YEAR(  `proceduredate` ) , COUNT( MRN ) 
+	FROM  `patient-biopsy` 
+	WHERE `proceduredate` is not null
+	GROUP BY YEAR(  `proceduredate` )
+	order by year(`proceduredate`)
+  </s:sql>
+</s:query>
+
+<s:query name="addreferringmd" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+select `Referring Physican`,`Title`,`Group Name`,`Address`,`City`,`State`,`Zip`,`Office Phone`,`Fax`
+from `list - physician-referring`
+</s:sql>
+</s:query>
+
+<s:update name="addreferringmdData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="Referring" type="varchar" />
+<s:param name="Title" type="varchar" />
+<s:param name="Groupname" type="varchar" />
+<s:param name="Address" type="varchar" />
+<s:param name="City" type="varchar" />
+<s:param name="State" type="varchar" />
+<s:param name="Zip" type="varchar" />
+<s:param name="Office" type="varchar" />
+<s:param name="Fax" type="varchar" />
+
+
+<s:sql databases="mysql">
+INSERT INTO 
+	`list - physician-referring` (`Referring Physican`,`Title`,`Group Name`,`Address`,`City`,`State`,`Zip`,`Office Phone`,`Fax`)
+VALUES 
+
+	(<s:bind param="Referring" />, 
+	 <s:bind param="Title" />, 
+	 <s:bind param="Groupname" />, 
+	 <s:bind param="Address" />, 
+	 <s:bind param="City" />, 
+ 	 <s:bind param="State" />,
+     <s:bind param="Zip" />,
+     <s:bind param="Office" />,
+     <s:bind param="Fax" />)
+     
+</s:sql>
+</s:update>
+
+<s:query name="addprimarymd" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT `Treating Physican`,Title,`group`,address,city,State,zip,`Office Phone` FROM `list - physicians-treating`;
+</s:sql>
+</s:query>
+
+<s:update name="addprimarymdData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="Treating" type="varchar" />
+<s:param name="Title" type="varchar" />
+<s:param name="Groupname" type="varchar" />
+<s:param name="Address" type="varchar" />
+<s:param name="City" type="varchar" />
+<s:param name="State" type="varchar" />
+<s:param name="Zip" type="varchar" />
+<s:param name="Office" type="varchar" />
+
+
+<s:sql databases="mysql">
+INSERT INTO 
+	`list - physicians-treating` (`Treating Physican`,Title,`group`,address,city,State,zip,`Office Phone`)
+VALUES 
+
+	(<s:bind param="Treating" />, 
+	 <s:bind param="Title" />, 
+	 <s:bind param="Groupname" />, 
+	 <s:bind param="Address" />, 
+	 <s:bind param="City" />, 
+ 	 <s:bind param="State" />,
+     <s:bind param="Zip" />,
+     <s:bind param="Office" />)
+     
+</s:sql>
+</s:update>
+
+<!-- Queries by Srikanth -->
+
+<s:query name="GetQuartPETScans" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:sql databases="mysql">
+	SELECT YEAR(`TestingDate`), QUARTER(`TestingDate`), COUNT(*)
+	FROM `patient-testing`
+	WHERE `TestType`=200 AND `TestingDate` Is Not Null
+	GROUP BY YEAR(`TestingDate`), QUARTER(`TestingDate`);
+  </s:sql>
+</s:query>
+
+<s:query name="GetQuartRFACryo" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:sql databases="mysql">
+	SELECT YEAR(`TestingDate`), QUARTER(`TestingDate`), COUNT(*)
+	FROM `patient-testing`
+	WHERE `TestType`=200 AND `TestingDate` Is Not Null
+	GROUP BY YEAR(`TestingDate`), QUARTER(`TestingDate`);
+  </s:sql>
+</s:query>
+
+<s:query name="GetYearlyRFACryo" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:sql databases="mysql">
+	SELECT Count(MRN) AS CountOfMRN, Year(`ProcedureDate`) AS Expr1
+	FROM `Patient-Biopsy`
+	WHERE `ProcedureType`>=1700 And `ProcedureType` &lt;= 1800 AND `ProcedureDate` Is Not Null
+	GROUP BY Year(`ProcedureDate`);
+  </s:sql>
+</s:query>
+<s:query name="GetCasesPerTown" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+  <s:sql databases="mysql">
+	SELECT  p.City, COUNT(p.MRN) as `Number of Patients` 
+	FROM `patient-cancer` pc, `patient` p
+	WHERE p.MRN = pc.PatientMRN AND p.City IS NOT NULL
+	GROUP BY p.City
+	ORDER BY COUNT(p.MRN) DESC;
+  </s:sql>
+</s:query>
+
+<s:update name="addphysicianname" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="Physicianname" type="varchar" />
+<s:sql databases="mysql">
+insert into 
+	`list - physicians-lcec`(`LCEC - Physician`)
+values
+	(<s:bind param="Physicianname" />)
+</s:sql>
+</s:update>
+
+<!-- Add by Nikhil -->
+<s:query name="getMaxAutonumber" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+select max(Autonumber) 
+as Autonumber 
+from `list - testtypes`;
+</s:sql>
+</s:query>
+
+<!-- Add by Nikhil -->
+<s:update name="addTestType" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="Autonumber" type="integer" />
+<s:param name="TestingType" type="varchar" />
+<s:sql databases="mysql">
+insert into 
+`list - testtypes` 
+(Autonumber, TestingType) values 
+(<s:bind param="Autonumber" />, <s:bind param="TestingType" />);
+</s:sql>
+</s:update>
+
+<!-- Add by yongxin -->
+<s:query name="getAllPrimaryMDData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT `Patient`.`Primary Care Physician`, 
+	Count(`Patient`.`MRN`) AS CountOfMRN, 
+	Max(`Patient`.`Date of Referral`) AS `MaxOfDate of Referral`, 
+	Sum(`qryProcedurePerPatient`.`CountOfProcedureDate`) AS SumOfCountOfProcedureDate, 
+	Sum(`qryCancersPerPatient`.`CountOfID`) AS SumOfCountOfID, 
+	Sum(`qrySurgeryPerPatient`.`CountOfProcedureDate`) AS SumOfCountOfProcedureDate1
+FROM ((`Patient` LEFT JOIN `qryProcedurePerPatient` ON `Patient`.`MRN` = `qryProcedurePerPatient`.`MRN`) LEFT JOIN `qryCancersPerPatient` ON `Patient`.`MRN` = `qryCancersPerPatient`.`MRN`) LEFT JOIN `qrySurgeryPerPatient` ON `Patient`.`MRN` = `qrySurgeryPerPatient`.`MRN`
+GROUP BY `Patient`.`Primary Care Physician`
+ORDER BY (`Patient`.`Primary Care Physician`);
+</s:sql>
+</s:query>
+
+
+<s:query name="getPrimaryPatientList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="primaryCarePhysician" type="varchar" />
+<s:sql databases="mysql">
+SELECT `qryprocedureperpatient`.`MRN`,`qryprocedureperpatient`.`Name (Last,First)`,
+	`qryprocedureperpatient`.`Date of Referral`,`qryprocedureperpatient`.`CountOfProcedureDate`,
+	`qryprocedureperpatient`.`Referring MD`,`qryprocedureperpatient`.`Primary Care Physician`
+from `qryprocedureperpatient`
+where `qryprocedureperpatient`.`Primary Care Physician` = <s:bind param="primaryCarePhysician" />
+order by(`qryprocedureperpatient`.`Name (Last,First)`);
+</s:sql>
+</s:query>
+
+
+
+<s:query name="getAllReferringMDData" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT `Patient`.`Referring MD`, 
+	Count(`Patient`.`MRN`) AS CountOfMRN, 
+	Max(`Patient`.`Date of Referral`) AS `MaxOfDate of Referral`, 
+	Sum(`qryProcedurePerPatient`.`CountOfProcedureDate`) AS SumOfCountOfProcedureDate, 
+	Sum(`qryCancersPerPatient`.`CountOfID`) AS SumOfCountOfID, 
+	Sum(`qrySurgeryPerPatient`.`CountOfProcedureDate`) AS SumOfCountOfProcedureDate1
+FROM ((`Patient` LEFT JOIN `qryProcedurePerPatient` ON `Patient`.`MRN` = `qryProcedurePerPatient`.`MRN`) LEFT JOIN `qryCancersPerPatient` ON `Patient`.`MRN` = `qryCancersPerPatient`.`MRN`) LEFT JOIN `qrySurgeryPerPatient` ON `Patient`.`MRN` = `qrySurgeryPerPatient`.`MRN`
+GROUP BY (`Patient`.`Referring MD`)
+ORDER BY (`Patient`.`Referring MD`);
+</s:sql>
+</s:query>
+
+<s:query name="getReferringPatientList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="referringPhysician" type="varchar" />
+<s:sql databases="mysql">
+SELECT `qryprocedureperpatient`.`MRN`,`qryprocedureperpatient`.`Name (Last,First)`,
+	`qryprocedureperpatient`.`Date of Referral`,`qryprocedureperpatient`.`CountOfProcedureDate`,
+	`qryprocedureperpatient`.`Referring MD`,`qryprocedureperpatient`.`Primary Care Physician`
+from `qryprocedureperpatient`
+where `qryprocedureperpatient`.`Referring MD` = <s:bind param="referringPhysician" />
+order by(`qryprocedureperpatient`.`Name (Last,First)`);
+</s:sql>
+</s:query>
+<s:query name="getBronchTypeList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+SELECT * FROM `list - bronch types`;
+</s:sql>
+</s:query>
+
+
+<s:query name="getBronchList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="autoNum" type="integer" />
+<s:sql databases="mysql">
+SELECT `patient-bronch`.`BronchType`, `patient-bronch`.`LocationCode`,`patient-bronch`.`BiopsyResult`,
+		`patient-bronch`.`Diagnostic`,`patient-bronch`.`Accuracy`,`patient-bronch`.`Lymphocytes`,
+		`patient-bronch`.`ROSE`,`patient-bronch`.`NumPasses`,`patient-bronch`.`Culture`,
+		`patient-bronch`.`Comment`,`patient-bronch`.`BronchAutoNum`,`patient-bronch`.`EBUS`,
+		`patient-bronch`.`EMN`
+FROM `patient-bronch`
+WHERE `patient-bronch`.`BiopsyNum`= <s:bind param="autoNum"/>
+</s:sql>
+</s:query>
+
+
+<s:update name="addBronch" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="BiopsyNum" type="integer" />
+<s:param name="BronchType" type="integer" />
+<s:param name="LocationCode" type="varchar" />
+<s:param name="BiopsyResult" type="varchar" />
+<s:param name="Diagnostic" type="varchar" />
+<s:param name="Accuracy" type="varchar" />
+<s:param name="Lymphocytes" type="integer" />
+<s:param name="ROSE" type="integer" />
+<s:param name="NumPasses" type="integer" />
+<s:param name="Culture" type="varchar" />
+<s:param name="Comment" type="varchar" />
+<s:param name="EBUS" type="boolean" />
+<s:param name="EMN" type="boolean" />
+<s:sql databases="mysql">
+insert into 
+	`patient-bronch`(`BiopsyNum`,`BronchType`,`LocationCode`,`BiopsyResult`,`Diagnostic`,
+	`Accuracy`,`Lymphocytes`,`ROSE`,`NumPasses`,`Culture`,`Comment`,`EBUS`,`EMN`)
+values
+	(<s:bind param="BiopsyNum" />,
+	 <s:bind param="BronchType" />,
+	 <s:bind param="LocationCode" />,
+	 <s:bind param="BiopsyResult" />,
+	 <s:bind param="Diagnostic" />,
+	 <s:bind param="Accuracy" />,
+	 <s:bind param="Lymphocytes" />,
+	 <s:bind param="ROSE" />,
+	 <s:bind param="NumPasses" />,
+	 <s:bind param="Culture" />,
+	 <s:bind param="Comment" />,
+	 <s:bind param="EBUS" />,
+	 <s:bind param="EMN" />)
+</s:sql>
+</s:update>
+
+<s:update name="saveBronch" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="BronchAutoNum" type="integer" />
+<s:param name="BronchType" type="integer" />
+<s:param name="LocationCode" type="varchar" />
+<s:param name="BiopsyResult" type="varchar" />
+<s:param name="Diagnostic" type="varchar" />
+<s:param name="Accuracy" type="varchar" />
+<s:param name="Lymphocytes" type="integer" />
+<s:param name="ROSE" type="integer" />
+<s:param name="NumPasses" type="integer" />
+<s:param name="Culture" type="varchar" />
+<s:param name="Comment" type="varchar" />
+<s:param name="EBUS" type="boolean" />
+<s:param name="EMN" type="boolean" />
+<s:sql databases="mysql">
+UPDATE 
+	`patient-bronch`
+SET
+	 `BronchType` = <s:bind param="BronchType" />,
+	 `LocationCode` =  <s:bind param="LocationCode" />,
+	 `BiopsyResult` = <s:bind param="BiopsyResult" />,
+	 `Diagnostic` = <s:bind param="Diagnostic" />,
+	 `Accuracy` = <s:bind param="Accuracy" />,
+	 `Lymphocytes` = <s:bind param="Lymphocytes" />,
+	 `ROSE` = <s:bind param="ROSE" />,
+	 `NumPasses` = <s:bind param="NumPasses" />,
+	 `Culture` = <s:bind param="Culture" />,
+	 `Comment` = <s:bind param="Comment" />,
+	 `EBUS` = <s:bind param="EBUS" />,
+	 `EMN` = <s:bind param="EMN" />
+WHERE
+	`BronchAutoNum` = <s:bind param="BronchAutoNum" /> 
+</s:sql>
+</s:update>
+
+<s:query name="getRegistryInfo" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:param name="mrn" type="varchar" />
+<s:sql databases="mysql">
+select *
+from `patient-registry`
+where `patient-registry`.`MRN`=<s:bind param="mrn"></s:bind>
+</s:sql>
+</s:query>
+
+<s:query name="getRaceList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+select `ID`,`RaceName`
+from `list - race`
+</s:sql>
+</s:query>
+
+<s:query name="getEducationList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+select `ID`,`Education`
+from `list - education`
+</s:sql>
+</s:query>
+
+<s:query name="getGroundZeroList" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+select `ID`,`GroundZero`
+from `list - groundzero`
+</s:sql>
+</s:query>
+
+<s:query name="getDailySupplements" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+select `ID`,`Supplements`
+from `list - dailysupplements`
+</s:sql>
+</s:query>
+
+<s:query name="getFoodTime" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+select * from `list - foodtime`
+</s:sql>
+</s:query>
+
+<s:query name="getIntake" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+select `ID`,`Alcohol`
+from `list - alcohol`
+</s:sql>
+</s:query>
+
+<s:query name="getScreening" xmlns:s="http://www.slamb.org/axamol/sql-library/statement">
+<s:sql databases="mysql">
+select `ID`,`Screening`
+from `list - screening`
+</s:sql>
+</s:query>
+
+</l:library>
