@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="lib/primefaces-3.5.jar"/>
+	<classpathentry kind="lib" path="lib/javax.faces-2.1.17.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.20-bin.jar"/>
+	<classpathentry kind="lib" path="lib/axamol-sql-library-0.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/tomcat/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="C:/tomcat/lib/ecj-3.6.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/axamol-sql-library-0.1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/commons-digester-1.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/commons-discovery-0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/javax.faces-2.1.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/myfaces-api-2.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/myfaces-impl-2.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/mysql-connector-java-5.1.20-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/mysql-connector-java-5.1.23-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jing/Documents/checkout/cardio-web/WebContent/WEB-INF/lib/primefaces-3.5.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

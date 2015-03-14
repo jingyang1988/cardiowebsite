@@ -1,0 +1,31 @@
+DROP TABLE IF EXISTS `databaseuser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+
+CREATE TABLE `databaseuser` (
+  `UserName` varchar(255) DEFAULT NULL,
+  `UserPassword` varchar(255) DEFAULT NULL,
+  `UserId` varchar(45) NOT NULL,
+  `RoleId` int(11) DEFAULT NULL,
+  `Email` VARCHAR(255),
+  PRIMARY KEY (`UserId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+INSERT INTO `databaseuser` (`UserName`, `UserPassword`, `UserId`, `RoleId`, `Email`) VALUES ('Sunday', 'pass4admin', 'admin', '1', 'Sunday.Campolo-Athans@stonybrookmedicine.edu');
+
+DROP TABLE IF EXISTS `userroles`;
+
+CREATE TABLE `userroles` (
+  `RoleId` int(11) DEFAULT NULL,
+  `RoleName` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `userroles` (`RoleId`, `RoleName`) VALUES (1, 'Administrator');
+INSERT INTO `userroles` (`RoleId`, `RoleName`) VALUES (2, 'Webuser');
+
+ALTER TABLE  `patient` 
+ADD COLUMN `StartYear` INT NULL DEFAULT 0 AFTER `WTC`,
+ADD COLUMN `EndYear` INT NULL DEFAULT 0 AFTER `StartYear`;
+
+INSERT INTO `userroles` (`RoleId`, `RoleName`) VALUES (3, 'Readonly');

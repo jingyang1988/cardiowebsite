@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Query Patient</ui:define>
+	<ui:define name="content">
+		<h:form id="queryPatient">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="ModifyDatabase.xhtml" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+				</table>
+				<h:panelGrid columns="2" width="100%" styleClass="panel-center"
+				style="text-align: center;">
+				
+				First Name:<p:inputText id="firstname" value="#{doctorBean.firstName}" /><br />
+				Last Name:<p:inputText id="lastname" value="#{doctorBean.lastName}" /><br />
+				<p:commandButton value="Add"  type="submit" ajax="false" action="#{doctorBean.addLcecDoctor}" style="background-color:#8580b1;" />
+				</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

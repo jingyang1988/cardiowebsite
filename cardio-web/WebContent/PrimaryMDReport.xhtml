@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Primary MD Report</ui:define>
+	<ui:define name="content">
+		<h:form id="primaryMDReport">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+
+					<ui:repeat var="page" value="QueryDatabase.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+					</ui:repeat>	
+
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;" 
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				
+			<tr>
+				<td width="90%" align="center" colspan="2">
+				
+			<br />		
+					<p:dataTable var="p" paginator="true" rows="25"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="25,50,100,#{queryMDReportBean.queryPrimaryMDReportList.size()}"
+						value="#{queryMDReportBean.queryPrimaryMDReportList}" filteredValue="#{queryMDReportBean.filteredQueryPrimaryMDReportList}"> 
+					
+					<p:column filterStyle="width:95%;" filterBy="#{p.primaryMdReport}" headerText="Primary Care Physician" width="8%" styleClass="wrap">
+						<h:outputText value="#{p.primaryMdReport}"></h:outputText>
+					</p:column>	
+					
+					<p:column filterStyle="width:95%;" filterBy="#{p.lastReferral}" headerText="Last Referral" width="10%" styleClass="wrap">
+						<h:outputText value="#{p.lastReferral}"></h:outputText>
+					</p:column>					
+				
+					<p:column filterStyle="width:95%;" filterBy="#{p.noOfReferrals}" headerText="# of Referrals" width="10%" styleClass="wrap">
+						<h:outputText value="#{p.noOfReferrals}"></h:outputText>
+					</p:column>					
+					
+					<p:column filterStyle="width:95%;" filterBy="#{p.noOfCancers}" headerText="# of Cancers" width="7%" styleClass="wrap">
+						<h:outputText value="#{p.noOfCancers}"></h:outputText>
+					</p:column>
+					
+					<p:column filterStyle="width:95%;" filterBy="#{p.noOfProcedures}" headerText="# of Procedures" width="8%" styleClass="wrap">
+						<h:outputText value="#{p.noOfProcedures}"></h:outputText>
+					</p:column>					
+
+					<p:column filterStyle="width:95%;" filterBy="#{p.noOfResections}" headerText="# of Resections" width="5%" styleClass="wrap">
+						<h:outputText value="#{p.noOfResections}"></h:outputText>
+					</p:column>	
+					
+					<p:column width="8%">
+						<p:commandButton type="submit" ajax="false" value="Patient List" action="#{queryMDReportBean.setPrimaryPatientList(p.primaryMdReport)}">
+						
+					  	</p:commandButton>
+					</p:column>					
+										
+					</p:dataTable>
+					
+					</td>
+				</tr>
+			</table>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

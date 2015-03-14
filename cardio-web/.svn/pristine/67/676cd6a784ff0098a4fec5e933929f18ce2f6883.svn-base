@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Current Medications</ui:define>
+	<ui:define name="content">
+		<h:form id="patientMedication">
+			<table width="90%" align="center">
+				<tr>
+					
+				<ui:repeat var="page" value="mainMenu.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>			
+								
+							
+					<td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;"
+							action="#{medicationBean.saveMedicationData}" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages2" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+				
+			</table>
+            <br />
+			<br />
+		<!--<table width="90%" align="center">
+				<tr>
+					<td align="right"><p:commandButton value="Save Changes"
+							action="#{medicationBean.saveMedicationData()}" ajax="false"></p:commandButton></td>
+				</tr>
+			</table> 
+			<br /> -->
+			<p:panel id="patientData" style="border:0;">
+				<table align="center" width="90%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Patient&nbsp;Name:"></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="MRN:"></p:outputLabel></td>
+						<td align="left" width="7%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="10%"><h:outputLabel
+								value="WorkUp&nbsp;Status:"></h:outputLabel></td>
+
+						<td align="left" width="7%"><p:selectOneMenu
+								rendered="#{mainMenuBean.selectedPatient!=null}"
+								value="#{mainMenuBean.selectedPatient.workUpId}">
+								<f:selectItems value="#{utilBean.workupList}" />
+								<f:ajax event="change"
+									listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+
+						<td align="right" width="7%"><h:outputLabel
+								value="LCEC&nbsp;Status:"></h:outputLabel></td>
+
+						<td align="left" width="7%"><p:selectOneMenu
+								rendered="#{mainMenuBean.selectedPatient!=null}"
+								value="#{mainMenuBean.selectedPatient.lcecId}">
+								<f:selectItems value="#{utilBean.lcecStatusList}" />
+								<f:ajax event="change"
+									listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+					</tr>
+				</table>
+			</p:panel>
+			<br />
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				   
+					<td align="right"><p:commandButton onclick="addDlg.show();"
+							type="button" value="Add New Medication"></p:commandButton></td>
+				</tr>
+			</table>
+
+			<table width="90%" align="center">
+				<tr>
+					<td><ui:repeat var="m"
+							value="#{medicationBean.medicationData.patientMedicationList}">
+							<p:fieldset legend="#{m.additionDate}">
+								<table width="100%" align="center">
+									<tr>
+										<td align="right"><p:outputLabel value="Plavix:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.plavix}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+										<td align="right"><p:outputLabel value="Effient:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.effient}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+										<td align="right"><p:outputLabel value="Agrylin:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.agrylin}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+										<td align="right"><p:outputLabel value="Aggrenox:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.aggrenox}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+									</tr>
+
+									<tr>
+										<td align="right"><p:outputLabel value="Pletal:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.pletal}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+										<td align="right"><p:outputLabel value="Pradaxa:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.pradaxa}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+										<td align="right"><p:outputLabel value="Xarelto:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.xarelto}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+										<td align="right"><p:outputLabel value="Coumadin:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.coumadin}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel value="Persantine:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.persantine}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+										<td align="right"><p:outputLabel value="Eliquis:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.eliquis}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+										<td align="right"><p:outputLabel value="Brilinta:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.brilinta}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+
+									</tr>
+
+									<tr>
+										<td align="right"><p:outputLabel
+												value="Oral&nbsp;hypoglycemic:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.oralHypoglycemic}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+										<td align="right"><p:outputLabel value="Insulin:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.insulin}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+								
+										<td align="right"><p:outputLabel value="NKA:"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{m.nka}" style="width:110px"></p:selectBooleanCheckbox>
+										</td>
+									</tr>
+									
+									<tr>
+										<td align="right"><p:outputLabel value="Allergies:"></p:outputLabel></td>
+										<td align="left"><p:inputText value="#{m.allergies}"
+												style="width:105px"></p:inputText></td>
+												
+										<td align="right"><p:outputLabel value="Comment:"></p:outputLabel></td>
+										<td align="left"><p:inputText value="#{m.reasonTaking}"
+												style="width:105px"></p:inputText></td>
+										<td></td>
+										
+										<td align="right"><p:commandButton value="Delete Medication"
+												ajax="false" type="submit"
+												action="#{medicationBean.deleteMedicationData(m)}" />
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									</tr>
+								</table>
+							</p:fieldset>
+							<br />
+						</ui:repeat></td>
+				</tr>
+			</table>
+
+			<p:dialog id="modalDialog" header="New Medication" widgetVar="addDlg"
+				modal="true">
+				<table width="50%" align="center">
+					<tr>
+						<td align="right"><p:outputLabel value="Plavix:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.plavix}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						<td align="right"><p:outputLabel value="Effient:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.effient}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						<td align="right"><p:outputLabel value="Agrylin:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.agrylin}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						<td align="right"><p:outputLabel value="Aggrenox:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.aggrenox}"
+								style="width:110px"></p:selectBooleanCheckbox></td>
+					</tr>
+
+					<tr>
+						<td align="right"><p:outputLabel value="Pletal:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.pletal}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						<td align="right"><p:outputLabel value="Pradaxa:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.pradaxa}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						<td align="right"><p:outputLabel value="Xarelto:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.xarelto}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						<td align="right"><p:outputLabel value="Coumadin:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.coumadin}"
+								style="width:110px"></p:selectBooleanCheckbox></td>
+					</tr>
+					<tr>
+						<td align="right"><p:outputLabel value="Persantine:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.persantine}"
+								style="width:110px"></p:selectBooleanCheckbox></td>
+						<td align="right"><p:outputLabel value="Eliquis:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.eliquis}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						<td align="right"><p:outputLabel value="Brilinta:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.brilinta}"
+								style="width:110px"></p:selectBooleanCheckbox></td>
+
+					</tr>
+
+					<tr>
+						<td align="right"><p:outputLabel
+								value="Oral&nbsp;hypoglycemic:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.oralHypoglycemic}"
+								style="width:110px"></p:selectBooleanCheckbox></td>
+						<td align="right"><p:outputLabel value="Insulin:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.insulin}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						
+						<td align="right"><p:outputLabel value="nka:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{medicationBean.medication.nka}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="right"><p:outputLabel value="Allergies:"></p:outputLabel></td>
+						<td align="left"><p:inputText
+								value="#{medicationBean.medication.allergies}"
+								style="width:105px"></p:inputText></td>
+						<td align="right"><p:outputLabel value="Comment:"></p:outputLabel></td>
+						<td align="left"><p:inputText
+								value="#{medicationBean.medication.reasonTaking}"
+								style="width:105px"></p:inputText></td>
+						<td align="right"><p:outputLabel value="Date of Addition"></p:outputLabel></td>
+						<td align="left"><p:calendar effect="slideDown"
+								navigator="true" id="popupCal11"
+								value="#{medicationBean.medication.additionDate}"
+								style="width:55px">
+							</p:calendar></td>
+						<td></td>
+						<td width="30%" align="right"><p:commandButton value="Add Medication"
+								ajax="false" type="submit"
+								action="#{medicationBean.addMedication}" />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					</tr>
+				</table>
+			</p:dialog>
+			<table width="90%" align="center">
+				<tr>
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							action="mainMenu.xhtml" ajax="false"></p:commandButton></td>
+					<td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;"
+							action="#{medicationBean.saveMedicationData}" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut}" ajax="false"></p:commandButton></td>
+				</tr>
+				
+				
+			</table>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

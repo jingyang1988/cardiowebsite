@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Query Visit</ui:define>
+	<ui:define name="content">
+		<h:form id="queryVisit">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				
+				
+					<ui:repeat var="page" value="QueryDatabase.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+					</ui:repeat>						
+					
+					
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr>
+					<td width="90%" align="center" colspan="2">
+						<br />
+						<p:dataTable var="p" paginator="true" rows="25"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="25,50,100,#{queryBean.queryVisitsList.size()}"
+				value="#{queryBean.queryVisitsList}" filteredValue="#{queryBean.filteredQueryVisitsList}">
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.mrn}" headerText="MRN" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.mrn}" />
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.name}" headerText="Name (Last, First)" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.name}" />
+				</p:column>
+
+				<!--  
+				<p:column headerText="Actual Visit Date">
+				<f:facet name="header">
+				<p:calendar id="beginDate" mode="popup" pattern="yyyy-MM-dd">
+				<p:ajax event="dateSelect" />
+				</p:calendar>
+				</f:facet >
+				-->
+				
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.actualVisitDate}" headerText="Actual Visit Date" width="8%" styleClass="wrap">			
+				<h:outputText value="#{p.actualVisitDate}"></h:outputText>
+				<!--   <p:calendar value="#{p.actualVisitDate}" id="popupCal" />  -->
+				</p:column>
+
+
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.typeOfVisit}" headerText="Type of Visit" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.typeOfVisit}"></h:outputText>
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.primaryMD}" headerText="Primary MD" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.primaryMD}"></h:outputText>
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.scheduledToSee2}" headerText="Secondary" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.scheduledToSee2}"></h:outputText>
+				</p:column>
+								
+				<p:column filterStyle="width:50%;" filterBy="#{p.refused}" headerText="Refused" width="8%" styleClass="wrap">				
+					<p:selectBooleanCheckbox value="#{p.refused}" disabled="true" />
+				</p:column>
+				
+				
+				<p:column filterStyle="width:50%;" filterBy="#{p.handledByPhone}" headerText="Handled By Phone" width="8%" styleClass="wrap">				
+					<p:selectBooleanCheckbox value="#{p.handledByPhone}" disabled="true" />
+				</p:column>
+				
+				<p:column headerText="Comment" width="18%" styleClass="wrap">
+					<h:outputText value="#{p.comment}"></h:outputText>
+				</p:column>
+				<p:column width="8%" styleClass="wrap">
+					<p:commandButton type="submit" ajax="false" value="Update"
+					  action="#{mainMenuBean.Visit()}" actionListener="#{mainMenuBean.setSearchedPatient(p.name)}"></p:commandButton>
+				</p:column>
+						</p:dataTable>
+					</td>
+				</tr>
+			</table>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

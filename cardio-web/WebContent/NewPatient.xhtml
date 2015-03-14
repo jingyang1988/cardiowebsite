@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+<h:body style="background-color:#eee;">
+	<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+		<ui:define name="content">
+			<h:form id="patientForm">
+				<br />
+				
+				<table width="90%" align="center">
+				<tr>
+				
+				<ui:repeat var="page" value="mainMenu.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false" immediate="true"></p:commandButton></td>
+				</ui:repeat>	
+				
+													
+							
+							<td align="center"> <p:commandButton value="Reset" widgetVar="reset" action="#{patientDataBean.reset}" update="@form" immediate="true"> 
+							</p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut}" ajax="false" immediate="true"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+				
+			</table>
+			<br />
+				
+				
+				<table width="100%">
+				
+				
+					<tr>
+						<td width="28%" align="center"><p:outputLabel>
+								<b>Address/Contact Information</b>
+							</p:outputLabel></td>
+						<td width="28%" align="center"><p:outputLabel>
+								<b>Insurance Information</b>
+							</p:outputLabel></td>
+						<td width="46%" align="center"><p:outputLabel>
+								<b>Referral Information</b>
+							</p:outputLabel></td>
+					</tr>
+				</table>
+				<br />
+				<table width="100%">
+					<tr>
+						<td width="10%"><p:outputLabel>MRN *</p:outputLabel></td>
+						<td width="13%">
+						<p:inputText id="mrn" 
+								value="#{patientDataBean.patientData.patient.mrn}" required="true"></p:inputText></td>
+						
+						
+					    <td width="3%"><h:commandButton value="Auto MRN" action="#{patientDataBean.generatemrn()}" update="mrn" ></h:commandButton></td>
+						<td width="13%"><p:outputLabel>Insurance Co</p:outputLabel></td>
+						<td width="17%"><p:selectOneMenu id="insuranceco"
+								value="#{patientDataBean.patientData.insuranceCompany}">
+								<f:selectItems value="#{utilBean.insuranceList}" />
+							</p:selectOneMenu></td>
+						<td width="17%"><p:outputLabel>Date of Referral</p:outputLabel></td>
+						<td width="20"><p:calendar effect="slideDown"
+								navigator="true"
+								value="#{patientDataBean.patientData.referralDate}" style="width:110px"></p:calendar></td>
+					</tr>
+					<script>		
+					function myFunction() {
+						var numLow = 1;
+    					var numHigh = 10000;
+    					var adjustedHigh = (parseFloat(numHigh) - parseFloat(numLow)) + 1;
+   					    var numRand = Math.floor(Math.random()*adjustedHigh) + parseFloat(numLow);
+   					 document.getElementById("mrn").value =  numRand + "T1" ;
+						}
+				
+       				 </script>  
+					<tr>
+						<td width="13%"><p:outputLabel>Name *</p:outputLabel></td>
+						<td width="15%"><p:inputText id="name" 
+								value="#{patientDataBean.patientData.patient.name}" required="true"></p:inputText></td>
+						<td width="15%"><p:outputLabel>Insurance ID#</p:outputLabel></td>
+						<td width="18%"><p:inputText id="insuranceid"
+								value="#{patientDataBean.patientData.insuranceId}"></p:inputText></td>
+						<!--   ><td width="17%"><p:outputLabel>Referring MD</p:outputLabel></td> -->
+						<!--  ><td width="22%"><p:selectOneMenu id="referringMD" 
+								filter="true" filterMatchMode="startsWith"
+								value="#{patientDataBean.patientData.referringMD}">
+								<f:selectItems value="#{utilBean.MDList}" />
+							</p:selectOneMenu></td> -->
+							<td width="17%" align="center"><p:outputLabel value="Referring MD" 
+							for="searchByName" /></td> <td width="22%"> <p:autoComplete id="searchByName"
+							minQueryLength="1" effect="fade"
+							value="#{patientDataBean.patientData.referringMD}"
+							completeMethod="#{utilBean.getRefMDListByName}" var="md"
+							itemLabel="#{md}"
+							itemValue="#{md}" 
+							forceSelection="true">
+							
+						</p:autoComplete></td>
+					</tr>
+					
+					
+					<tr>
+						<td width="13%"><p:outputLabel>Address</p:outputLabel></td>
+						<td width="15%"><p:inputText id="address"
+								value="#{patientDataBean.patientData.address}"></p:inputText></td>
+						<td width="15%"><p:outputLabel>Ins Comment</p:outputLabel></td>
+						<td width="18%"><p:inputText id="comment"
+								value="#{patientDataBean.patientData.insuranceComment}"></p:inputText></td>
+						
+							
+						<td width="17%" align="center"><p:outputLabel value="Primary Care" 
+							for="searchByName1" /></td> <td width="18%"> <p:autoComplete id="searchByName1"
+							minQueryLength="1" effect="fade"
+							value="#{patientDataBean.patientData.primaryCare}"
+							completeMethod="#{utilBean.getRefMDListByName}" var="md"
+							itemLabel="#{md}"
+							itemValue="#{md}" 
+							forceSelection="true">
+							
+						</p:autoComplete></td>
+							
+					</tr>
+					<tr>
+						<td width="13%"><p:outputLabel>City</p:outputLabel></td>
+						<td width="15%"><p:inputText id="city"
+								value="#{patientDataBean.patientData.city}"></p:inputText></td>
+						<td width="15%"><p:outputLabel>Pre-certification</p:outputLabel></td>
+						<td width="18%"><p:outputLabel>needed for</p:outputLabel></td>
+						
+						<td width="17%" align="center"><p:outputLabel value="Additional MD" 
+							for="searchByName2" /></td> <td width="22%"> <p:autoComplete id="searchByName2"
+							minQueryLength="1" effect="fade"
+							value="#{patientDataBean.patientData.additionalMD}"
+							completeMethod="#{utilBean.getRefMDListByName}" var="md"
+							itemLabel="#{md}"
+							itemValue="#{md}" 
+							forceSelection="true">
+							
+						</p:autoComplete></td>
+					</tr>
+					<tr>
+						<td width="13%"><p:outputLabel>State/Province</p:outputLabel></td>
+						<td width="15%"><p:inputText id="state"
+								value="#{patientDataBean.patientData.state}"></p:inputText></td>
+<!-- 						<td width="15%"><p:outputLabel>CT</p:outputLabel></td>
+						<td width="18%"><p:selectOneMenu id="ct"
+								value="#{patientDataBean.patientData.CT}">
+								<f:selectItem itemLabel="All" itemValue="All" />
+								<f:selectItem itemLabel="Never" itemValue="Never" />
+								<f:selectItem itemLabel="Some" itemValue="Some" />
+							</p:selectOneMenu></td> -->
+						<td width="17%"></td>
+						<td width="22%"></td>
+					</tr>
+					<tr>
+						<td width="13%"><p:outputLabel>Postal Code</p:outputLabel></td>
+						<td width="15%"><p:inputText id="postalcode"
+								value="#{patientDataBean.patientData.pincode}"></p:inputText></td>
+<!-- 						<td width="15%"><p:outputLabel>PET</p:outputLabel></td>
+						<td width="18%"><p:selectOneMenu id="pet"
+								value="#{patientDataBean.patientData.PET}">
+								<f:selectItem itemLabel="All" itemValue="All" />
+								<f:selectItem itemLabel="Never" itemValue="Never" />
+								<f:selectItem itemLabel="Some" itemValue="Some" />
+							</p:selectOneMenu></td> -->
+						<td width="17%"></td>
+						<td width="22%"></td>
+					</tr>
+					<tr>
+						<td width="13%"><p:outputLabel>Phone Number</p:outputLabel></td>
+						<td width="15%"><p:inputText id="phonenumber"
+								value="#{patientDataBean.patientData.phoneNum}"></p:inputText></td>
+<!-- 						<td width="15%"><p:outputLabel>PFT</p:outputLabel></td>
+						<td width="18%"><p:selectOneMenu id="pft"
+								value="#{patientDataBean.patientData.PFT}">
+								<f:selectItem itemLabel="All" itemValue="All" />
+								<f:selectItem itemLabel="Never" itemValue="Never" />
+								<f:selectItem itemLabel="Some" itemValue="Some" />
+							</p:selectOneMenu></td> -->
+						<td width="17%" align="center"><p:outputLabel>
+								<b>Status</b>
+							</p:outputLabel></td>
+						<td width="22%"></td>
+					</tr>
+					<tr>
+						<td width="13%"><p:outputLabel>Alt Phone</p:outputLabel></td>
+						<td width="15%"><p:inputText id="altphone"
+								value="#{patientDataBean.patientData.altPhoneNum}"></p:inputText></td>
+						<td width="15%"><p:outputLabel>Referral for visit</p:outputLabel></td>
+						<td width="18%"><p:selectOneMenu id="refforvisit"
+								value="#{patientDataBean.patientData.referralVisit}">
+								<f:selectItem itemLabel="All" itemValue="All" />
+								<f:selectItem itemLabel="Never" itemValue="Never" />
+								<f:selectItem itemLabel="Some" itemValue="Some" />
+							</p:selectOneMenu></td>
+						<td width="17%"><p:outputLabel>LCEC Chart</p:outputLabel></td>
+						<td width="22%"><p:selectBooleanCheckbox id="lcecchart"
+								value="#{patientDataBean.patientData.lcecChart}"></p:selectBooleanCheckbox></td>
+					</tr>
+					<tr>
+						<td width="13%"><p:outputLabel>Email</p:outputLabel></td>
+						<td width="15%"><p:inputText id="email"
+								value="#{patientDataBean.patientData.email}"></p:inputText></td>
+						<td width="15%"><p:outputLabel>Insurance Phone</p:outputLabel></td>
+						<td width="18%"><p:inputText id="insuranceph"
+								value="#{patientDataBean.patientData.insurancePhoneNum}"></p:inputText></td>
+						<td width="17%"><p:outputLabel>WorkUp Status</p:outputLabel></td>
+						<td width="22%"><p:selectOneMenu id="workupstatus"
+								value="#{patientDataBean.patientData.patient.workUpId}">
+								<f:selectItems value="#{utilBean.workupList}" />
+							</p:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td width="13%"><p:outputLabel>Date of Birth *</p:outputLabel></td>
+						<td width="15%"><p:calendar effect="slideDown"
+								navigator="true" 
+								value="#{patientDataBean.patientData.dob}" style="width:110px" required="true"></p:calendar></td>
+						<td width="15%"><p:outputLabel>Sec Insurance</p:outputLabel></td>
+						<td width="18%"><p:selectOneMenu id="secinsurance"
+								value="#{patientDataBean.patientData.secInsurance}">
+								<f:selectItems value="#{utilBean.insuranceList}" />
+							</p:selectOneMenu></td>
+						<td width="17%"><p:outputLabel>LCEC Status</p:outputLabel></td>
+						<td width="22%"><p:selectOneMenu id="lcecstatus"
+								value="#{patientDataBean.patientData.patient.lcecId}">
+								<f:selectItems value="#{utilBean.lcecStatusList}" />
+							</p:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td width="13%"><p:outputLabel>Gender</p:outputLabel></td>
+						<td width="15%"><p:selectOneMenu id="gender"
+								value="#{patientDataBean.patientData.gender}">
+								<f:selectItems value="#{utilBean.genderList}" />
+							</p:selectOneMenu></td>
+						<td width="15%"><p:outputLabel>Sec Insurance ID</p:outputLabel></td>
+						<td width="18%"><p:inputText id="secinsuranceid"
+								value="#{patientDataBean.patientData.secInsuranceID}"></p:inputText></td>
+						<td width="17%"><p:outputLabel>Inactive Date</p:outputLabel></td>
+						<td width="22%"><p:calendar effect="slideDown"
+								navigator="true"
+								value="#{patientDataBean.patientData.inactiveDate}" style="width:110px"></p:calendar></td>
+					</tr>
+					<tr>
+						<td width="13%"><p:outputLabel>SSN</p:outputLabel></td>
+						<td width="15%"><p:inputText id="ssn"
+								value="#{patientDataBean.patientData.ssn}"></p:inputText></td>
+						<td width="15%"></td>
+						<td width="18%"></td>
+						<td width="17%"><p:outputLabel>Schedule F/U with MD</p:outputLabel></td>
+						<td width="22%"><p:selectBooleanCheckbox id="scheduledMD"
+								value="#{patientDataBean.patientData.scheduledMD}"></p:selectBooleanCheckbox></td>
+					</tr>
+				</table>
+				<br />
+				<table width="100%" id="thisTable">
+					<tr>
+						<td width="12%" align="center">
+						<p:commandButton
+								value="Create Patient" action="#{patientDataBean.createPatient}"
+								ajax="false" >  </p:commandButton>
+								
+								
+						</td>
+								
+					</tr>
+					
+					
+				</table>
+		
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

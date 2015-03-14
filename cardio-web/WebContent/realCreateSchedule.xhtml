@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<h:body>
+
+	<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+		<ui:define name="content">
+
+			<table width="100%" style="background-color: #eee;">
+				<tr>
+					<td width="20%" align="center"><p:outputLabel>
+							<b>Visits to be Scheduled</b>
+						</p:outputLabel></td>
+
+					<td width="15%"><h:form>
+							<p:commandButton value="Create Schedule"
+								action="realCreateSchedule.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="15%"><h:form>
+							<p:commandButton value="View Schedule"
+								action="createSchedule.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="15%"><h:form>
+							<p:commandButton value="Edit Schedule"
+								action="editSchedule.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="15%"><h:form>
+							<p:commandButton value="Find Schedule"
+								action="findSchedule.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="20%" align="center"><h:form>
+							<p:commandButton value="Main Menu" action="mainMenu.xhtml"></p:commandButton>
+						</h:form></td>
+
+				</tr>
+			</table>
+
+			<h:form style="background-color:#eee;">
+				<table>
+					<tr>
+						<th>MRN</th>
+						<th>Name(Last,First)</th>
+						<th>Phone Number</th>
+						<th>Insurance</th>
+						<th>Referral Needed</th>
+						<th>Referral</th>
+						<th>Date Required:</th>
+						<th>Data Scheduled</th>
+						<th>Date of Actual Visit</th>
+						<th>To see</th>
+						<th>Handled by Phone?</th>
+						<th>Refused</th>
+						<th>LCEC Status</th>
+						<th>WorkUp Status:</th>
+					</tr>
+
+					<tr>
+						<td><p:selectOneMenu
+								value="#{scheduleManager.newSchedule.MRN}">
+								<f:selectItem itemLabel="0" itemValue="0" />
+								<f:selectItem itemLabel="1" itemValue="1" />
+								<f:selectItem itemLabel="2" itemValue="2" />
+								<f:selectItem itemLabel="3" itemValue="3" />
+								<f:selectItem itemLabel="4" itemValue="4" />
+								<f:selectItem itemLabel="5" itemValue="5" />
+							</p:selectOneMenu></td>
+
+						<td><p:inputText value="#{scheduleManager.newSchedule.name}"></p:inputText>
+						</td>
+
+						<td><f:facet name="header">Phone Number</f:facet> <p:inputText
+								value="#{scheduleManager.newSchedule.phoneNumber}"></p:inputText>
+						</td>
+
+						<td><p:selectOneMenu
+								value="#{scheduleManager.newSchedule.insurance}">
+								<f:selectItem itemLabel="Empire Blue Cro"
+									itemValue="Empire Blue Cro" />
+								<f:selectItem itemLabel="Commercial Insu"
+									itemValue="Commercial Insu" />
+								<f:selectItem itemLabel="HIP VIP" itemValue="HIP VIP" />
+								<f:selectItem itemLabel="HIP" itemValue="HIP" />
+								<f:selectItem itemLabel="HealthFirst" itemValue="HealthFirst" />
+								<f:selectItem itemLabel="HealthCare Part"
+									itemValue="HealthCare Part" />
+							</p:selectOneMenu></td>
+
+						<td><p:selectBooleanCheckbox
+								value="#{scheduleManager.newSchedule.referralNeeded}" /></td>
+
+						<td><p:inputText
+								value="#{scheduleManager.newSchedule.referral}"></p:inputText></td>
+
+						<td><p:calendar id="popupCal"
+								value="#{scheduleManager.newSchedule.dateRequired}" /></td>
+
+						<td><p:calendar id="popupCal2"
+								value="#{scheduleManager.newSchedule.dateScheduled}" /></td>
+
+						<td><p:calendar id="popupCal3"
+								value="#{scheduleManager.newSchedule.dateOfActualVisit}" /></td>
+
+						<td><p:selectOneMenu
+								value="#{scheduleManager.newSchedule.toSee}">
+								<f:selectItem itemLabel="Baram,Daniel" itemValue="Baram,Daniel" />
+								<f:selectItem itemLabel="Aleyas, Sajive"
+									itemValue="Aleyas, Sajive" />
+								<f:selectItem itemLabel="Avvento, Louis"
+									itemValue="Avvento, Louis" />
+								<f:selectItem itemLabel="Benne, Alan" itemValue="Benne, Alan" />
+								<f:selectItem itemLabel="Bethune, Thoma"
+									itemValue="Bethune, Thoma" />
+								<f:selectItem itemLabel="Bilfinger, Thoma"
+									itemValue="Bilfinger, Thoma" />
+							</p:selectOneMenu></td>
+
+						<td><p:selectBooleanCheckbox
+								value="#{scheduleManager.newSchedule.handledByPhone}" /></td>
+
+						<td><p:selectBooleanCheckbox
+								value="#{scheduleManager.newSchedule.refused}" /></td>
+
+						<td><p:selectOneMenu
+								value="#{scheduleManager.newSchedule.LCECStatus}">
+								<f:selectItem itemLabel="Active" itemValue="Active" />
+								<f:selectItem itemLabel="Not yet seen" itemValue="Not yet seen" />
+								<f:selectItem itemLabel="Inactive - Xray F/U comple"
+									itemValue="Inactive - Xray F/U comple" />
+								<f:selectItem itemLabel="Inactive - No lung cancer,"
+									itemValue="Inactive - No lung cancer" />
+								<f:selectItem itemLabel="Inactive - Resected F/U cc"
+									itemValue="Inactive - Resected F/U cc" />
+								<f:selectItem itemLabel="Patient left practice"
+									itemValue="Patient left practice" />
+							</p:selectOneMenu></td>
+
+						<td><p:selectOneMenu
+								value="#{scheduleManager.newSchedule.workUpStatus}">
+								<f:selectItem itemLabel="Tracheal stenos"
+									itemValue="Tracheal stenos" />
+								<f:selectItem itemLabel="Initial Workup"
+									itemValue="Initial Workup" />
+								<f:selectItem itemLabel="PRIORITY LIST"
+									itemValue="PRIORITY LIST" />
+								<f:selectItem itemLabel="Xray F/U" itemValue="Xray F/U" />
+								<f:selectItem itemLabel="Neoadjuvant" itemValue="Neoadjuvant" />
+								<f:selectItem itemLabel="Preoperative" itemValue="Preoperative" />
+							</p:selectOneMenu></td>
+
+					</tr>
+				</table>
+
+				<p:commandButton type="Submit" styleClass="button" value="Sumit"
+					action="#{schedule.addSchedule(scheduleManager.newSchedule)}" />
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body style="background-color:#eee;">
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+		<ui:define name="title">Cancer Information</ui:define>
+		<ui:define name="content">
+<h:form>
+<br/>
+<table width="90%" align="center">
+				<tr>
+				
+				<ui:repeat var="page" value="mainMenu.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>
+				
+				
+				    <td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;"
+							action="#{cancerInfoBean.saveCancerInfoData}" ajax="false"></p:commandButton></td> 
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			</table>
+			<br />
+
+<br/>
+<p:panel id="patientData" style="border:0;">
+				<table align="center" width="80%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Patient&nbsp;Name:"></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="MRN:"></p:outputLabel></td>
+						<td align="left" width="7%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="10%"><h:outputLabel
+								value="WorkUp&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu  rendered="#{mainMenuBean.selectedPatient!=null}" value="#{mainMenuBean.selectedPatient.workUpId}">
+								<f:selectItems value="#{utilBean.workupList}"/>
+								<f:ajax event="change" listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+						<td align="right" width="7%"><h:outputLabel
+								value="LCEC&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu rendered="#{mainMenuBean.selectedPatient!=null}" value="#{mainMenuBean.selectedPatient.lcecId}">
+								<f:selectItems value="#{utilBean.lcecStatusList}"/>
+								<f:ajax event="change" listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+					</tr>
+				</table>
+			</p:panel>
+
+<br/>
+
+            
+			
+
+<table width="95%" align="center">
+<tr><td>
+
+	<table width="100%">
+		<tr>
+			<td width="25%" align="right"><p:outputLabel>LCEC Chart</p:outputLabel></td>
+			<td width="25%" align="left">
+				<p:selectBooleanCheckbox id="lcecchart" value="#{cancerInfoBean.cancerInfoData.lCECChart}" style="width:110px"></p:selectBooleanCheckbox>
+			</td>
+			<td width="25%" align="right"><p:outputLabel>Inactive Date</p:outputLabel></td>
+			<td width="25%" align="left">
+	  			<p:calendar id="inactivedate" value="#{cancerInfoBean.cancerInfoData.inactiveDate}" style="width:110px"></p:calendar> 
+			</td>
+		</tr>
+	</table>
+
+</td></tr>
+</table>
+<br />
+<table width="95%" align="center">
+<tr>
+<td>
+	<p:fieldset>
+	<table width="100%">
+		<tr>
+			<td width="16%" align="right"><p:outputLabel>Date of 1st Diagnosis</p:outputLabel></td>
+			<td width="17%" align="left"><p:calendar value="#{cancerInfoBean.cancerInfoData.diagnosisDate}" style="width:110px"></p:calendar></td>
+			<td width="17%" align="right"><p:outputLabel>Date of tumor board</p:outputLabel></td>
+	 		<td width="17%" align="left"><p:calendar value="#{cancerInfoBean.cancerInfoData.tumorDate}" style="width:110px"></p:calendar></td>     						
+		</tr>
+		<tr>
+			<td width="16%" align="right"><p:outputLabel>Cancer Type</p:outputLabel></td>
+			<td width="17%" align="left">		
+				<p:selectOneMenu id="cancertype" value="#{cancerInfoBean.cancerInfoData.cancerType}" style="width:110px">
+					<f:selectItems value="#{utilBean.cancerTypeList}" />
+				</p:selectOneMenu>
+			</td>
+			<td width="16%" align="right"><p:outputLabel>Histology</p:outputLabel></td>
+			<td width="17%" align="left">
+				<p:selectOneMenu id="histology" value="#{cancerInfoBean.cancerInfoData.histology}" style="width:110px">
+					<f:selectItems value="#{utilBean.histList}" />
+				</p:selectOneMenu>
+			</td>
+			<td width="17%" align="right"><p:outputLabel>Comment</p:outputLabel></td>	
+			<td width="17%" align="left"><p:inputText value="#{cancerInfoBean.cancerInfoData.comment}" style="width:107px"></p:inputText></td>		
+		</tr>
+	</table>
+	</p:fieldset>
+</td>
+</tr>
+</table>
+<br />
+<table width="95%" align="center">
+<tr>
+<td>
+	<p:fieldset legend="Staging-Clinical and Pathologic">
+	<table width="100%">
+	<tr>
+		<td width="8%" align="right"></td>
+		<td width="92%" align="left" colspan="5"><p:outputLabel>Clinical Staging</p:outputLabel></td>
+	</tr>
+	<tr>
+		<td width="8%" align="right"><p:outputLabel>T</p:outputLabel></td>
+		<td width="25%" align="left">
+		<p:selectOneMenu id="tlist1" value="#{cancerInfoBean.cancerInfoData.clinical_T}" style="width:120px">
+			<f:selectItems value="#{utilBean.stageTList}" />
+		</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>N</p:outputLabel></td>
+		<td width="25%" align="left">
+		<p:selectOneMenu id="nlist1" value="#{cancerInfoBean.cancerInfoData.clinical_N}" style="width:120px">
+			<f:selectItems value="#{utilBean.stageNList}" />
+		</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>M</p:outputLabel></td>
+		<td width="25%" align="left">
+		<p:selectOneMenu id="mlist1" value="#{cancerInfoBean.cancerInfoData.clinical_M}" style="width:120px">
+			<f:selectItems value="#{utilBean.stageMList}" />
+		</p:selectOneMenu>
+		</td>
+	</tr>
+	<tr>
+		<td width="8%" align="right"><p:outputLabel>TNM</p:outputLabel></td>
+		<td width="25%" align="left">
+		<p:selectOneMenu id="tnmlist1" value="#{cancerInfoBean.cancerInfoData.clinical_TNM}" style="width:120px">
+			<f:selectItems value="#{utilBean.stageTNMList}" />
+		</p:selectOneMenu>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<br/>
+		</td>
+	</tr>
+	<tr>
+		<td width="8%"></td>
+		<td width="92%" align="left" colspan="5"><p:outputLabel>Pathologic Staging</p:outputLabel></td>
+	</tr>
+	<tr>
+		<td width="8%" align="right"><p:outputLabel>T</p:outputLabel></td>
+		<td width="25%" align="left">
+		<p:selectOneMenu id="tlist2" value="#{cancerInfoBean.cancerInfoData.pathological_T}" style="width:120px">
+			<f:selectItems value="#{utilBean.stageTList}" />
+		</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>N</p:outputLabel></td>
+		<td width="25%" align="left">
+		<p:selectOneMenu id="nlist2" value="#{cancerInfoBean.cancerInfoData.pathological_N}" style="width:120px">
+			<f:selectItems value="#{utilBean.stageNList}" />
+		</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>M</p:outputLabel></td>
+		<td width="25%" align="left">
+		<p:selectOneMenu id="mlist2" value="#{cancerInfoBean.cancerInfoData.pathological_M}" style="width:120px">
+			<f:selectItems value="#{utilBean.stageMList}" />
+		</p:selectOneMenu>
+		</td>
+	</tr>
+	
+	<tr>
+		
+		<td width="8%" align="right"><p:outputLabel>TNM</p:outputLabel></td>
+		<td width="25%" align="left">
+		<p:selectOneMenu id="tnmlist2" value="#{cancerInfoBean.cancerInfoData.pathological_TNM}" style="width:120px">
+			<f:selectItems value="#{utilBean.stageTNMList}" />
+		</p:selectOneMenu>
+		</td>
+	</tr>
+	</table>	
+	</p:fieldset>
+</td>
+</tr>
+</table>
+<br />
+<table width="95%" align="center">
+<tr>
+<td>
+	<p:fieldset legend="Survival Information">
+	<table width="100%" align="center">
+		<tr>
+			<td width="10%" align="right">
+				<p:outputLabel>Status 1 year</p:outputLabel>
+			</td>
+			<td width="17%" align="left">
+				<p:selectOneMenu id="status1year" value="#{cancerInfoBean.cancerInfoData.status_1year}" style="width:120px">
+					<f:selectItem itemLabel="#{cancerInfo.searchStatus1year()}" itemValue="0" />
+					<f:selectItem itemLabel="Alive - no evidence of cancer" itemValue="Alive - no evidence of cancer" />
+					<f:selectItem itemLabel="Alive - with suspected cancer" itemValue="Alive - with suspected cancer" />
+					<f:selectItem itemLabel="Alive - with proven cancer" itemValue="Alive - with proven cancer" />
+					<f:selectItem itemLabel="Dead - cancer related" itemValue="Dead - cancer related" />
+					<f:selectItem itemLabel="Dead - non-cancer related" itemValue="Dead - non-cancer related" />
+				</p:selectOneMenu>
+			</td>
+			<td width="17%" align="right">
+				<p:outputLabel>Status 2 year</p:outputLabel>
+			</td>
+			<td width="17%" align="left">
+				<p:selectOneMenu id="status2year" value="#{cancerInfoBean.cancerInfoData.status_2year}" style="width:120px" >
+					<f:selectItem itemLabel="#{cancerInfo.searchStatus2year()}" itemValue="0" />
+					<f:selectItem itemLabel="Alive - no evidence of cancer" itemValue="Alive - no evidence of cancer" />
+					<f:selectItem itemLabel="Alive - with suspected cancer" itemValue="Alive - with suspected cancer" />
+					<f:selectItem itemLabel="Alive - with proven cancer" itemValue="Alive - with proven cancer" />
+					<f:selectItem itemLabel="Dead - cancer related" itemValue="Dead - cancer related" />
+					<f:selectItem itemLabel="Dead - non-cancer related" itemValue="Dead - non-cancer related" />
+				</p:selectOneMenu>
+			</td>
+			<td width="16%" align="right">
+				<p:outputLabel>Status 3 year</p:outputLabel>
+			</td>
+			<td width="23%" align="left">
+				<p:selectOneMenu id="status3year" value="#{cancerInfoBean.cancerInfoData.status_3year}" style="width:120px" >
+					<f:selectItem itemLabel="#{cancerInfo.searchStatus3year()}" itemValue="0" />
+					<f:selectItem itemLabel="Alive - no evidence of cancer" itemValue="Alive - no evidence of cancer" />
+					<f:selectItem itemLabel="Alive - with suspected cancer" itemValue="Alive - with suspected cancer" />
+					<f:selectItem itemLabel="Alive - with proven cancer" itemValue="Alive - with proven cancer" />
+					<f:selectItem itemLabel="Dead - cancer related" itemValue="Dead - cancer related" />
+					<f:selectItem itemLabel="Dead - non-cancer related" itemValue="Dead - non-cancer related" />
+				</p:selectOneMenu>
+			</td>
+		</tr>
+		<tr>
+			<td width="10%" align="right">
+				<p:outputLabel>Status 4 year</p:outputLabel>
+			</td>
+			<td width="17%" align="left">
+				<p:selectOneMenu id="status4year" value="#{cancerInfoBean.cancerInfoData.status_4year}" style="width:120px" >
+					<f:selectItem itemLabel="#{cancerInfo.searchStatus4year()}" itemValue="0" />
+					<f:selectItem itemLabel="Alive - no evidence of cancer" itemValue="Alive - no evidence of cancer" />
+					<f:selectItem itemLabel="Alive - with suspected cancer" itemValue="Alive - with suspected cancer" />
+					<f:selectItem itemLabel="Alive - with proven cancer" itemValue="Alive - with proven cancer" />	
+					<f:selectItem itemLabel="Dead - cancer related" itemValue="Dead - cancer related" />
+					<f:selectItem itemLabel="Dead - non-cancer related" itemValue="Dead - non-cancer related" />
+				</p:selectOneMenu>
+			</td>
+			<td width="17%" align="right">
+				<p:outputLabel>Status 5 year</p:outputLabel>
+			</td>
+			<td width="17%" align="left">
+				<p:selectOneMenu id="status5year" value="#{cancerInfoBean.cancerInfoData.status_5year}" style="width:120px" >
+					<f:selectItem itemLabel="#{cancerInfo.searchStatus5year()}" itemValue="0" />
+					<f:selectItem itemLabel="Alive - no evidence of cancer" itemValue="Alive - no evidence of cancer" />
+					<f:selectItem itemLabel="Alive - with suspected cancer" itemValue="Alive - with suspected cancer" />
+					<f:selectItem itemLabel="Alive - with proven cancer" itemValue="Alive - with proven cancer" />
+					<f:selectItem itemLabel="Dead - cancer related" itemValue="Dead - cancer related" />
+					<f:selectItem itemLabel="Dead - non-cancer related" itemValue="Dead - non-cancer related" />
+				</p:selectOneMenu>
+			</td>			
+			<td width="16%"></td>
+			<td width="23%"></td>
+		</tr>
+	</table>	
+	</p:fieldset>
+</td>
+</tr>
+</table>
+<br />
+<table width="95%" align="center">
+<tr>
+<td>
+<table width="100%">
+	<tr>
+		<td width="10%" align="right"><p:outputLabel>Comment</p:outputLabel></td>
+		<td width="30%" align="left"><p:inputText value="#{cancerInfoBean.cancerInfoData.comment1}" ></p:inputText></td>
+		<td width="40%" align="right"><p:outputLabel>Date 1st relapse if treated with curative intent</p:outputLabel></td>
+		<td width="20%" align="left"><p:calendar value="#{cancerInfoBean.cancerInfoData.relapseDate}" ></p:calendar></td>
+	</tr>
+</table>
+</td>
+</tr>
+</table>
+<br />
+<table width="95%" align="center">
+<!-- 
+<tr>
+<td>
+	<p:fieldset>
+	
+	<table width="100%">
+	<tr>
+	<td width="20%" align="center" colspan="2"><p:outputLabel>NeoAdjuvant Chemo</p:outputLabel></td>
+	<td width="20%" align="center" colspan="2"><p:outputLabel>NeoAdjuvant RT</p:outputLabel></td>
+	<td width="20%" align="center" colspan="2"><p:outputLabel>Surgery/RFA/Cryo/SBRT</p:outputLabel></td>
+	<td width="20%" align="center" colspan="2"><p:outputLabel>Chemotherapy</p:outputLabel></td>
+	<td width="20%" align="center" colspan="2"><p:outputLabel>Radiation Therapy</p:outputLabel></td>
+	</tr>	
+	<tr>
+		<td width="8%" align="right"><p:outputLabel>Status</p:outputLabel></td>
+		<td width="12%" align="left">
+			<p:selectOneMenu id="nachemostatus" value="#{cancerInfoBean.cancerInfoData.naChemoStatus}" style="width:95px">
+				<f:selectItems value="#{utilBean.cancerTxList}" />
+			</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>Status</p:outputLabel></td>
+		<td width="12%" align="left">
+			<p:selectOneMenu id="nartstatus" value="#{cancerInfoBean.cancerInfoData.nartStatus}" style="width:95px" >
+				<f:selectItems value="#{utilBean.cancerTxList}" />
+			</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>Status</p:outputLabel></td>
+		<td width="12%" align="left">
+			<p:selectOneMenu id="sbrtstatus" value="#{cancerInfoBean.cancerInfoData.sbrtStatus}" style="width:95px" >
+				<f:selectItems value="#{utilBean.cancerTxList}" />
+			</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>Status</p:outputLabel></td>
+		<td width="12%" align="left">
+			<p:selectOneMenu id="chemotherapystatus" value="#{cancerInfoBean.cancerInfoData.chemotherapyStatus}" style="width:95px" >
+				<f:selectItems value="#{utilBean.cancerTxList}" />
+			</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>Status</p:outputLabel></td>
+		<td width="12%" align="left">
+			<p:selectOneMenu id="radtherapystatus" value="#{cancerInfoBean.cancerInfoData.radtherapyStatus}" style="width:95px" >
+				<f:selectItems value="#{utilBean.cancerTxList}" />
+			</p:selectOneMenu>
+		</td>
+	</tr>
+	<tr>
+		<td width="8%" align="right"><p:outputLabel>Oncologist</p:outputLabel></td>
+		<td width="12%" align="left">
+			<p:selectOneMenu id="nachemomd" value="#{cancerInfoBean.cancerInfoData.naChemoMD}" style="width:95px">  
+				<f:selectItems value="#{utilBean.MDList}" />
+			</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>Rad MD</p:outputLabel></td>
+		<td width="12%" align="left">
+			<p:selectOneMenu id="nartmd" value="#{cancerInfoBean.cancerInfoData.nartMD}" style="width:95px">
+				<f:selectItems value="#{utilBean.MDList}" />
+			</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>Surgeon</p:outputLabel></td>
+		<td width="12%" align="left">
+			<p:selectOneMenu id="sbrtmd" value="#{cancerInfoBean.cancerInfoData.sbrtMD}" style="width:95px">
+				<f:selectItems value="#{utilBean.MDList}" />
+			</p:selectOneMenu>
+		</td>
+		<td width="8%" align="right"><p:outputLabel>Onc MD</p:outputLabel></td>
+		<td width="12%" align="left">
+		    <p:selectOneMenu id="chemotherapymd" value="#{cancerInfoBean.cancerInfoData.chemotherapyMD}" style="width:95px"> 
+				<f:selectItems value="#{utilBean.MDList}" />
+			</p:selectOneMenu>
+		</td>
+		<td width="7%" align="right"><p:outputLabel>Rad MD</p:outputLabel></td>
+		<td width="12%" align="left">
+			<p:selectOneMenu id="radtherapymd" value="#{cancerInfoBean.cancerInfoData.radtherapyMD}" style="width:95px">
+				<f:selectItems value="#{utilBean.MDList}" />
+			</p:selectOneMenu>
+		</td>
+	</tr>
+	<tr>
+		<td width="8%" align="right"><p:outputLabel>Date</p:outputLabel></td>
+		<td width="12%" align="left"><p:calendar value="#{cancerInfoBean.cancerInfoData.naChemoDate}" style="width:95px"></p:calendar></td>
+		<td width="8%" align="right"><p:outputLabel>Date</p:outputLabel></td>
+		<td width="12%" align="left"><p:calendar value="#{cancerInfoBean.cancerInfoData.nartDate}" style="width:95px"></p:calendar></td>
+		<td width="8%" align="right"><p:outputLabel>Date</p:outputLabel></td>
+		<td width="12%" align="left"><p:calendar value="#{cancerInfoBean.cancerInfoData.sbrtDate}" style="width:95px"></p:calendar></td>
+		<td width="8%" align="right"><p:outputLabel>Date</p:outputLabel></td>
+		<td width="12%" align="left"><p:calendar value="#{cancerInfoBean.cancerInfoData.chemotherapyDate}" style="width:95px"></p:calendar></td>
+		<td width="8%" align="right"><p:outputLabel>Date</p:outputLabel></td>
+		<td width="12%" align="left"><p:calendar value="#{cancerInfoBean.cancerInfoData.radtherapyDate}" style="width:95px"></p:calendar></td>
+	</tr>	
+	</table>	
+	</p:fieldset>
+</td>
+</tr>
+ -->
+</table>
+<br />
+<table width="95%" align="center">
+<tr>
+<td>
+	<table width="100%" align="center">
+		<tr><td width="100%" align="center"><p:outputLabel>STATUS MUST BE FILLED IN FOR EACH COLUMN. Enter name of evaluating physician
+		(even if no therapy given). Date refers to decision date</p:outputLabel></td></tr>
+	</table>
+</td>
+</tr>
+</table>
+<br />
+<table width="90%" align="center">
+				<tr>
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							action="mainMenu.xhtml" ajax="false"></p:commandButton></td>
+				    <td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;"
+							action="#{cancerInfoBean.saveCancerInfoData}" ajax="false"></p:commandButton></td> 
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr>
+				<p:messages id="messages1" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			
+				
+			</table>
+
+</h:form>		
+</ui:define>
+</ui:composition>
+</h:body>
+</html>

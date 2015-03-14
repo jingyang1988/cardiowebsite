@@ -1,0 +1,12 @@
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (0,'By injection');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (1,'By mouth');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (2,'in the ear');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (3,'in the eye');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (4,'in the nose(spray/drops)');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (5,'Inhaled');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (6,'Rectal');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (7,'Through a feeding tube');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (8,'Through an intravenous(IV) line');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (9,'Through the skin');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (10,'Under the tongue');
+INSERT INTO `list - medicationHowTaken` (`HowTakenID`,`How Taken`) VALUES (11,'Vaginal');

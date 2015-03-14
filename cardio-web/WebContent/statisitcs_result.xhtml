@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Statisitcs Result</ui:define>
+	<ui:define name="content">
+		<h:form id="queryPatient">
+			<br />
+			<table width="30%" align="center">
+				<tr>
+				
+				<ui:repeat var="page" value="Reports.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}"></p:commandButton></td>
+				</ui:repeat>				
+				
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			<tr>
+				<td width="90%" align="center" colspan="2">
+				
+			<br />
+
+			
+			<p>
+	<br><font size="4" color="red">Pack Year</font></br>
+	<br><font size="3">Mean 18.93 &nbsp; Min 0 </font></br>
+	<br><font size="3">Max 400 &nbsp; StdDev 30.454</font></br>
+</p>
+
+
+<p>
+	<br><font size="4" color="red">Smoke Status Entry</font></br>
+	<br><font size="3">Mean 1.634 &nbsp; Min 0 </font></br>
+	<br><font size="3">Max 4 &nbsp; StdDev 1.558</font></br>
+</p>
+
+<p>
+	<br><font size="4" color="red">Smoke Status Current</font></br>
+	<br><font size="3">Mean 1.6 &nbsp; Min 0</font></br>
+	<br><font size="3">Max 4 &nbsp; StdDev 1.554</font></br>
+</p>
+
+
+
+<p>
+	<br><font size="4" color="red">LCECStatus</font></br>
+	<br><font size="3">Mean 256.907 &nbsp; Min 1 </font></br>
+	<br><font size="3">Max 900 &nbsp; StdDev 246.888</font></br>
+</p>
+
+<p>
+	<br><font size="4" color="red">WorkupStatus</font></br>
+	<br><font size="3">Mean 645.293 &nbsp; Min 100</font></br>
+	<br><font size="3">Max 900 &nbsp; StdDev 275.525</font></br>
+</p>
+
+
+<p>
+	<br><font size="4" color="red">VO2max</font></br>
+	<br><font size="3">Mean 14.16 &nbsp; Min 11.2 </font></br>
+	<br><font size="3">Max 17.8 &nbsp; StdDev 2.669</font></br>
+</p>
+
+
+<p>
+	<br><font size="4" color="red">DLCO(%Pred)</font></br>
+	<br><font size="3">Mean 68.856 &nbsp;  Min 0  </font></br>
+	<br><font size="3">Max 143  &nbsp; StdDev 27.826</font></br>
+</p>
+
+
+<p>
+	<br><font size="4" color="red">DLCOAct</font></br>
+	<br><font size="3">Mean 2.403 &nbsp; Min 0 </font></br>
+	<br><font size="3">Max 96 &nbsp; StdDev 6.765</font></br>
+</p>
+
+
+
+<p>
+	<br><font size="4" color="red">FEV-1%Pred</font></br>
+	<br><font size="3">Mean 76.769 &nbsp; Min 0 </font></br>
+	<br><font size="3">Max 209 &nbsp; StdDev 23.584</font></br>
+</p>
+ 
+ 
+<p>
+	<br><font size="4" color="red">FEV-1(L)</font></br>
+	<br><font size="3">Mean 2.1 &nbsp; Min 0.42</font></br>
+	<br><font size="3">Max 5.18 &nbsp; StdDev 23.584</font></br>
+</p>
+
+
+<p>
+	<br><font size="4" color="red">FEV-1/FVC%</font></br>
+	<br><font size="3">Mean 70.289 &nbsp; Min 8.966 </font></br>
+	<br><font size="3">Max 100 &nbsp; StdDev 14.336</font></br>
+</p>
+
+
+<p>
+	<br><font size="4" color="red">FVC%Pred</font></br>
+	<br><font size="3">Mean 88.46 &nbsp; Min 0</font></br>
+	<br><font size="3">Max 1136 &nbsp; StdDev 44.138</font></br>
+</p>
+
+
+<p>
+	<br><font size="4" color="red">FVC(L)</font></br>
+	<br><font size="3">Mean 3.006 &nbsp; Min 0.84</font></br>
+	<br><font size="3">Max 21.19 &nbsp; StdDev 1.185</font></br>
+</p>
+			
+			
+				</td>
+				</tr>
+			</table>
+			
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

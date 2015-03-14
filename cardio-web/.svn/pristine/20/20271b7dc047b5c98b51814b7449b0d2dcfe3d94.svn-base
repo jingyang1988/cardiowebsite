@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Research</ui:define>
+	<ui:define name="content">
+		<h:form>
+		  <ui:param name="patient" value="#{mainMenuBean.selectedPatient}" />
+	    <p:remoteCommand name="onload1" action="#{researchBean.init(patient)}" autoRun="true" />
+	    	<br />
+			<table width="90%" align="center">
+				
+				
+				
+				<tr>
+
+					<ui:repeat var="page" value="mainMenu.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>
+							
+						<td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;"
+							action="#{researchBean.saveResearchData}" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			</table>
+			<br />
+		
+			<p:panel id="patientData" style="border:0;">
+				<table align="center" width="80%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Patient&nbsp;Name:"></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="MRN:"></p:outputLabel></td>
+						<td align="left" width="7%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="10%"><h:outputLabel
+								value="WorkUp&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu
+								rendered="#{mainMenuBean.selectedPatient!=null}"
+								value="#{mainMenuBean.selectedPatient.workUpId}">
+								<f:selectItems value="#{utilBean.workupList}" />
+								<f:ajax event="change"
+									listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+						<td align="right" width="7%"><h:outputLabel
+								value="LCEC&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu
+								rendered="#{mainMenuBean.selectedPatient!=null}"
+								value="#{mainMenuBean.selectedPatient.lcecId}">
+								<f:selectItems value="#{utilBean.lcecStatusList}" />
+								<f:ajax event="change"
+									listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+					</tr>
+				</table>
+			</p:panel>
+
+			<br />
+
+			<table width="90%" align="center">
+				<tr>
+				  <td align="right"><p:commandButton onclick="addDlg.show();"
+							type="button" value="Add&nbsp;New&nbsp;Research"></p:commandButton></td>
+				</tr>
+			</table>
+			
+			<br />
+
+			<table width="90%" align="center">
+				<tr>
+					<td width="10%"></td>
+					<td width="80%"><p:dataTable var="lesion"
+							value="#{researchBean.researchData.lesionList}" scrollable="true"
+							scrollHeight="60" emptyMessage="No data found."
+							style="text-align: center;">
+							<p:column headerText="Date&nbsp;LCEC" rendered="true"
+								style="text-align: center;">
+								<h:outputText value="#{lesion.lesionDate}" />
+							</p:column>
+							<p:column headerText="LCEC&nbsp;Classification" rendered="true"
+								style="text-align: center;">
+								<h:outputText value="#{lesion.leasionClassification}" />
+							</p:column>
+							<p:column headerText="Location" rendered="true"
+								style="text-align: center;">
+								<h:outputText value="#{lesion.location}" />
+							</p:column>
+						</p:dataTable></td>
+					<td width="10%"></td>
+				</tr>
+			</table>
+
+			<table width="90%" align="center">
+				<tr>
+					<td><ui:repeat var="o"
+							value="#{researchBean.researchData.researchList}">
+
+							<p:fieldset legend="#{o.consentDate}">
+								<table width="100%" align="center">
+
+									<tr>
+										<td align="right"><p:outputLabel
+												value="Research&nbsp;Project"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu id="type"
+												value="#{o.researchProj}" style="width:110px">
+												<f:selectItems value="#{utilBean.researchProjList}" />
+											</p:selectOneMenu></td>
+										<td align="right"><p:outputLabel value="Comments:"></p:outputLabel></td>
+										<td align="left"><p:inputText value="#{o.comments}"
+												style="width:105px"></p:inputText></td>
+										<!-- Add by yongxin -->
+										<td align="left"><p:commandButton value="Registry"
+												action="#{researchBean.handleRegistry(o)}" type="submit"
+												ajax="false"></p:commandButton></td>
+										<td align="right"><p:commandButton value="Delete"
+												action="#{researchBean.deleteRegistry(o)}" type="submit" ajax="false"></p:commandButton></td>
+									</tr>
+
+								</table>
+							</p:fieldset>
+							<br />
+						</ui:repeat></td>
+				</tr>
+			</table>
+
+
+			<p:dialog id="modalDialog" header="New Research" widgetVar="addDlg"
+				modal="true">
+				<table width="100%" align="center">
+					<tr>
+						<td align="right"><p:outputLabel value="Consent&nbsp;Date"></p:outputLabel></td>
+						<td align="left"><p:calendar effect="slideDown"
+								navigator="true"
+								value="#{researchBean.research.consentDate}" style="width:110px"></p:calendar>
+						</td>
+						<td align="right"><p:outputLabel value="Research&nbsp;Proj"></p:outputLabel></td>
+						<td align="left"><p:selectOneMenu
+								value="#{researchBean.research.researchProj}"
+								style="width:110px">
+								<f:selectItems value="#{utilBean.researchProjList}" />
+							</p:selectOneMenu></td>
+						<td align="right"><p:outputLabel value="Comments"></p:outputLabel></td>
+						<td align="left"><p:inputText
+								value="#{researchBean.research.comments}" style="width:80%;"></p:inputText></td>
+
+						<td align="right"><p:commandButton value="Add Research"
+								ajax="false" type="submit" action="#{researchBean.addResearch}" />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					</tr>
+
+				</table>
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

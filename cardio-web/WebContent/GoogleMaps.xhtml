@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+ 
+	<ui:define name="title">Locations and Number of Patients</ui:define>
+	<ui:define name="content">
+		<h:form id="queryPatient">
+			<table width="90%" align="center">
+				<tr>
+				
+				<ui:repeat var="page" value="Reports.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							action="#{pageLogBean.logger(page)}"  immediate="true"></p:commandButton></td>
+				</ui:repeat>
+				
+				
+				<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;" action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			</table>
+				
+				<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script> 
+				<script src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;sensor=true&amp;key=#{AIzaSyDS5xxXT_NQh9LyVlcC_fkuDJ6ggW9eLCo}" type="text/javascript"></script>
+				<script type="text/javascript"> 
+				var geocoder;
+				var map;
+				var i;
+				function initialize() {
+					
+				  geocoder = new google.maps.Geocoder();
+				  var address = document.getElementById('address').value;
+				  var jString = JSON.parse(address);
+				  var contentStr;
+				  var latlng = new google.maps.LatLng(40.3, -73.2);
+				  var mapOptions = {
+				    zoom: 10,
+				    center: latlng
+				  }
+				  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+				  
+				  for (var key in jString) {
+					  var cityNumber = JSON.stringify(jString[key]);
+					  var arr = cityNumber.split("|");
+					  contentStr = arr[0];					  
+					  codeAddress(contentStr + ', New York"', arr[1]);
+				  }
+					  //if (jString.hasOwnProperty(key)) {
+						  //geocodeAddress(map, key, contentStr);//end of geocode    
+					  //}//end of if
+				 // }//end of for
+				}//end of initialize
+				
+				function codeAddress(address, numPatients) {  
+					  geocoder.geocode( { 'address': address}, function(results, status) {
+					    if (status == google.maps.GeocoderStatus.OK) {
+					      map.setCenter(results[0].geometry.location);
+					      var marker = new google.maps.Marker({
+					          map: map,
+					          position: results[0].geometry.location,
+					          title: address + '  "Cases ' + numPatients
+					      });
+					    } else {
+					      alert('Geocode was not successful for the following reason: ' + status);
+					    }
+					  });
+					}
+				
+				function geocodeAddress(map, key, contentStr) {
+					   geocoder.geocode({
+					     'address': key,
+					   },function(results, status){
+					      if(status == google.maps.GeocoderStatus.OK) {
+					    var marker = createMarker(results[0].geometry.location, contentStr);
+					      }else {
+						      alert('Geocode was not successful for the following reason: ' + status);
+						    }
+					   });
+					}
+				
+				function createMarker(latlang, contentStr) { 
+				        var marker = new google.maps.Marker({
+				            map: map,
+				            position: latlang,
+				            title: contentStr
+				        });
+				        //alert(contentStr)
+				        var info = new google.maps.InfoWindow({
+				            content: contentStr+" cases"
+				        });
+				            info.open(map, marker);
+				       return marker;
+				}
+				google.maps.event.addDomListener(window, 'load', initialize);
+
+				</script> 
+				
+				<div id="panel">
+					<input id="address" type="hidden" value="#{queryBean.townsJSON}"></input>
+    			</div>
+	    		<div id="map-canvas" style="width: 1300px; height: 480px;"></div>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

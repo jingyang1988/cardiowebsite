@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:metadata>  
+ <f:event listener="#{loginBean.isLogged()}" type="preRenderView"/>  
+</f:metadata>
+
+<h:head>
+  	<title><ui:insert name="title"></ui:insert></title>
+  	<link href="${facesContext.externalContext.requestContextPath}/resources/css/MasterPage.css" rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+    <ui:insert name="header">
+    <table width="100%" border="0">
+        <!--<tr align="center"> 
+      	<td width="10%" class="hdrCell" />
+        <td class="hdrCell"><a href="http://www.stonybrook.edu"><h:graphicImage url="/resources/imgs/quickNavStonyBrookUniversity.png" longdesc="http://www.stonybrook.edu" /></a></td>
+        <td class="hdrCell"><a href="http://www.stonybrookmedicine.edu"><h:graphicImage url="/resources/imgs/quickNavStonyBrookMedicine.png" longdesc="http://http://www.stonybrookmedicine.edu" /></a></td>
+        <td class="hdrCell"><a href="http://www.stonybrookchildrens.org"><h:graphicImage url="/resources/imgs/quickNavStonyBrookChildrens.png" longdesc="http://http://www.stonybrookchildrens.org" /></a></td>
+        <td class="hdrCell"><a href="http://www.stonybrookphysicians.com"><h:graphicImage url="/resources/imgs/quickNavUniversityPhysicians.png" longdesc="http://http://www.stonybrookphysicians.com" /></a></td>
+        <td class="hdrCell"><a href="http://stonybrookmedicine.edu/newsroom" target="_blank">Newsroom</a></td>
+        <td class="hdrCell"><a href="http://alumniandfriends.stonybrook.edu/page.aspx?pid=587" target="_blank">Giving</a></td>
+        <td class="hdrCell"><a href="http://stonybrookmedicine.edu/volunteer" target="_blank">Volunteer</a></td>    
+        <td class="hdrCell"><a href="http://stonybrookmedicine.edu/education" target="_blank">Students</a></td>
+        <td class="hdrCell"><a href="http://stonybrookmedicine.edu/medical-professionals" target="_blank">Faculty</a></td>
+        <td class="hdrCell"><a href="http://stonybrookmedicine.edu/healthsciences" target="_blank">Health&nbsp;Sciences</a></td>
+        <td width="10%" class="hdrCell" />
+      </tr>    -->
+      <tr>
+      	<td colspan="13"><br/></td>
+      </tr>
+      <tr>
+      	<td width="10%" />
+      	<td colspan="8"><h:graphicImage ismap="true" url="/resources/imgs/header_logo.png" width="364" height="88" usemap="true" longdesc="http://http://medicine.stonybrookmedicine.edu" border="0"/><h:graphicImage></h:graphicImage></td>
+        <td colspan="2" style="color:#800000;font-weight:bold;font-family:arial;font-size: 15px;" align="right"><ui:insert name="title"></ui:insert></td>
+        <td width="10%" />
+      </tr>
+      <tr>
+      	<td colspan="13"><br/></td>
+      </tr>
+   </table>
+   <table width="100%" border="0">
+      <tr>
+      	  <td class="hdrCell"><a href="mainMenu.xhtml" >Main Menu</a></td>
+      	  <td class="hdrCell" style="background-color:#C9FFE5;"><a href="patientData.xhtml" >Patient Data</a></td>
+      	  <td class="hdrCell" style="background-color:#FBCEB1;"><a href="PatientVisits.xhtml" >Visits</a></td>
+      	  <td class="hdrCell" style="background-color:#FF9966;"><a href="scheduleTest.xhtml" >Schedule Testing and Results</a></td>
+      	  <td class="hdrCell" style="background-color:#BCD4E6;"><a href="surBiopsyData.xhtml" >Procedures &amp; Treatments</a></td>
+      	  <td class="hdrCell" style="background-color:#A1CAF1;"><a href="CancerInfo.xhtml" >Cancer Information</a></td>
+      	  <!--  <td class="hdrCell" style="background-color:#DE6FA1;"><a href="" >Link Lesion to Cancer</a></td>  -->
+      	  <td class="hdrCell" style="background-color:#9ACD32;"><a href="Lesion.xhtml" >Lesion</a></td>
+      	  <!--  <td class="hdrCell" style="background-color:#E9D66B;"><a href="" >Distress Thermometer</a></td> -->
+      	  <td class="hdrCell" style="background-color:#FFBF00;"><a href="medicalHistory.xhtml" >Medical History</a></td>
+      	  <td class="hdrCell" style="background-color:#FFE4C4;"><a href="AutoScheduler.xhtml" >Auto Scheduler</a></td>
+      	  <td class="hdrCell" style="background-color:#EDC9AF;"><a href="Research.xhtml" >Research</a></td>
+      	  <td class="hdrCell" style="background-color:#8580b1;"><a href="PrintPatientSummary.xhtml" >Print Patient Summary</a></td>
+		  <td class="hdrCell" style="background-color:#C0C0C0;"><a href="QueryDatabase.xhtml" >Query Database</a></td>
+
+      </tr>
+   </table>
+   <table width="100%" border="0">
+      <tr>
+      	<td width = "10%" bgcolor="#800000" ></td>
+      	<td width = "80%" >
+      	<div id="content" >
+	 		 <ui:insert name="content">
+  			</ui:insert>
+		</div>
+      	</td>
+      	<td width = "10%" bgcolor="#800000"></td>
+      </tr>
+    </table>
+</ui:insert>
+<ui:insert name="footer">
+  <div id="disclaimer"  align="center">
+  	<table width="80%" border="0">
+  	 <tr>
+      	<td><br/><br/></td>
+       </tr>
+       <!--<tr> 
+      	 <td class="hdrCell"><a href="http://stonybrookmedicine.edu/disclaimer" target="_blank">Legal/Disclaimer</a></td>
+      	 <td class="hdrCell"><a href="http://stonybrookmedicine.edu/contact-us" target="_blank">Contact Us</a></td>
+      	 <td class="hdrCell"><a href="http://uhmc-xweb1.uhmc.sunysb.edu/physicianportal2/" target="_blank">Physician Portal</a></td>
+      	 <td class="hdrCell"><a href="http://uhmc-xweb1.uhmc.sunysb.edu/employee/" target="_blank">Employee Portal</a></td>
+      	 <td class="hdrCell"><a href="http://www.stonybrook.edu/sb/jobs.shtml" target="_blank">Careers</a></td>
+      	 <td class="hdrCell"><a href="http://stonybrookmedicine.edu/directory" target="_blank">Directory</a></td>
+      	 <td class="hdrCell"><a href="http://www.listateveteranshome.org/" target="_blank">Long Island State Veterans Home</a></td>
+      </tr> -->
+       <tr>
+      	<td><br/><br/></td>
+       </tr>
+     </table>
+     <table width="80%">
+       <tr align="center">
+      		<td class="ftrBanner" align="center"><h:graphicImage url="/resources/imgs/logo.png" /></td>
+      </tr>   
+       <tr>
+      	<td><br/><br/></td>
+       </tr>
+     </table>
+	</div>
+	<div id="footer" class="footer" align="center">
+		<table 	width="80%" border="0" class="ftrCell">
+			<tr align="center">
+				<td>This application is intended to be used for demonstration purposes only.</td>
+			</tr>		 
+			<tr align="center">
+				<td>Not meant for distribution outside the authorized channels.</td>
+			</tr>
+			
+				<!-- <td width="25%" valign="top">Stony Brook University Hospital<br/>101 Nicolls Road Stony Brook, NY 11794<br/>(631) 444-4000</td>
+				<td width="25%" valign="top" >
+					<a href="http://www.stonybrookmedicine.edu/" target="_blank">Stony Brook Medicine Home</a><br/>
+					<a href="http://www.stonybrook.edu/" target="_blank">Stony Brook University</a><br/>
+					<a href="http://www.stonybrookchildrens.org/" target="_blank">Stony Brook Children's Hospital</a><br/>
+					<a href="http://www.stonybrookphysicians.com/" target="_blank">University Physicians</a>
+				</td>
+				<td width="25%" valign="top">
+					<a href="http://stonybrookmedicine.edu/newsroom" target="_blank">Newsroom</a><br/>
+					<a href="http://alumniandfriends.stonybrook.edu/page.aspx?pid=587" target="_blank">Giving</a><br/>
+					<a href="http://stonybrookmedicine.edu/volunteer" target="_blank">Volunteer</a><br/>
+					<a href="http://stonybrookmedicine.edu/education" target="_blank">Students</a><br/>
+					<a href="http://stonybrookmedicine.edu/medical-professionals" target="_blank">Faculty</a><br/>
+					<a href="http://stonybrookmedicine.edu/healthsciences" target="_blank">Health Sciences</a><br/>
+				</td>
+				<td width="25%" valign="top">			
+					<a href="http://stonybrookmedicine.edu/newsroom" target="_blank">School of Dental Medicine</a><br/>
+					<a href="http://stonybrookmedicine.edu/newsroom" target="_blank">School of Health Technology &amp; Management</a><br/>
+					<a href="http://stonybrookmedicine.edu/newsroom" target="_blank">School of Medicine</a><br/>
+					<a href="http://stonybrookmedicine.edu/newsroom" target="_blank">School of Nursing</a><br/>
+					<a href="http://stonybrookmedicine.edu/newsroom" target="_blank">School of Social Welfare</a>	
+				</td>  -->		
+		</table>
+		
+	</div>
+ </ui:insert>
+<!-- <map name="Map" id="Map">
+  <area shape="rect" coords="1,1,246,58" href="http://medicine.stonybrookmedicine.edu" target="_self" />
+  <area shape="rect" coords="246,1,510,56" href="http://cancer.stonybrookmedicine.edu" />
+</map> -->
+</h:body>
+</html>

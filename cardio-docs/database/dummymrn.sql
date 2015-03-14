@@ -1,0 +1,1 @@
+INSERT INTO `dummymrn` VALUES (2,1000);

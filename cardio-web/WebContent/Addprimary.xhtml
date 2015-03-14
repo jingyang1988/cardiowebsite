@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Query Patient</ui:define>
+	<ui:define name="content">
+		<h:form id="queryPatient">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="ModifyDatabase.xhtml" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr>
+					<td><p:commandButton value="Add new" ajax="false" type="submit" action="Addnewprimary.xhtml"
+					style="background-color:#C9FFE5;"></p:commandButton></td>
+				</tr>
+			<tr>
+				<td width="90%" align="center" colspan="2">
+				
+			<br />
+
+			<p:dataTable var="p" paginator="true" rows="25"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="25,50,100,#{queryBean.primaryMDList.size()}"
+				value="#{queryBean.primaryMDList}">
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.treating}" headerText="Treating Physician" width="7%" styleClass="wrap">
+					<h:outputText value="#{p.treating}" />
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.title}" headerText="Title" width="10%" styleClass="wrap">
+					<h:outputText value="#{p.title}" />
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.groupname}" headerText="Group Name" width="10%" styleClass="wrap">
+					<h:outputText value="#{p.groupname}"></h:outputText>
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.address}" headerText="Address" width="10%" styleClass="wrap">
+					<h:outputText value="#{p.address}"></h:outputText>
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.city}" headerText="City" width="10%" styleClass="wrap">
+					<h:outputText value="#{p.city}"></h:outputText>
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.state}" headerText="State" width="10%" styleClass="wrap">
+					<h:outputText value="#{p.state}"></h:outputText>
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.zip}" headerText="Zip" width="11%" styleClass="wrap">
+					<h:outputText value="#{p.zip}"></h:outputText>
+					</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.office}" headerText="Office Phone" width="11%" styleClass="wrap">
+					<h:outputText value="#{p.office}"></h:outputText>
+				</p:column>
+
+
+			
+			</p:dataTable>
+				</td>
+				</tr>
+			</table>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

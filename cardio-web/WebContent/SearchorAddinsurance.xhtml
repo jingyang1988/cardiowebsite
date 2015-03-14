@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Query Patient</ui:define>
+	<ui:define name="content">
+		<h:form id="queryPatient">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				<ui:repeat var="page" value="ModifyDatabase.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false" immediate="true"></p:commandButton></td>
+				</ui:repeat>	
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			
+				<tr>
+					<td><p:commandButton value="Add new" ajax="false" type="submit" action="AddInsurance.xhtml"
+					style="background-color:#C9FFE5;"></p:commandButton></td>
+				</tr>
+			<tr>
+				<td width="90%" align="center" colspan="2">
+				
+			<br />
+		
+			
+
+			<p:dataTable var="p" paginator="true" rows="25"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="25,50,100,#{queryBean.insuranceDataModelList.size()}"
+				value="#{queryBean.insuranceDataModelList}" filteredValue="#{queryBean.filteredPatientDataReport}">
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.insurCo}" headerText="Insurance Company" width="7%" styleClass="wrap">
+					<h:outputText value="#{p.insurCo}" />
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.phoneNumber1}" headerText="Phone 1" width="10%" styleClass="wrap">
+					<h:outputText value="#{p.phoneNumber1}" />
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.phoneNumber2}" headerText="Phone 2" width="10%" styleClass="wrap">
+					<h:outputText value="#{p.phoneNumber2}"></h:outputText>
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.phoneNumber3}" headerText="Phone 3" width="11%" styleClass="wrap">
+					<h:outputText value="#{p.phoneNumber3}"></h:outputText>
+				</p:column>
+
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.comment}" headerText="Comment" width="12%" styleClass="wrap">
+					<h:outputText value="#{p.comment}"></h:outputText>
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.ctPrecert}" headerText="CTPrecert" width="12%" styleClass="wrap">
+					<h:outputText value="#{p.ctPrecert}"></h:outputText>
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.petPrecert}" headerText="PETPrecert" width="12%" styleClass="wrap">
+					<h:outputText value="#{p.petPrecert}"></h:outputText>
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.pftPrecert}" headerText="PFTPrecert" width="12%" styleClass="wrap">
+				</p:column>
+					<h:outputText value="#{p.pftPrecert}"></h:outputText>
+				<p:column filterStyle="width:95%;" filterBy="#{p.visitReferral}" headerText="VisitREferral" width="12%" styleClass="wrap">
+					<h:outputText value="#{p.visitReferral}"></h:outputText>
+				</p:column>
+
+				
+			</p:dataTable>
+			</td>
+			</tr>
+			</table>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

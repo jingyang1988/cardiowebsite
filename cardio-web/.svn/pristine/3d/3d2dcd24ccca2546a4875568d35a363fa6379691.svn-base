@@ -1,0 +1,831 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Registry Information</ui:define>
+	<ui:define name="content">
+		<h:form id="registryInfo">
+		  <ui:param name="patient" value="#{mainMenuBean.selectedPatient}" />
+	    <p:remoteCommand name="onload1" action="#{researchBean.init(patient)}" autoRun="true" />
+			<br />
+			<table width="100%" align="center">
+				<tr>
+				
+				<ui:repeat var="page" value="Research.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>
+				
+					<td align="center"><p:commandButton
+							value="Save Changes" style="background-color:#FF9966;" ajax="false" action="#{researchBean.saveRegistryInfo()}" ></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			</table>
+			<table width="100%" align="center">
+				<tr>
+					
+						<td align="right"><p:commandButton value="Medical History"
+							ajax="false" action="medicalHistory.xhtml"></p:commandButton></td>
+				</tr>
+			</table>
+			<br />
+			<p:panel id="patientData" style="border:0;">
+				<table align="center" width="90%">
+					<tr>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+
+						<td align="right" width="10%"><p:outputLabel value="Gender:"></p:outputLabel></td>
+
+						<td align="left"><p:selectOneMenu
+								value="#{patientDataBean.patientData.gender}">
+								<f:selectItems value="#{utilBean.genderList}" />
+							</p:selectOneMenu></td>
+
+						<td align="right" width="10%"><p:outputLabel value="DOB"></p:outputLabel></td>
+
+						<td align="left" width="10%"><p:calendar id="calDOB"
+								effect="slideDown" value="#{researchBean.registryInfo.dob}"
+								navigator="true"></p:calendar></td>
+
+					</tr>
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="RegistryNum"></p:outputLabel></td>
+
+						<td align="left" width="10%"><p:outputLabel
+								value="#{researchBean.registryInfo.registryNum}"
+								style="color:black;front-weight:bold;"></p:outputLabel></td>
+
+						<td align="right" width="10%"><p:outputLabel
+								value="Consent Date"></p:outputLabel></td>
+
+						<td align="left" width="10%"><p:calendar id="contentDate"
+								effect="slideDown"
+								value="#{researchBean.registryInfo.registryDate}"
+								navigator="true"></p:calendar></td>
+
+						<td align="right" width="10%"><p:outputLabel value="Age"></p:outputLabel></td>
+
+						<td align="left" width="10%"><p:outputLabel
+								value="#{researchBean.registryInfo.age}"></p:outputLabel></td>
+					</tr>
+				</table>
+			</p:panel>
+
+			<p:growl id="msgs" showDetail="true" />
+			<p:tabView>
+				<p:tab title="Demographic-Cancer History">
+					<div style="height: 600; width: 100%;">
+						<div style="height: auto; width: 50%; float: left;">
+							<table align="left" width="60%">
+								<tr>
+									<td align="center" width="10%"><p:outputLabel align="left"
+											value="Demographics" style="text-decoration:underline"></p:outputLabel>
+									</td>
+								</tr>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Height(inches):"></p:outputLabel></td>
+
+									<td align="right"><p:inputText
+											value="#{researchBean.registryInfo.height}"></p:inputText></td>
+								</tr>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Weight(pounds):"></p:outputLabel></td>
+
+									<td align="right"><p:inputText
+											value="#{researchBean.registryInfo.weight}"></p:inputText></td>
+								</tr>
+							</table>
+							<br /> <br /> <br /> <br /> <br /> <br />
+
+							<table>
+								<tr>
+									<td align="left"><p:outputLabel value="Race"></p:outputLabel></td>
+									<td align="left"><p:outputLabel value="Comment:"></p:outputLabel></td>
+								</tr>
+								<tr>
+									<td align="left" width="10%"><p:selectOneMenu
+											value="#{researchBean.registryInfo.race1}">
+											<f:selectItems value="#{utilBean.raceList}"></f:selectItems>
+										</p:selectOneMenu></td>
+									<td align="left" rowspan="3"><p:inputTextarea
+											value="#{researchBean.registryInfo.raceComment}" rows="5"
+											cols="30"></p:inputTextarea></td>
+								</tr>
+
+								<tr>
+									<td align="left"><p:selectOneMenu
+											value="#{researchBean.registryInfo.race2}">
+											<f:selectItems value="#{utilBean.raceList}"></f:selectItems>
+										</p:selectOneMenu></td>
+								</tr>
+
+								<tr>
+									<td align="left"><p:selectOneMenu
+											value="#{researchBean.registryInfo.race3}">
+											<f:selectItems value="#{utilBean.raceList}"></f:selectItems>
+										</p:selectOneMenu></td>
+								</tr>
+							</table>
+							<br /> <br /> <br /> <br />
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Education:"></p:outputLabel></td>
+									<td align="left"><p:selectOneMenu
+											value="#{researchBean.registryInfo.education}">
+											<f:selectItems value="#{utilBean.educationList}"></f:selectItems>
+										</p:selectOneMenu></td>
+								</tr>
+							</table>
+						</div>
+
+						<div style="height: auto; width: 50%; float: left;">
+							<table width="60%">
+								<tr>
+									<td align="left" ><p:outputLabel align="left" value="Previous Cancer History"
+										style="text-decoration:underline"></p:outputLabel></td>
+								</tr>
+								<tr>
+									<td align="left"><p:outputLabel value="Prior Lung Cancer"></p:outputLabel></td>
+									<td align="left"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.priorLung}"></p:selectBooleanCheckbox></td>
+								</tr>
+								<tr>
+									<td align="left"><p:outputLabel value="Prior Other Cancer"></p:outputLabel></td>
+									<td align="left"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.priorCancer}"></p:selectBooleanCheckbox></td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<p:outputLabel align="left" value="Stage/Comments:"></p:outputLabel>
+							<br />
+							<br />
+							<p:inputTextarea
+								value="#{researchBean.registryInfo.priorHistory}" rows="10"
+								cols="40"></p:inputTextarea>
+							<br />
+							<br />
+						
+						</div>
+					</div>
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+				</p:tab>
+
+				<p:tab title="Risk Factors/Family History">
+					<h:panelGrid columns="3" cellpadding="10">
+						<h:panelGroup>
+							<br />
+							<br />
+							<p:outputLabel align="left" value="Personal Smoking History"
+								style="text-decoration:underline"></p:outputLabel>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Status:"></p:outputLabel></td>
+									<td align="left" width="80p"><p:selectOneMenu
+											value="#{researchBean.registryInfo.smokerStatus}">
+											<f:selectItems value="#{utilBean.smokestatusList}"></f:selectItems>
+										</p:selectOneMenu></td>
+								</tr>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="YearStart"></p:outputLabel></td>
+									<td align="left" width="10%"><p:inputText
+											value="#{researchBean.registryInfo.smokerYearStart}"></p:inputText></td>
+								</tr>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="YearQuit"></p:outputLabel></td>
+									<td align="left" width="10%"><p:inputText
+											value="#{researchBean.registryInfo.smokerYearQuit}"></p:inputText></td>
+								</tr>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="PackDay"></p:outputLabel></td>
+									<td align="left" width="10%"><p:inputText
+											value="#{researchBean.registryInfo.smokerPackDay}"></p:inputText></td>
+
+								</tr>
+							</table>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Comment:"></p:outputLabel></td>
+								</tr>
+								<tr>
+									<td align="left" width="33%"><p:inputTextarea
+											value="#{researchBean.registryInfo.smokerComment}" rows="10"
+											cols="50"></p:inputTextarea></td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<p:outputLabel value="Family Cancer History"
+								style="text-decoration:underline"></p:outputLabel>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="100%"><p:outputLabel
+											value="Family History of Other Cancers?"></p:outputLabel></td>
+									<td align="left" width="10%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.familyCancer}"></p:selectBooleanCheckbox></td>
+
+								</tr>
+							</table>
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Comment:"></p:outputLabel></td>
+								</tr>
+								<tr>
+									<td align="left"><p:inputTextarea
+											value="#{researchBean.registryInfo.familyCancerComment}"
+											rows="8" cols="40"></p:inputTextarea></td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<br />
+							<br />
+							<p:outputLabel align="left" value="Second-Hand Smoking History"
+								style="text-decoration:underline"></p:outputLabel>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Exposed?"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.secondSmoke}"></p:selectBooleanCheckbox></td>
+								</tr>
+								<tr>
+									<td align="left" width="35%"><p:outputLabel
+											value="As a Child:"></p:outputLabel></td>
+									<td align="left" width="5%"><p:inputTextarea
+											value="#{researchBean.registryInfo.secondSmokeChild}"
+											rows="1" cols="3"></p:inputTextarea></td>
+									<td align="left" width="50%"><p:outputLabel
+											value="years exposed"></p:outputLabel></td>
+								</tr>
+
+								<tr>
+									<td align="left" width="35%"><p:outputLabel
+											value="From Spouse:"></p:outputLabel></td>
+									<td align="left" width="5%"><p:inputTextarea
+											value="#{researchBean.registryInfo.secondSmokeSpouse}"
+											rows="1" cols="3"></p:inputTextarea></td>
+									<td align="left" width="50%"><p:outputLabel
+											value="years exposed"></p:outputLabel></td>
+								</tr>
+
+								<tr>
+									<td align="left" width="35%"><p:outputLabel
+											value="At Work:"></p:outputLabel></td>
+									<td align="left" width="5%"><p:inputTextarea
+											value="#{researchBean.registryInfo.secondSmokeWork}" rows="1"
+											cols="3"></p:inputTextarea></td>
+									<td align="left" width="50%"><p:outputLabel
+											value="years exposed"></p:outputLabel></td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Comment:"></p:outputLabel></td>
+								</tr>
+								<tr>
+									<td align="left"><p:inputTextarea
+											value="#{researchBean.registryInfo.secondComment}" rows="10"
+											cols="50"></p:inputTextarea></td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<p:outputLabel value="Occupational History/Exposures"
+								style="text-decoration:underline"></p:outputLabel>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="5%"><p:outputLabel
+											value="Occupation:"></p:outputLabel></td>
+
+									<td align="left"><p:inputText
+											value="#{researchBean.registryInfo.occupation}"></p:inputText></td>
+								</tr>
+							</table>
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Asbestos"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.asbestos}"></p:selectBooleanCheckbox></td>
+									<td align="left" width="10%"><p:outputLabel value="Mining"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.mining}"></p:selectBooleanCheckbox></td>
+								</tr>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel value="Metals"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.metals}"></p:selectBooleanCheckbox></td>
+									<td align="left" width="10%"><p:outputLabel
+											value="Chemicals"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.chemicals}"></p:selectBooleanCheckbox></td>
+								</tr>
+							</table>
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Comment:"></p:outputLabel></td>
+								</tr>
+								<tr>
+									<td align="left"><p:inputTextarea
+											value="#{researchBean.registryInfo.exposureComment}" rows="8"
+											cols="40"></p:inputTextarea></td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="50%"><p:outputLabel
+											value="Ground Zero"></p:outputLabel></td>
+									<td align="left" width="10%"><p:selectOneMenu
+											value="#{researchBean.registryInfo.groundZero}">
+											<f:selectItems value="#{utilBean.groundZeroList}"></f:selectItems>
+										</p:selectOneMenu></td>
+								</tr>
+
+							</table>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<br />
+							<br />
+							<p:outputLabel align="left" value="Family Lung Cancer History"
+								style="text-decoration:underline"></p:outputLabel>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="100%"><p:outputLabel
+											value="Family History of Lung Cancer?"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.famLung}"></p:selectBooleanCheckbox></td>
+								</tr>
+							</table>
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Mother:"></p:outputLabel></td>
+									<td align="left" width="5%"><p:inputTextarea
+											value="#{researchBean.registryInfo.lungCancerMother}"
+											rows="1" cols="3"></p:inputTextarea></td>
+									<td align="left" width="10%"><p:outputLabel
+											value="Brother:"></p:outputLabel></td>
+									<td align="left" width="5%"><p:inputTextarea
+											value="#{researchBean.registryInfo.lungCancerBrother}"
+											rows="1" cols="3"></p:inputTextarea></td>
+								</tr>
+
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Father:"></p:outputLabel></td>
+									<td align="left" width="5%"><p:inputTextarea
+											value="#{researchBean.registryInfo.lungCancerFather}"
+											rows="1" cols="3"></p:inputTextarea></td>
+									<td align="left" width="10%"><p:outputLabel
+											value="GroundMother:"></p:outputLabel></td>
+									<td align="left" width="5%"><p:inputTextarea
+											value="#{researchBean.registryInfo.lungCancerGM}" rows="1"
+											cols="3"></p:inputTextarea></td>
+								</tr>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Sister:"></p:outputLabel></td>
+									<td align="left" width="5%"><p:inputTextarea
+											value="#{researchBean.registryInfo.lungCancerSister}"
+											rows="1" cols="3"></p:inputTextarea></td>
+									<td align="left" width="10%"><p:outputLabel
+											value="GroundFather:"></p:outputLabel></td>
+									<td align="left" width="5%"><p:inputTextarea
+											value="#{researchBean.registryInfo.lungCancerGF}" rows="1"
+											cols="3"></p:inputTextarea></td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel value="Other:"></p:outputLabel></td>
+								</tr>
+								<tr>
+									<td align="left"><p:inputTextarea
+											value="#{researchBean.registryInfo.lungCancerOther}"
+											rows="10" cols="50"></p:inputTextarea></td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<p:outputLabel value="Lung Disease History"
+								style="text-decoration:underline"></p:outputLabel>
+							<br />
+							<br />
+							<table>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel value="COPD"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.copd}"></p:selectBooleanCheckbox></td>
+									<td align="left" width="10%"><p:outputLabel
+											value="Pneumonia"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.pneumonia}"></p:selectBooleanCheckbox></td>
+								</tr>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel value="TB"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.tuberculosis}"></p:selectBooleanCheckbox></td>
+									<td align="left" width="10%"><p:outputLabel
+											value="Bronchities"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.bronchitis}"></p:selectBooleanCheckbox></td>
+								</tr>
+								<tr>
+									<td align="left" width="10%"><p:outputLabel
+											value="Fibrosis"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.fibrosis}"></p:selectBooleanCheckbox></td>
+									<td align="left" width="10%"><p:outputLabel
+											value="ChestRT"></p:outputLabel></td>
+									<td align="left" width="5%"><p:selectBooleanCheckbox
+											value="#{researchBean.registryInfo.chestRT}"></p:selectBooleanCheckbox></td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+							<br />
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:tab>
+
+				<p:tab title="Diet/Activity/Screening">
+
+					<div style="height: 900; width: 100%;">
+						<div
+							style="height: 300; width: 900; float: left; clear: left; margin: auto;">
+							<!--  row1 col1 -->
+							<div style="height: auto; width: 35%; float: left;">
+								
+								<table align="center" width="70%">
+									<tr>
+										<td align="left"><p:outputLabel align="left" value="Vitamins"
+											style="text-decoration:underline"></p:outputLabel></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Daily Supplements"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.dailyVitamins}">
+												<f:selectItems value="#{utilBean.dailySupplements}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="50p"><p:outputLabel
+												value="Vitamin A"></p:outputLabel></td>
+										<td align="left" width="10%"><p:selectBooleanCheckbox
+												value="#{researchBean.registryInfo.vitaminA}"></p:selectBooleanCheckbox></td>
+									</tr>
+									<tr>
+										<td align="left" width="50p"><p:outputLabel
+												value="Vitamin B"></p:outputLabel></td>
+										<td align="left" width="10%"><p:selectBooleanCheckbox
+												value="#{researchBean.registryInfo.vitaminB}"></p:selectBooleanCheckbox></td>
+									</tr>
+									<tr>
+										<td align="left" width="50p"><p:outputLabel
+												value="Vitamin E"></p:outputLabel></td>
+										<td align="left" width="10%"><p:selectBooleanCheckbox
+												value="#{researchBean.registryInfo.vitaminE}"></p:selectBooleanCheckbox></td>
+									</tr>
+									<tr>
+										<td align="left" width="50p"><p:outputLabel
+												value="Omega-3"></p:outputLabel></td>
+										<td align="left" width="10%"><p:selectBooleanCheckbox
+												value="#{researchBean.registryInfo.omega3}"></p:selectBooleanCheckbox></td>
+									</tr>
+								</table>
+
+							</div>
+							<!--  row1 col2 -->
+							<div style="height: auto; width: 35%; float: left;">
+							
+								<table align="center" width="70%">
+									<tr>
+										<td align="left"><p:outputLabel align="left" value="Food"
+											style="text-decoration:underline"></p:outputLabel></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Red Meat:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.redMeat}">
+												<f:selectItems value="#{utilBean.foodTime}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel value="Fish:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.fish}">
+												<f:selectItems value="#{utilBean.foodTime}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Fruit:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.fruit}">
+												<f:selectItems value="#{utilBean.foodTime}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Vegetable:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.vegetable}">
+												<f:selectItems value="#{utilBean.foodTime}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Vegetable Leady:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.vegetableLeafy}">
+												<f:selectItems value="#{utilBean.foodTime}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Vegetable Broccoli:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.vegetableBroccoli}">
+												<f:selectItems value="#{utilBean.foodTime}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+								</table>
+
+							</div>
+							<!-- row1 col3 -->
+							<div style="height: auto; width: 30%; float: left;">
+								
+								<table align="center">
+									<tr>
+										<td align="left"><p:outputLabel align="left" value="Activity"
+											style="text-decoration:underline"></p:outputLabel></td>
+									</tr>
+									<tr>
+										<td align="left" width="60%"><p:outputLabel
+												value="Physical Work:"></p:outputLabel></td>
+										<td align="left"><p:inputTextarea
+												value="#{researchBean.registryInfo.physicalWork}" rows="1"
+												cols="8"></p:inputTextarea></td>
+										<td align="left" width="40%"><p:outputLabel
+												value="hours/day"></p:outputLabel></td>
+									</tr>
+									<tr>
+										<td align="left" width="60%"><p:outputLabel
+												value="Physical Exercise:"></p:outputLabel></td>
+										<td align="left"><p:inputTextarea
+												value="#{researchBean.registryInfo.physicalExercise}"
+												rows="1" cols="8"></p:inputTextarea></td>
+										<td align="left" width="40%"><p:outputLabel
+												value="hours/week"></p:outputLabel></td>
+									</tr>
+								</table>
+
+							</div>
+						</div>
+
+						<div
+							style="height: auto; width: 100%; float: left; clear: left; margin: auto;">
+							<!--  row2 col1 -->
+							<div style="height: auto; width: 50%; float: left">
+								<br /> <br />
+
+								<table width="70%" align="center">
+									<tr>
+										<td align="left" width="10%"><p:outputLabel align="left"
+												value="Alcohol" style="text-decoration:underline"></p:outputLabel></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Intake:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.alcohol}">
+												<f:selectItems value="#{utilBean.intake}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Comment:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:inputTextarea
+												value="#{researchBean.registryInfo.alcoholComment}" rows="4"
+												cols="40"></p:inputTextarea></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Red Wine:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:inputText
+												value="#{researchBean.registryInfo.alcoholRed}"></p:inputText></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="White Wine:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:inputText
+												value="#{researchBean.registryInfo.alcoholWhite}"></p:inputText></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel value="Beer:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:inputText
+												value="#{researchBean.registryInfo.alcoholBeer}"></p:inputText></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Liquor:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:inputText
+												value="#{researchBean.registryInfo.alcoholLiquor}"></p:inputText></td>
+									</tr>
+								</table>
+							</div>
+							<!-- row2 col2 -->
+							<div style="height: auto; width: 50%; float: left">
+								<br /> <br />
+
+								<table width="70%" align="center">
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Screening" style="text-decoration:underline;"></p:outputLabel></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Physical:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.screeningPhysical}">
+												<f:selectItems value="#{utilBean.screening}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Breast:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.screeningBreast}">
+												<f:selectItems value="#{utilBean.screening}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Colon:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.screeningColon}">
+												<f:selectItems value="#{utilBean.screening}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Cervical PAP:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.screeningPAP}">
+												<f:selectItems value="#{utilBean.screening}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="left" width="20%"><p:outputLabel
+												value="Prostate:"></p:outputLabel></td>
+										<td align="left" width="80%"><p:selectOneMenu
+												value="#{researchBean.registryInfo.screeningProstate}">
+												<f:selectItems value="#{utilBean.screening}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+								</table>
+
+							</div>
+						</div>
+
+					</div>
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+				</p:tab>
+			</p:tabView>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

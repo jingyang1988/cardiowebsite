@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+	<f:event listener="#{loginBean.isLogged()}" type="preRenderView" />
+</f:metadata>
+
+<ui:composition template="/WEB-INF/templates/SpecialMasterPage.xhtml">
+	<ui:define name="title">Main Menu</ui:define>
+	<ui:define name="content">
+		<h:form id="mainMenu">
+			<br />
+			<br />
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				<td align="right" width="40%"></td>
+				<td align="right">
+					<p:outputLabel value="Welcome "  style="color:blue"></p:outputLabel>
+					<p:outputLabel value="#{loginBean.role}"  style="color:blue" ></p:outputLabel>
+					<p:outputLabel value=": "  style="color:blue"></p:outputLabel>
+					<p:outputLabel value="#{loginBean.username}" style="color:blue" ></p:outputLabel>
+				</td>
+				<td align="right"><p:commandButton value="Log Out" 
+							action="#{loginBean.logOut}" ajax="false"></p:commandButton></td>
+				</tr>
+			</table>
+			<br />
+			<table width="80%" align="center">
+				<tr>
+					<td align="center"><p:outputLabel value="Search By Surname:"
+							for="seachByName" />&nbsp; <p:autoComplete id="seachByName"
+							minQueryLength="1" effect="fade"
+							value="#{mainMenuBean.selectedPatient}"
+							completeMethod="#{mainMenuBean.searchPatientByName}" var="user"
+							itemLabel="#{user.name.concat(' ').concat(user.mrn)}"
+							itemValue="#{user}" converter="lcec.model.patient.converter"
+							forceSelection="true">
+							<p:ajax event="itemSelect" update="seachByMrn, patientData"></p:ajax>
+						</p:autoComplete>&nbsp;
+						<p:commandButton value="clear" action="#{mainMenuBean.clearPatient}"
+							onclick="document.getElementById('seachByName').value='';">
+						</p:commandButton>
+						</td>
+					<td align="center"><p:outputLabel value="Search By MRN:"
+							for="seachByMrn" />&nbsp; <p:autoComplete id="seachByMrn"
+							minQueryLength="1" effect="fade"
+							value="#{mainMenuBean.selectedPatient}"
+							completeMethod="#{mainMenuBean.searchPatientByMRN}" var="user"
+							itemLabel="#{user.name}" itemValue="#{user}"
+							converter="lcec.model.patient.converter">
+							<p:ajax event="itemSelect" update="seachByName, patientData"></p:ajax>
+						</p:autoComplete></td>
+						<td ><p:outputLabel
+								value="OR"></p:outputLabel></td>
+						<ui:repeat var="page" value="SearchPatient.xhtml">
+						<td align="right"><p:commandButton value="Advanced Search" style="background-color:#FFBF00;"
+							action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+						</ui:repeat>
+				</tr>
+				
+			</table>
+			<p:panel id="patientData" style="border:0;">
+				<table align="center" width="80%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Patient&nbsp;Name:"></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="MRN:"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="No chart:"></p:outputLabel></td>
+						<td align="right" width="1%"><p:selectBooleanCheckbox id="chart" value="#{selectBooleanView.value1}" > </p:selectBooleanCheckbox></td>
+						
+						<td align="left" width="7%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="10%"><h:outputLabel
+								value="WorkUp&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu
+								rendered="#{mainMenuBean.selectedPatient!=null}"
+								value="#{mainMenuBean.selectedPatient.workUpId}">
+								<f:selectItems value="#{utilBean.workupList}" />
+								<f:ajax event="change"
+									listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+						<td align="right" width="7%"><h:outputLabel
+								value="LCEC&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu
+								rendered="#{mainMenuBean.selectedPatient!=null}"
+								value="#{mainMenuBean.selectedPatient.lcecId}">
+								<f:selectItems value="#{utilBean.lcecStatusList}" />
+								<f:ajax event="change"
+									listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+					</tr>
+				</table>
+			</p:panel>
+			<p:separator style="width:80%;height:5px;background-color: #FF0000;" />
+			<br />
+			<br />
+			<h:panelGrid columns="3" width="100%" styleClass="panel-center"
+				style="text-align: center;">
+				<p:commandButton value="Patient Data" ajax="false" type="submit"
+					action="#{mainMenuBean.PatientData()}" styleClass="command-button"
+					style="background-color:#C9FFE5;"></p:commandButton>
+					
+				<p:commandButton action="#{mainMenuBean.ScheduleTest()}"
+					value="Schedule Testing and Test Results" type="submit"
+					ajax="false" styleClass="command-button"
+					style="background-color:#FF9966;"></p:commandButton>
+					
+				<p:commandButton action="#{mainMenuBean.MedicalHistory()}"
+					value="Medical History" type="submit" ajax="false"
+					styleClass="command-button" style="background-color:#FFBF00;"></p:commandButton>
+
+				<p:commandButton action="#{mainMenuBean.CancerInfo()}"
+					value="Cancer Information" type="submit" ajax="false"
+					styleClass="command-button" style="background-color:#A1CAF1;"></p:commandButton>
+
+				<p:commandButton action="#{mainMenuBean.Medications()}"
+					value="Medications / Allergies" type="submit" ajax="false"
+					styleClass="command-button" style="background-color:#8580b1;"></p:commandButton>
+
+				<p:commandButton action="#{mainMenuBean.surBiopsy()}"
+					value="Procedures Treatments" type="submit" ajax="false"
+					styleClass="command-button" style="background-color:#BCD4E6;"></p:commandButton>
+
+				<p:commandButton action="#{mainMenuBean.AutoSchedule()}"
+					value="Auto Scheduler" type="submit" ajax="false"
+					styleClass="command-button" style="background-color:#FFE4C4;"></p:commandButton>
+
+				<p:commandButton value="Visits" type="submit" ajax="false"
+					action="#{mainMenuBean.Visit()}" styleClass="command-button"
+					style="background-color:#FBCEB1;"></p:commandButton>
+
+				<p:commandButton value="Lesion" styleClass="command-button"
+					style="background-color:#9ACD32;" action="#{mainMenuBean.lesion()}"
+					type="submit" ajax="false"></p:commandButton>
+
+				<p:commandButton value="Research" styleClass="command-button"
+					style="background-color:#EDA9AF;"
+					action="#{mainMenuBean.research()}" type="submit" ajax="false"></p:commandButton>
+
+				<p:commandButton value="Print Patient Summary"
+					action="#{mainMenuBean.Print()}" type="submit" ajax="false"
+					styleClass="command-button" style="background-color:#8580b1;"></p:commandButton>
+					
+				<p:commandButton value="Delete Patient" styleClass="command-button"
+					style="background-color:#9A3078;"
+					onclick="addDlg.show();" type="submit"></p:commandButton>
+					
+
+					
+			</h:panelGrid>
+			
+			<p:dialog id="deletePatientDialog" header="Delete Patient" widgetVar="addDlg" modal="true">
+				<p:outputLabel value="Are you sure you want to delete this patient?"></p:outputLabel>
+				<br />
+				<table align="center">
+					<tr>
+						<td><p:commandButton width="25%" ajax="false" value="Yes" 
+								action="#{mainMenuBean.deletePatient()}"></p:commandButton></td>
+						<td><p:commandButton width="25%" ajax="false" value="NO"></p:commandButton></td>
+					</tr>
+				</table>
+			</p:dialog>
+			
+			<br />
+			<br />
+			<p:separator style="width:80%;height:5px;background-color: #FF0000;" />
+			<br />
+			<br />
+
+			<h:panelGrid columns="7" width="100%" styleClass="panel-center"
+				style="text-align: center;">
+				
+			
+			
+				<p:commandButton ajax="false" action="#{mainMenuBean.createNewPatient()}" immediate="true"
+					value="Create New Patient" styleClass="command-button"
+					style="background-color:#22A2AF;"></p:commandButton>
+					
+					
+					
+				<ui:repeat var="page" value="UserControlPage.xhtml">
+				<p:commandButton action="#{pageLogBean.logger(page)}" value="User Control"
+					type="submit" ajax="false" styleClass="command-button"
+					immediate="true" style="background-color:#7261A2;"></p:commandButton>
+				</ui:repeat>
+				
+				
+				<ui:repeat var="page2" value="QueryDatabase.xhtml">
+				<p:commandButton action="#{pageLogBean.logger(page2)}" value="Query Database"
+					type="submit" ajax="false" styleClass="command-button"
+					immediate="true" style="background-color:#7261A2;"></p:commandButton>
+				</ui:repeat>
+					
+					
+					
+				<p:commandButton value="Reports" styleClass="command-button"
+					style="background-color:#EDA9AF;"
+					action="#{mainMenuBean.Reports()}" type="submit" ajax="false"></p:commandButton>
+				<p:commandButton value="Modify Database" styleClass="command-button"
+					style="background-color:#EDA9AF;"
+					action="#{mainMenuBean.modifyDatabase()}" type="submit" ajax="false"></p:commandButton>
+				<p>
+					<a href="help.html">LCEC System Help</a>
+				</p> 
+
+				<!--
+				<p:commandButton value="Security Access Control"
+					styleClass="command-button" style="background-color:#F234AF;"></p:commandButton>
+				<p:commandButton value="List Maintenance"
+					styleClass="command-button"></p:commandButton>
+				<p:commandButton value="Database Query" styleClass="command-button"></p:commandButton>
+				<p:commandButton value="Label Menu" styleClass="command-button"></p:commandButton>
+				<p:commandButton value="Memos" styleClass="command-button"></p:commandButton>
+				<p:commandButton value="Inpatient Census"
+					styleClass="command-button"></p:commandButton>
+				-->
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

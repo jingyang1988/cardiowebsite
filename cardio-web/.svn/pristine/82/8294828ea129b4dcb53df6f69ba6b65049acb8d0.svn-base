@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+		<ui:define name="content">
+
+			<table width="100%" style="background-color: #eee;">
+				<tr>
+					<td width="50%" align="center"><h:outputLabel>
+							<b>Scheduling Menu</b>
+						</h:outputLabel></td>
+
+					<td width="25%" align="right"><h:form>
+							<p:commandButton value="Main Menu" action="mainMenu.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%"></td>
+				</tr>
+
+				<tr>
+					<td height="10px"></td>
+				</tr>
+
+				<tr>
+					<td width="50%" align="center"><h:outputLabel>
+							<b><u>____________________Visits____________________</u></b>
+						</h:outputLabel></td>
+
+					<td width="25%" align="center"><h:outputLabel>
+							<b><u>______Tests______</u></b>
+						</h:outputLabel></td>
+
+					<td width="25%"></td>
+				</tr>
+			</table>
+
+			<table width="100%" style="background-color: #eee;">
+				<tr>
+					<td width="25%" height="50px" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Patient Summaries for a Clinic Date" action="index.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Visit To Schedule" action="createSchedule.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Testing To Schedule" action="index.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Patients Without Schedule Tests" action="index.xhtml"></p:commandButton>
+						</h:form></td>
+				</tr>
+
+				<tr>
+					<td width="25%" height="50px" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Clinic Schedule" action="index.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Visit To Schedule Report" action="index.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Tests To Schedule Report" action="index.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%" align="center"></td>
+				</tr>
+
+				<tr>
+					<td width="25%" height="50px" align="center"></td>
+
+					<td width="25%" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Overdue Visit Query" action="index.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Overdue Testing Query" action="index.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%" align="center"></td>
+				</tr>
+
+				<tr>
+					<td width="25%" height="50px" align="center"></td>
+
+					<td width="25%" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Overdue Visit Report" action="index.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%" align="center"><h:form>
+							<p:commandButton styleClass="command-button"
+								value="Overdue Testing Report" action="index.xhtml"></p:commandButton>
+						</h:form></td>
+
+					<td width="25%" align="center"></td>
+				</tr>
+			</table>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

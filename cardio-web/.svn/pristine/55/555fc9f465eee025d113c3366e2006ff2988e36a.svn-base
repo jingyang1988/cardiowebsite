@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Reports</ui:define>
+	<ui:define name="content">
+		<h:form id="modifyDatabase">
+			<br />
+			<br />
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				
+					<ui:repeat var="page" value="mainMenu.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							ajax="false" action="#{pageLogBean.logger(page)}"></p:commandButton></td>
+				</ui:repeat>	
+				
+				
+				<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;" action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			</table>
+			<br />
+		
+			
+			<br />
+			<br />
+			<p:separator style="width:80%;height:5px;background-color: #FF0000;" />
+			<br />
+			<br />
+			<h:panelGrid columns="3" width="100%" styleClass="panel-center"
+				style="text-align: center;">
+				<ui:repeat var="page" value="AddreferringMD.xhtml">
+				<p:commandButton value="Search/Add Referring MD" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				<ui:repeat var="page" value="Addprimary.xhtml">
+				<p:commandButton value="Search/Add Primary MD" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				<ui:repeat var="page" value="AddPhysician.xhtml">
+				<p:commandButton value="Add LCEC Doctor" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				<ui:repeat var="page" value="SearchorAddinsurance.xhtml">
+				<p:commandButton value="Search / Add Insurance" ajax="false" type="submit" action="SearchorAddinsurance.xhtml"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+
+				<ui:repeat var="page" value="AddTestType.xhtml">
+				<p:commandButton value="Add Test type" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>				
+			</h:panelGrid>
+			<br />
+			<br />
+			<p:separator style="width:80%;height:5px;background-color: #FF0000;" />
+			<br />
+			<br />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

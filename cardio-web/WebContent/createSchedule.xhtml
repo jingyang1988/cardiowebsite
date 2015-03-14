@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+<h:body>
+
+	<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+		<ui:define name="content">
+
+			<table width="100%" style="background-color: #eee;">
+				<tr>
+					<td width="20%" align="center"><p:outputLabel>
+							<b>Visits to be Scheduled</b>
+						</p:outputLabel></td>
+
+					<td width="15%"><h:form>
+					<ui:repeat var="page" value="realCreateSchedule.xhtml">
+							<p:commandButton value="Create Schedule"
+								action="#{pageLogBean.logger(page)}">
+							</p:commandButton>
+							</ui:repeat>
+						</h:form></td>
+
+					<td width="15%"><h:form>
+					<ui:repeat var="page" value="createSchedule.xhtml">
+							<p:commandButton value="View Schedule"
+								action="#{pageLogBean.logger(page)}"></p:commandButton>
+								</ui:repeat>
+						</h:form></td>
+
+					<td width="15%"><h:form>
+					<ui:repeat var="page" value="editSchedule.xhtml">
+							<p:commandButton value="Edit Schedule"
+								action="#{pageLogBean.logger(page)}"></p:commandButton>
+								</ui:repeat>
+						</h:form></td>
+
+					<td width="15%"><h:form>
+					<ui:repeat var="page" value="findSchedule.xhtml">
+							<p:commandButton value="Find Schedule"
+								action="#{pageLogBean.logger(page)}"></p:commandButton>
+								</ui:repeat>
+						</h:form></td>
+
+					<td width="20%" align="center"><h:form>
+					<ui:repeat var="page" value="mainMenu.xhtml">
+							<p:commandButton value="Main Menu" action="#{pageLogBean.logger(page)}"></p:commandButton>
+						</ui:repeat>
+						</h:form></td>
+
+				</tr>
+			</table>
+
+			<h:form style="background-color:#eee;">
+				<p:dataTable value="#{schedule.scheduleList}" var="o"
+					styleClass="order-table" headerClass="order-table-header"
+					rowClasses="order-table-odd-row,order-table-even-row">
+
+					<p:column>
+						<f:facet name="header">MRN</f:facet>
+						#{o.MRN}	
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Name(Last,First)</f:facet>
+    					#{o.name}
+    				</p:column>
+
+					<p:column>
+						<f:facet name="header">Phone Number</f:facet>
+    					#{o.phoneNumber}
+    				</p:column>
+
+					<p:column>
+						<f:facet name="header">Insurance</f:facet>
+						#{o.insurance}
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Referral Needed</f:facet>
+						<p:selectBooleanCheckbox value="#{o.referralNeeded}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Referral</f:facet>
+						#{o.referral}
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Date Required:</f:facet>
+    					#{o.dateRequired}
+    				</p:column>
+
+					<p:column>
+						<f:facet name="header">Data Scheduled</f:facet>
+						#{o.dateScheduled}
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Data of Actual Visit</f:facet>
+						#{o.dateOfActualVisit}
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">To see</f:facet>
+						#{o.toSee}
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Handled by Phone?</f:facet>
+						<p:selectBooleanCheckbox value="#{o.handledByPhone}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Refused</f:facet>
+						<p:selectBooleanCheckbox value="#{o.refused}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">LCEC Status</f:facet>
+						#{o.LCECStatus}
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">WorkUp Status:</f:facet>
+						#{o.workUpStatus}
+					</p:column>
+				</p:dataTable>
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

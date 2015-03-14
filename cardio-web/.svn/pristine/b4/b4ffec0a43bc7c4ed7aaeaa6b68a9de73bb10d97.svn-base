@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<h:body style="background-color:#eee;">
+	<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+		<ui:define name="content">
+			<table width="100%" style="background-color: #eee;">
+				<tr>
+					<td width="20%" align="center"><p:outputLabel>
+							<b>Visits to be Scheduled</b>
+						</p:outputLabel></td>
+
+					<td width="15%"><h:form>
+							<ui:repeat var="page" value="realCreateSchedule.xhtml">
+							<p:commandButton value="Create Schedule"
+								action="#{pageLogBean.logger(page)}"></p:commandButton>
+							</ui:repeat>
+						</h:form></td>
+
+					<td width="15%"><h:form>
+							<ui:repeat var="page" value="createSchedule.xhtml">
+							<p:commandButton value="View Schedule"
+								action="#{pageLogBean.logger(page)}"></p:commandButton>
+							</ui:repeat>
+						</h:form></td>
+
+					<td width="15%"><h:form>
+					<ui:repeat var="page" value="editSchedule.xhtml">
+							<p:commandButton value="Edit Schedule"
+								action="#{pageLogBean.logger(page)}"></p:commandButton>
+					</ui:repeat>
+						</h:form></td>
+
+					<td width="15%"><h:form>
+					<ui:repeat var="page" value="findSchedule.xhtml">
+							<p:commandButton value="Find Schedule"
+								action="#{pageLogBean.logger(page)}"></p:commandButton>
+					</ui:repeat>
+						</h:form></td>
+
+					<td width="20%" align="center"><h:form>
+					<ui:repeat var="page" value="mainMenu.xhtml">
+							<p:commandButton value="Main Menu" action="#{pageLogBean.logger(page)}"></p:commandButton>
+					</ui:repeat>
+						</h:form></td>
+				</tr>
+			</table>
+
+			<h:form style="background-color:#eee;">
+				<table>
+					<tr>
+						<td><p:outputLabel value="MRN"></p:outputLabel></td>
+						<td><p:inputText></p:inputText></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="Name(Last,First)"></p:outputLabel></td>
+						<td><p:inputText></p:inputText></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="Phone Number"></p:outputLabel></td>
+						<td><p:inputText></p:inputText></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="Insurance"></p:outputLabel></td>
+						<td><p:selectOneMenu>
+								<f:selectItem itemLabel="Empire Blue Cro"
+									itemValue="Empire Blue Cro" />
+								<f:selectItem itemLabel="Commercial Insu"
+									itemValue="Commercial Insu" />
+								<f:selectItem itemLabel="HIP VIP" itemValue="HIP VIP" />
+								<f:selectItem itemLabel="HIP" itemValue="HIP" />
+								<f:selectItem itemLabel="HealthFirst" itemValue="HealthFirst" />
+								<f:selectItem itemLabel="HealthCare Part"
+									itemValue="HealthCare Part" />
+							</p:selectOneMenu></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="Referral Needed"></p:outputLabel></td>
+						<td><p:selectBooleanCheckbox /></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="Referral"></p:outputLabel></td>
+						<td><p:inputText></p:inputText></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="Date Required:"></p:outputLabel></td>
+						<td><p:calendar id="popupCal" /></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="Data Scheduled"></p:outputLabel></td>
+						<td><p:calendar id="popupCal2" /></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="Date of Actual Visit"></p:outputLabel></td>
+						<td><p:calendar id="popupCal3" /></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="To see"></p:outputLabel></td>
+						<td><p:selectOneMenu>
+								<f:selectItem itemLabel="Baram,Daniel" itemValue="Baram,Daniel" />
+								<f:selectItem itemLabel="Aleyas, Sajive"
+									itemValue="Aleyas, Sajive" />
+								<f:selectItem itemLabel="Avvento, Louis"
+									itemValue="Avvento, Louis" />
+								<f:selectItem itemLabel="Benne, Alan" itemValue="Benne, Alan" />
+								<f:selectItem itemLabel="Bethune, Thoma"
+									itemValue="Bethune, Thoma" />
+								<f:selectItem itemLabel="Bilfinger, Thoma"
+									itemValue="Bilfinger, Thoma" />
+							</p:selectOneMenu></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="Handled by Phone?"></p:outputLabel></td>
+						<td><p:selectBooleanCheckbox /></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="Refused"></p:outputLabel></td>
+						<td><p:selectBooleanCheckbox /></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="LCEC Status"></p:outputLabel></td>
+						<td><p:inputText></p:inputText></td>
+					</tr>
+
+					<tr>
+						<td><p:outputLabel value="WorkUp Status:"></p:outputLabel></td>
+						<td><p:inputText></p:inputText></td>
+					</tr>
+				</table>
+
+				<p:commandButton type="Submit" styleClass="button" value="Search" />
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

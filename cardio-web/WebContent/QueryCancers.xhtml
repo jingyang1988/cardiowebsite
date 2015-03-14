@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Query Cancers</ui:define>
+	<ui:define name="content">
+		<h:form id="queryCancers">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				
+				
+					<ui:repeat var="page" value="QueryDatabase.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+					</ui:repeat>						
+					
+					
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			<tr>
+				<td width="90%" align="center" colspan="2">
+				
+			<br />
+
+			<p:dataTable var="p" paginator="true" rows="25"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="25,50,100,#{queryBean.patientTestingReport.size()}"
+				value="#{queryBean.cancerInfoModelList}">
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.mrn}" headerText="MRN" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.mrn}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.name}" headerText="Name(Last,First)" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.name}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.diagnosisDate}" headerText="Diagnosis Date" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.diagnosisDate}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.stagingDate}" headerText="Staging Date" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.stagingDate}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.cancerType}" headerText="Cancer Type" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.cancerType}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.comment1}" headerText="Comment1" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.comment1}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.clinical_T}" headerText="Clinical T" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.clinical_T}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.clinical_N}" headerText="Clinical N" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.clinical_N}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.clinical_M}" headerText="Clinical M" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.clinical_M}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.clinical_TNM}" headerText="Clinical TNM" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.clinical_TNM}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.pathological_T}" headerText="Pathological T" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.pathological_T}" />
+				</p:column>
+				
+				<p:column filterStyle="width:95%;" filterBy="#{p.pathological_N}" headerText="Pathological N" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.pathological_N}" />
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.pathological_M}" headerText="Pathological M" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.pathological_M}" />
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.pathological_TNM}" headerText="Pathological TNM" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.pathological_TNM}" />
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.status_1year}" headerText="Status 1 year" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.status_1year}" />
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.status_2year}" headerText="Status 2 year" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.status_2year}" />
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.status_3year}" headerText="Status 3 year" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.status_3year}" />
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.status_4year}" headerText="Status 4 year" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.status_4year}" />
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.status_5year}" headerText="Status 5 year" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.status_5year}" />
+				</p:column>
+				<p:column filterStyle="width:95%;" filterBy="#{p.comment}" headerText="Comment" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.comment}" />
+				</p:column>
+				
+				<!-- 
+				<p:column headerText="MRN" width="5%">
+					<h:outputText value="#{p.mrn}" />
+				</p:column>
+
+				<p:column headerText="Name (Last, First)" width="5%">
+					<h:outputText value="#{p.name}" />
+				</p:column>
+
+				<p:column headerText="Diagnosis Date" width="5%">
+					<h:outputText value="#{p.diagnosisDate}" />					
+				</p:column>
+
+				<p:column headerText="Staging Date" width="5%">	
+					<h:outputText value="#{p.stagingDate}" />		
+				</p:column>
+
+				<p:column headerText="Cancer Type" width="5%">					
+					<h:outputText value="#{p.cancerType}" />
+						
+				</p:column>
+				
+				<p:column headerText="CancerType Comment" width="5%">									
+					<h:outputText value="#{p.comment1}" />	
+				</p:column>
+				
+				<p:column headerText="Stage T Clinical" width="5%">	
+					
+					<h:outputText value="#{p.clinical_T}" />							
+				</p:column>		
+				
+				<p:column headerText="Stage N Clinical" width="5%">					
+					
+					<h:outputText value="#{p.clinical_N}" />
+				</p:column>
+				
+				<p:column headerText="Stage M Clinical" width="5%">					
+					
+					<h:outputText value="#{p.clinical_M}" />
+				</p:column>	
+				
+				<p:column headerText="Stage TNM Clinical" width="5%">					
+					
+					<h:outputText value="#{p.clinical_TNM}" />
+				</p:column>		
+				
+				<p:column headerText="Stage T Pathologic" width="5%">	
+					
+					<h:outputText value="#{p.pathological_T}" />							
+				</p:column>		
+				
+				<p:column headerText="Stage N Pathologic" width="5%">					
+					
+					<h:outputText value="#{p.pathological_N}" />					
+				</p:column>
+				
+				<p:column headerText="Stage M Pathologic" width="5%">					
+				
+					<h:outputText value="#{p.pathological_M}" />
+				</p:column>	
+				
+				<p:column headerText="Stage TNM Pathologic" width="5%">					
+					
+					<h:outputText value="#{p.pathological_TNM}" />
+				</p:column>
+				
+				<p:column headerText="Status 1 year" width="4%">	
+					
+					<h:outputText value="#{p.status_1year}" />
+												
+				</p:column>		
+				
+				<p:column headerText="Status 2 year" width="4%">					
+					
+					
+					<h:outputText value="#{p.status_2year}" />				
+				</p:column>
+				
+				<p:column headerText="Status 3 year" width="4%">					
+					
+						<h:outputText value="#{p.status_3year}" />	
+				</p:column>	
+				
+				<p:column headerText="Status 4 year" width="4%">					
+					
+						
+							<h:outputText value="#{p.status_4year}" />	
+				</p:column>	
+				
+				<p:column headerText="Status 5 year" width="4%">					
+					
+							<h:outputText value="#{p.status_5year}" />	
+				</p:column>																							
+
+				<p:column headerText="Comment" width="5%">									
+					<h:outputText value="#{p.comment}" />	
+				</p:column>
+
+				<p:column width="5%">
+					<p:commandButton type="submit" ajax="false" value="Update"
+					  action="#{mainMenuBean.CancerInfo()}" actionListener="#{mainMenuBean.setSearchedPatient(p.name)}"></p:commandButton>
+				</p:column>
+				 -->
+			</p:dataTable>
+				</td>
+				</tr>
+			</table>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

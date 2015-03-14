@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Query Patient</ui:define>
+	<ui:define name="content">
+		<h:form id="queryPatient">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				<ui:repeat var="page" value="QueryDatabase.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>	
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			<tr>
+				<td width="90%" align="center" colspan="2">
+				
+			<br />
+
+			<p:dataTable var="p" paginator="true" rows="25"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="25,50,100,#{queryBean.patientDataModelList.size()}"
+				value="#{queryBean.patientDataModelList}" filteredValue="#{queryBean.filteredPatientDataReport}">
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.mrn}" headerText="MRN" width="7%" styleClass="wrap">
+					<h:outputText value="#{p.mrn}" />
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.name}" headerText="Name (Last, First)" width="10%" styleClass="wrap">
+					<h:outputText value="#{p.name}" />
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.workupStatus}" headerText="WorkUp Status" width="10%" styleClass="wrap">
+					<h:outputText value="#{p.workupStatus}"></h:outputText>
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.lcecStatus}" headerText="LCEC Status" width="11%" styleClass="wrap">
+					<h:outputText value="#{p.lcecStatus}"></h:outputText>
+				</p:column>
+
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.primaryCare}" headerText="Primary MD" width="12%" styleClass="wrap">
+					<h:outputText value="#{p.primaryCare}"></h:outputText>
+				</p:column>
+
+				<p:column filterStyle="width:95%;" filterBy="#{p.referringMD}" headerText="Referring MD" width="12%" styleClass="wrap">
+					<h:outputText value="#{p.referringMD}"></h:outputText>
+				</p:column>
+
+				<p:column headerText="Date of Referral" width="8%" styleClass="wrap">
+					<h:outputText value="#{p.referralDate}">
+						<f:convertDateTime type="date" pattern="MM-dd-yyyy"/>
+					</h:outputText>
+				</p:column>
+				<p:column width="8%">
+					<p:commandButton type="submit" ajax="false" value="Update"
+					  action="#{mainMenuBean.PatientData()}" actionListener="#{mainMenuBean.setSearchedPatient(p.name)}"></p:commandButton>
+				</p:column>
+			</p:dataTable>
+				</td>
+				</tr>
+			</table>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

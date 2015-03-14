@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Visit Scheduling</ui:define>
+	<ui:define name="content">
+	<h:form id="patientVisit">
+	<table width="90%" align="center">
+				<tr>
+				
+				<ui:repeat var="page" value="mainMenu.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>
+					
+					<td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;" action="#{visitBean.saveVisitData()}" ajax="false"></p:commandButton> </td> 
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			</table>
+			<br />
+		<br/>	
+		<!-- <table width="90%" align="center">
+	    <tr>
+	    <td align="right"><p:commandButton value="Save Changes" action="#{visitBean.saveVisitData()}" ajax="false"></p:commandButton> </td> 
+	    </tr>
+	    </table>   
+	    <br/> -->
+	    <p:panel id="patientData" style="border:0;">
+				<table align="center" width="80%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Patient&nbsp;Name:"></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="MRN:"></p:outputLabel></td>
+						<td align="left" width="7%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="10%"><h:outputLabel
+								value="WorkUp&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu  rendered="#{mainMenuBean.selectedPatient!=null}" value="#{mainMenuBean.selectedPatient.workUpId}">
+								<f:selectItems value="#{utilBean.workupList}"/>
+								<f:ajax event="change" listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+						<td align="right" width="7%"><h:outputLabel
+								value="LCEC&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu rendered="#{mainMenuBean.selectedPatient!=null}" value="#{mainMenuBean.selectedPatient.lcecId}">
+								<f:selectItems value="#{utilBean.lcecStatusList}"/>
+								<f:ajax event="change" listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+					</tr>
+				</table>
+			</p:panel>
+	    
+		<br/>
+	    <br/>
+	    <table width="90%" align="center">
+	    <tr>
+	    	<td width="10%"></td>
+	    	<td width="80%">
+	     		<p:dataTable var="lesion" value="#{visitBean.visitData.lesionList}" scrollable="true" scrollHeight="60" emptyMessage="No data found." style="text-align: center;">    					
+ 				<p:column headerText="Date&nbsp;LCEC" rendered="true" style="text-align: center;">  
+  					<h:outputText value="#{lesion.lesionDate}" />  
+ 				</p:column> 
+ 				<p:column headerText="LCEC&nbsp;Classification" rendered="true" style="text-align: center;">  
+  					<h:outputText value="#{lesion.leasionClassification}" />  
+ 				</p:column> 
+ 				<p:column headerText="Location" rendered="true" style="text-align: center;">  
+  					<h:outputText value="#{lesion.location}" />  
+ 				</p:column>  
+	    		</p:dataTable> 
+	    	</td>
+	    	<td width="10%"></td>
+	    </tr>
+	    </table>
+	    <br/>
+
+	    <table width="90%" align="center">
+	    <tr>
+	    
+	    	<td align="right"><p:commandButton onclick="addDlg.show();" type="button" value="Add New Visit"></p:commandButton></td> 
+	    </tr>
+	    </table>
+	      		      	
+	    <table width="90%" align="center">
+	    <tr>
+	    	<td>	      	
+ 	 		<ui:repeat var="v" value="#{visitBean.visitData.visitList}">						
+			<p:fieldset legend="#{v.scheduledDate}"> 			
+			<table width="100%" align="center"> 
+			<tr>
+				<td align="right"><p:outputLabel value="Date&nbsp;Required:"></p:outputLabel></td>
+				<td align="left">
+					<p:calendar effect="slideDown" navigator="true" value="#{v.requiredDate}" style="width:110px"></p:calendar>
+				</td>
+				<td align="right"><p:outputLabel value="Type&nbsp;of&nbsp;Visit:"></p:outputLabel></td>
+				<td align="left">
+					<p:selectOneMenu value="#{v.typeOfVisit}" style="width:110px">
+						<f:selectItems value="#{utilBean.visittypeList}" />
+					</p:selectOneMenu>							
+				</td>
+				<td align="right"><p:outputLabel value="Date&nbsp;Scheduled:"></p:outputLabel></td>
+				<td align="left">
+					<p:calendar effect="slideDown" navigator="true" value="#{v.scheduledDate}" style="width:110px"></p:calendar>
+				</td>
+				<td align="right"><p:outputLabel value="Actual&nbsp;Visit&nbsp;Date:"></p:outputLabel></td>
+				<td align="left">
+					<p:calendar effect="slideDown" navigator="true" value="#{v.actualVisitDate}" style="width:110px"></p:calendar>
+				</td>		
+			</tr>												
+			<tr>
+				<td align="right"><p:outputLabel value="Handled&nbsp;By&nbsp;Phone:"></p:outputLabel></td>
+				<td align="left">
+					<p:selectBooleanCheckbox value="#{v.handledByPhone}" style="width:110px"></p:selectBooleanCheckbox>
+				</td>
+				<td align="right"><p:outputLabel value="MD/NP/RN&nbsp;Primary:"></p:outputLabel></td>
+				<td align="left">
+					<p:selectOneMenu value="#{v.primaryMD}" style="width:110px">
+						<f:selectItems value="#{utilBean.lcecPhysiciansList}" />
+					</p:selectOneMenu>					
+				</td>
+				<!--  ><td align="right"><p:outputLabel value="To&nbsp;See/Seen&nbsp;By&nbsp;2:"></p:outputLabel></td> 
+				<td align="left">
+					<p:selectOneMenu value="#{v.scheduledToSee2}" style="width:110px">
+						<f:selectItems value="#{utilBean.lcecPhysiciansList}" />
+					</p:selectOneMenu>								
+				</td>
+				 <td align="right"><p:outputLabel value="To&nbsp;See/Seen&nbsp;By&nbsp;3:"></p:outputLabel></td>
+				<td align="left">
+					<p:selectOneMenu value="#{v.scheduledToSee3}" style="width:110px">
+						<f:selectItems value="#{utilBean.lcecPhysiciansList}" />
+					</p:selectOneMenu>							
+				</td>	-->
+			</tr>						
+			<tr>
+				<td align="right"><p:outputLabel value="Tobacco&nbsp;Status:"></p:outputLabel></td>
+				<td align="left">
+					<p:selectOneMenu value="#{v.tobaccoStatus}" style="width:110px">
+						<f:selectItems value="#{utilBean.smokestatusList}" />
+					</p:selectOneMenu>
+				</td>
+				<td align="right"><p:outputLabel value="Counselled:"></p:outputLabel></td>
+				<td align="left">
+					<p:selectBooleanCheckbox value="#{v.counselled}" style="width:110px"></p:selectBooleanCheckbox>
+				</td>
+				<td align="right"><p:outputLabel value="Referral&nbsp;Needed:"></p:outputLabel></td>
+				<td align="left">
+					<p:selectBooleanCheckbox value="#{v.referralNeeded}" style="width:110px"></p:selectBooleanCheckbox>
+				</td>							
+				<td align="right"><p:outputLabel value="Referral:"></p:outputLabel></td>
+				<td align="left">
+					<p:inputText value="#{v.referral}" style="width:105px"></p:inputText>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><p:outputLabel value="Refused:"></p:outputLabel></td>
+				<td align="left">
+					<p:selectBooleanCheckbox value="#{v.refused}" style="width:105px"></p:selectBooleanCheckbox>
+				</td>
+				<td align="right"><p:outputLabel value="Plan:"></p:outputLabel></td>
+				<td align="left">
+					<p:inputText value="#{v.plan}" style="width:105px"></p:inputText>
+				</td>							
+				<td align="right"><p:outputLabel value="Comment:"></p:outputLabel></td>
+				<td align="left">
+					<p:inputText value="#{v.comment}" style="width:105px"></p:inputText>
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td align="left"><p:commandButton value="Delete Visit"
+				    ajax="false" type="submit" action="#{visitBean.deleteVisit(v)}" />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+			</tr>
+			
+			</table> 
+			</p:fieldset>
+			<br/>
+			</ui:repeat>
+			</td>
+		</tr>
+		</table>
+	    
+	    <p:dialog id="modalDialog" header="New Visit" widgetVar="addDlg" modal="true">
+	    <table width="100%" align="center"> 
+		<tr>
+			<td align="right"><p:outputLabel value="Date&nbsp;Required:"></p:outputLabel></td>
+			<td align="left">
+				<p:calendar effect="slideDown" navigator="true" value="#{visitBean.visit.requiredDate}" style="width:110px"></p:calendar>
+			</td>
+			<td align="right"><p:outputLabel value="Type&nbsp;of&nbsp;Visit:"></p:outputLabel></td>
+			<td align="left">
+				<p:selectOneMenu value="#{visitBean.visit.typeOfVisit}" style="width:110px">
+					<f:selectItems value="#{utilBean.visittypeList}" />
+				</p:selectOneMenu>							
+			</td>
+			<td align="right"><p:outputLabel value="Date&nbsp;Scheduled:"></p:outputLabel> </td>
+			<td align="left">
+				<p:calendar effect="slideDown" navigator="true" value="#{visitBean.visit.scheduledDate}" style="width:110px"></p:calendar>
+			</td>
+			<td align="right"><p:outputLabel value="Actual&nbsp;Visit&nbsp;Date:"></p:outputLabel></td>
+			<td align="left">
+					<p:calendar effect="slideDown" navigator="true" value="#{visitBean.visit.actualVisitDate}" style="width:110px"></p:calendar>
+			</td>		
+		</tr>												
+		<tr>
+			<td align="right"><p:outputLabel value="Handled&nbsp;By&nbsp;Phone:"></p:outputLabel></td>
+			<td align="left">
+				<p:selectBooleanCheckbox value="#{visitBean.visit.handledByPhone}" style="width:110px"></p:selectBooleanCheckbox>
+			</td>
+			<td align="right"><p:outputLabel value="MD/NP/RN&nbsp;Primary:"></p:outputLabel> </td>
+			<td align="left">
+				<p:selectOneMenu value="#{visitBean.visit.primaryMD}" style="width:110px">
+					<f:selectItems value="#{utilBean.lcecPhysiciansList}" />
+				</p:selectOneMenu>				
+			</td>
+			<!--   ><td align="right"><p:outputLabel value="To&nbsp;See/Seen&nbsp;By&nbsp;2:"></p:outputLabel></td>
+			<td align="left">
+				<p:selectOneMenu value="#{visitBean.visit.scheduledToSee2}" style="width:110px">
+					<f:selectItems value="#{utilBean.lcecPhysiciansList}" />
+				</p:selectOneMenu>								
+			</td>
+			<td align="right"><p:outputLabel value="To&nbsp;See/Seen&nbsp;By&nbsp;3:"></p:outputLabel></td>
+			<td align="left">
+				<p:selectOneMenu value="#{visitBean.visit.scheduledToSee3}" style="width:110px">
+					<f:selectItems value="#{utilBean.lcecPhysiciansList}" />
+				</p:selectOneMenu>							
+			</td>	-->
+		</tr>						
+		<tr>
+			<td align="right"><p:outputLabel value="Tobacco&nbsp;Status:"></p:outputLabel></td>
+			<td align="left">
+				<p:selectOneMenu value="#{visitBean.visit.tobaccoStatus}" style="width:110px">
+					<f:selectItems value="#{utilBean.smokestatusList}" />
+				</p:selectOneMenu>
+			</td>
+			<td align="right"><p:outputLabel value="Counselled:"></p:outputLabel></td>
+			<td align="left">
+				<p:selectBooleanCheckbox value="#{visitBean.visit.counselled}" style="width:110px"></p:selectBooleanCheckbox>
+			</td>
+			<td align="right"><p:outputLabel value="Referral&nbsp;Needed:"></p:outputLabel></td>
+			<td align="left">
+				<p:selectBooleanCheckbox value="#{visitBean.visit.referralNeeded}" style="width:110px"></p:selectBooleanCheckbox>
+			</td>							
+			<td align="right"><p:outputLabel value="Referral:"></p:outputLabel></td>
+			<td align="left">
+				<p:inputText value="#{visitBean.visit.referral}" style="width:105px"></p:inputText>
+			</td>
+		</tr>
+		<tr>
+			<td align="right"><p:outputLabel value="Refused:"></p:outputLabel></td>
+			<td align="left">
+				<p:selectBooleanCheckbox value="#{visitBean.visit.refused}" style="width:105px"></p:selectBooleanCheckbox>
+			</td>
+			<td align="right"><p:outputLabel value="Plan:"></p:outputLabel></td>
+			<td align="left">
+				<p:inputText value="#{visitBean.visit.plan}" style="width:105px"></p:inputText>
+			</td>							
+			<td align="right"><p:outputLabel value="Comment:"></p:outputLabel></td>
+			<td align="left">
+				<p:inputText value="#{visitBean.visit.comment}" style="width:105px"></p:inputText>
+			</td>
+			<td></td>
+			<td align="right"><p:commandButton value="Add Visit" ajax="false" type="submit" action="#{visitBean.addVisit()}" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+		</table>					
+		</p:dialog>
+		<table width="90%" align="center">
+				<tr>
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							action="mainMenu.xhtml" ajax="false"></p:commandButton></td>
+					<td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;" action="#{visitBean.saveVisitData()}" ajax="false"></p:commandButton> </td> 
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			</table>
+			
+	    </h:form>
+	</ui:define>
+</ui:composition>
+</html>

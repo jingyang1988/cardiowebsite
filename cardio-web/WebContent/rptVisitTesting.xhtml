@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">rptPreOps</ui:define>
+	<ui:define name="content">
+		<h:form id="queryPatient">
+			<br />
+			<table width="30%" align="center">
+				<tr>
+
+				<ui:repeat var="page" value="Reports.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			<tr>
+				<td width="90%" align="center" colspan="2">
+				
+			<br />
+
+			<p:dataTable var="p" paginator="true" rows="25"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="25,50,100,#{queryBean.rptVisitTesting.size()}"
+				value="#{queryBean.rptVisitTesting}" >
+
+				<p:column  headerText="MRN" width="3%" styleClass="wrap">
+					<h:outputText value="#{p.MRN}" />
+				</p:column>
+
+				<p:column headerText="Test Type" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.type}"></h:outputText>
+				</p:column>
+				
+
+				<p:column headerText="Required Date" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.reqdate}"></h:outputText>
+				</p:column>
+
+				<p:column headerText="Testing Date" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.testdate}"></h:outputText>
+				</p:column>
+				<p:column headerText="Result" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.result}"></h:outputText>
+				</p:column>
+				<p:column headerText="Testing Result" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.testresult}"></h:outputText>
+									</p:column>
+							<p:column headerText="Ok To Call Results" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.ok}"></h:outputText>
+				</p:column>		
+									<p:column headerText="Comment" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.comment}"></h:outputText>
+					</p:column>
+			</p:dataTable>
+				</td>
+				</tr>
+			</table>
+			
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Biposy Data</ui:define>
+	<ui:define name="content">
+	    <h:form id="bronch">
+	    <br />
+	    <table width="90%" align="center">
+				<tr>
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							action="surBiopsyData.xhtml" ajax="false"></p:commandButton></td>
+					<td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;"
+							action="#{surBiposyDataBean.saveBronchData()}" ajax="false"></p:commandButton></td>		
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			</table>
+			<br/>
+			<p:panel id="patientData" style="border:0;">
+				<table align="center" width="80%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Patient&nbsp;Name:"></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="MRN:"></p:outputLabel></td>
+						<td align="left" width="7%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+					</tr>
+				</table>
+			</p:panel>
+			
+			<p:panel id="biopsyInfo" style="border:0;">
+				<table align="center" width="80%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="PerformedBy:" ></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{surBiposyDataBean.getBronchBiopsy().getPerformedBy() }"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+								
+						<td align="right" width="7%"><p:outputLabel value="ProcedureData:"></p:outputLabel></td>
+						<td align="left" width="7%"><p:outputLabel
+								value="#{surBiposyDataBean.getBronchBiopsy().getScheduleDate()}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+					</tr>
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Location:" ></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{surBiposyDataBean.getBronchBiopsy().getBiopsyLocation() }"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+								
+						<td align="right" width="10%"><p:outputLabel
+								value="Comment:" ></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{surBiposyDataBean.getBronchBiopsy().getLocationComment() }"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						
+					</tr>
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Result:" ></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{surBiposyDataBean.getBronchBiopsy().getBiopsyResult() }"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+					</tr>
+					
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Diagnostic:" ></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{surBiposyDataBean.getBronchBiopsy().getDiagnostic() }"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+								
+						<td align="right" width="10%"><p:outputLabel
+								value="Accurcy:" ></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{surBiposyDataBean.getBronchBiopsy().getAccuracy() }"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+					</tr>
+				</table>
+			</p:panel>
+			
+			<br />
+			<br />
+			<table width="90%" align="center">
+				<tr>
+					<td align="right"><p:commandButton onclick="addDlg.show();"
+							type="button" value="Add New Bronch"></p:commandButton></td>
+				</tr>
+			</table>	
+
+		<table width="90%" align="center">
+				<tr>
+					<td><ui:repeat var="b"
+							value="#{surBiposyDataBean.getBronchList()}">
+							<p:fieldset>
+								<table width="100%" align="center">
+									<tr>
+										<td align="right"><p:outputLabel value="BronchType:"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu value="#{b.bronchType}"
+												style="width:110px">
+												<f:selectItems value="#{utilBean.bronchTypeList}" />
+											</p:selectOneMenu></td>
+
+										<td align="right"><p:outputLabel value="Location:"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu
+												value="#{b.location}" style="width:110px">
+												<f:selectItems value="#{utilBean.locationList}" />
+											</p:selectOneMenu></td>
+
+										<td align="right"><p:outputLabel value="ROSE:"></p:outputLabel></td>
+										<td align="left"><p:inputText
+												value="#{b.rose}" style="width:110px"></p:inputText>
+										</td>
+
+										<td align="right"><p:outputLabel value="Lymph:"></p:outputLabel></td>
+										<td align="left"><p:inputText
+												value="#{b.numberPasses}" style="width:110px"></p:inputText>
+										</td>
+									</tr>
+
+									<tr>
+										<td align="right"><p:outputLabel
+												value="Biopsy&nbsp;Result:"></p:outputLabel></td>
+										<td align="left"><p:inputText value="#{b.biopsyResult}"
+												style="width:105px"></p:inputText></td>
+
+										<td align="right"><p:outputLabel value="Comment:"></p:outputLabel></td>
+										<td align="left"><p:inputText value="#{b.comment}"
+												style="width:105px"></p:inputText></td>
+
+										<td align="left"><p:outputLabel value="EBUS"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox value="#{b.EBUS}">
+											</p:selectBooleanCheckbox></td>
+						
+										<td align="right"><p:outputLabel value="Diagnostic:"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu value="#{b.diagnostic}"
+												style="width:110px">
+												<f:selectItems value="#{utilBean.resultDiagnosticList}" />
+											</p:selectOneMenu></td>
+									</tr>
+
+									<tr>
+										<td align="right"><p:outputLabel value="Accuracy:"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu value="#{b.accuracy}"
+												style="width:110px">
+												<f:selectItems value="#{utilBean.biopsyAccuracyList}" />
+											</p:selectOneMenu></td>
+
+										<td align="right"><p:outputLabel value="Culture:"></p:outputLabel></td>
+										<td align="left"><p:inputText value="#{b.culture}"
+												style="width:105px"></p:inputText></td>
+										<td align="left"><p:outputLabel value="EMN"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox value="#{b.EMN}"></p:selectBooleanCheckbox></td>
+						
+										<td align="right"><p:commandButton value="Delete"
+												action="#{surBiposyDataBean.deleteBronch(b)}"  update=":bronch"> </p:commandButton></td>
+									</tr>
+								</table>
+							</p:fieldset>
+							<br />
+						</ui:repeat></td>
+				</tr>
+			</table>	
+			<p:dialog id="modalDialog" header="Add Bronch" widgetVar="addDlg" modal="true">
+	    		<table width="100%" align="center">
+					<tr>
+					     
+						<td align="right"><p:outputLabel value="BronchType:"></p:outputLabel></td>
+						<td align="left"><p:selectOneMenu value="#{surBiposyDataBean.newBronch.bronchType}" style="width:110px">
+												<f:selectItems value="#{utilBean.bronchTypeList}" />
+										</p:selectOneMenu></td>
+			
+
+						<td align="right"><p:outputLabel value="Location:"></p:outputLabel></td>
+						<td align="left"><p:selectOneMenu value="#{surBiposyDataBean.newBronch.location}" style="width:110px">
+												<f:selectItems value="#{utilBean.locationList}" />
+										</p:selectOneMenu></td>
+
+						<td align="right"><p:outputLabel value="ROSE:"></p:outputLabel></td>
+						<td align="left"><p:inputText value="#{surBiposyDataBean.newBronch.rose}" style="width:110px"></p:inputText></td>
+
+						<td align="right"><p:outputLabel value="Lymph:"></p:outputLabel></td>
+						<td align="left"><p:inputText value="#{surBiposyDataBean.newBronch.numberPasses}" style="width:110px"></p:inputText></td>
+					</tr>
+
+					<tr>
+						<td align="right"><p:outputLabel value="Biopsy&nbsp;Result:"></p:outputLabel></td>
+						<td align="left"><p:inputText value="#{surBiposyDataBean.newBronch.biopsyResult}"
+												style="width:105px"></p:inputText></td>
+
+						<td align="right"><p:outputLabel value="Comment:"></p:outputLabel></td>
+						<td align="left"><p:inputText value="#{surBiposyDataBean.newBronch.comment}"
+												style="width:105px"></p:inputText></td>
+						
+						<td align="left"><p:outputLabel value="EBUS"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox value="#{surBiposyDataBean.newBronch.EBUS}"></p:selectBooleanCheckbox></td>
+						
+						<td align="right"><p:outputLabel value="Diagnostic:"></p:outputLabel></td>
+						<td align="left"><p:selectOneMenu value="#{surBiposyDataBean.newBronch.diagnostic}"
+												style="width:110px">
+												<f:selectItems value="#{utilBean.resultDiagnosticList}" />
+											</p:selectOneMenu></td>
+				</tr>
+
+				<tr>
+						<td align="right"><p:outputLabel value="Accuracy:"></p:outputLabel></td>
+						<td align="left"><p:selectOneMenu value="#{surBiposyDataBean.newBronch.accuracy}"
+												style="width:110px">
+												<f:selectItems value="#{utilBean.biopsyAccuracyList}" />
+											</p:selectOneMenu></td>
+
+						<td align="right"><p:outputLabel value="Culture:"></p:outputLabel></td>
+						<td align="left"><p:inputText value="#{surBiposyDataBean.newBronch.culture}"
+												style="width:105px"></p:inputText></td>
+												
+						<td align="left"><p:outputLabel value="EMN"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox value="#{surBiposyDataBean.newBronch.EMN}"></p:selectBooleanCheckbox></td>
+																	
+						<td width="25%" align="right" colspan="2"><p:commandButton value="Add Bronch" ajax="false" type="submit" action="#{surBiposyDataBean.addBronch}" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+			</table>
+		</p:dialog>
+			
+			 <table width="90%" align="center">
+				<tr>
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							action="surBiopsyData.xhtml" ajax="false"></p:commandButton></td>
+					<td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;"
+							action="#{surBiposyDataBean.saveBronchData}" ajax="false"></p:commandButton></td>		
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages1" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			</table>
+		
+		
+			
+			
+
+		
+				
+	 		
+	    </h:form>
+	</ui:define>
+</ui:composition>
+</html>

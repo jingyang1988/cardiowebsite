@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Lesion</ui:define>
+	<ui:define name="content">
+	<h:form>
+		<table width="90%" align="center">
+			<tr>
+				<td colspan="5">	
+						<br/>
+						
+					</td>
+				</tr>
+				<tr>
+					<td width="40%" align="right"></td>
+					<td align="right"><p:commandButton 
+							action="#{mainMenuBean.ScheduleTest()}" value="Schedule Testing"
+							type="submit" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton action="#{mainMenuBean.AutoSchedule()}"
+							value="Auto Schedule Testing" type="submit" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Save Changes" style="color:red;width:100px;"
+							action="#{lesionBean.saveLesionData()}" ajax="false"></p:commandButton></td>
+							
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr>
+					<td colspan="5">	
+						<br/>
+						<br/>
+					</td>
+				</tr>
+			</table>
+		
+			
+			<p:panel id="patientData" style="border:0;">
+				<table align="center" width="90%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Patient&nbsp;Name:"></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="MRN:"></p:outputLabel></td>
+						<td align="left" width="7%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="10%"><h:outputLabel
+								value="WorkUp&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu  rendered="#{mainMenuBean.selectedPatient!=null}" value="#{mainMenuBean.selectedPatient.workUpId}">
+								<f:selectItems value="#{utilBean.workupList}"/>
+								<f:ajax event="change" listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+						<td align="right" width="7%"><h:outputLabel
+								value="LCEC&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu rendered="#{mainMenuBean.selectedPatient!=null}" value="#{mainMenuBean.selectedPatient.lcecId}">
+								<f:selectItems value="#{utilBean.lcecStatusList}"/>
+								<f:ajax event="change" listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+						<td align="right"><h:outputLabel
+							value="Date&nbsp;of&nbsp;Referral:"></h:outputLabel></td>
+					<td align="left"><p:calendar effect="slideDown"
+							navigator="true"
+							value="#{lesionBean.lesionData.dateofReferral}"
+							style="width:110px"></p:calendar></td>
+					</tr>
+				</table>
+			</p:panel>
+
+			<br/>	
+			<table width="90%" align="center">
+				<tr>
+					<td><p:fieldset legend="Patient Risk Factors">
+							<table width="100%" align="center">
+								<tr>
+									<td align="right"><p:outputLabel>Pack Years: </p:outputLabel></td>
+									<td align="left"><p:inputText id="packYears"
+											value="#{lesionBean.lesionData.packYears}"></p:inputText></td>
+									<td align="right"><p:outputLabel>Asbestos Exposure: </p:outputLabel></td>
+									<td align="left"><p:inputText id="asbestosExposure"
+											value="#{lesionBean.lesionData.asbestosExposure}"></p:inputText></td>
+
+									<td align="right"><p:outputLabel>Year Quit: </p:outputLabel></td>
+									<td align="left"><p:inputText id="yearQuit"
+											value="#{lesionBean.lesionData.yearquit}"></p:inputText></td>
+									<td align="right"><p:outputLabel>Silica Exposure: </p:outputLabel></td>
+									<td align="left"><p:inputText id="silicaExposure"
+											value="#{lesionBean.lesionData.silicaExposure}"></p:inputText></td>
+								</tr>
+							</table>
+							<br />
+							<table width="50%" align="center">
+								<tr>
+									<td><h:outputText value="Lung Cancer?" /></td>
+									<td align="center" width="25%"><p:selectBooleanCheckbox
+											value="#{lesionBean.lesionData.personalLungCancer}"
+											itemLabel="Personal" /></td>
+									<td align="center" width="25%"><p:selectBooleanCheckbox
+											value="#{lesionBean.lesionData.fatherMotherLungCancer}"
+											itemLabel="Father/Mother" /></td>
+									<td align="center" width="25%"><p:selectBooleanCheckbox
+											value="#{lesionBean.lesionData.otherFamilyLungCancer}"
+											itemLabel="Other Family" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Other Cancer?" /></td>
+									<td align="center" width="25%"><p:selectBooleanCheckbox
+											value="#{lesionBean.lesionData.personalOtherCancer}"
+											itemLabel="Personal" /></td>
+									<td align="center" width="25%"><p:selectBooleanCheckbox
+											value="#{lesionBean.lesionData.fatherMotherOtherCancer}"
+											itemLabel="Father/Mother" /></td>
+									<td align="center" width="25%"><p:selectBooleanCheckbox
+											value="#{lesionBean.lesionData.otherFamilyOtherCancer}"
+											itemLabel="Other Family" /></td>
+								</tr>
+							</table>
+							<table width="80%" align="center">
+								<tr>
+									<td width="16%" align="right"><p:outputLabel>FEV-1 %Pred: </p:outputLabel></td>
+									<td width="17%"><p:inputText id="fev"
+											value="#{lesionBean.lesionData.fev}"></p:inputText></td>
+									<td width="16%" align="right"><p:outputLabel>FVC %Pred: </p:outputLabel></td>
+									<td width="17%"><p:inputText id="fvc"
+											value="#{lesionBean.lesionData.fvc}"></p:inputText></td>
+									<td width="16%" align="right"><p:outputLabel>FEV-1/FVC %: </p:outputLabel></td>
+									<td width="17%"><p:inputText id="devide"
+											value="#{lesionBean.lesionData.fev_fvc}"></p:inputText></td>
+								</tr>
+							</table>
+						</p:fieldset></td>
+				</tr>
+			</table>
+			<br />
+			<table width="90%" align="center">
+
+
+				<tr>
+					<td align="right"><p:commandButton onclick="addDlg.show();" style="width:100px"
+							type="button" value="Add&nbsp;New&nbsp;Lesion"></p:commandButton></td>
+				</tr>
+
+
+
+
+
+			</table>
+			<br />
+			<table width="90%" align="center">
+				<tr>
+					<td><ui:repeat var="lesion"
+							value="#{lesionBean.lesionData.lesionList}">
+							<p:fieldset legend="#{lesion.date1stFollowedLCEC}">
+								<table width="100%" align="center">
+									<tr>
+										<td align="right"><p:outputLabel
+												value="Lesion&nbsp;Classification"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu
+												id="lesionClassification"
+												value="#{lesion.lessionClassification}">
+												<f:selectItems value="#{utilBean.lesionClassificaitonList}" />
+											</p:selectOneMenu></td>
+										<td align="right"><p:outputLabel value="Location"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu id="location"
+												 value="#{lesion.location}">
+												<f:selectItems value="#{utilBean.locationList}" />
+											</p:selectOneMenu></td>
+										<td align="right"><p:outputLabel
+												value="CT&nbsp;Characteristic"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu id="CT"
+												 value="#{lesion.CTCharacteristic}">
+												<f:selectItems value="#{utilBean.lesionCtCharacteristic}" />
+											</p:selectOneMenu></td>
+										<td align="right"><p:outputLabel value="PET&nbsp;SUV"></p:outputLabel></td>
+										<td align="left"><p:inputText value="#{lesion.petSUV}"></p:inputText></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel
+												value="Final&nbsp;Diagnosis:"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu
+												value="#{lesion.finalDiagnosis}" >
+												<f:selectItem id="item11" itemLabel="#{lesion.finalDiagnosis}"
+													itemValue="0" />
+												<f:selectItems value="#{utilBean.lesionDignosisList}" />
+											</p:selectOneMenu></td>
+										<td align="right"><p:outputLabel
+												value="Link&nbsp;To&nbsp;Cancer"></p:outputLabel></td>
+										<td align="left"><p:inputText
+												value="#{lesion.linkToCancer}"></p:inputText></td>
+										<td align="right"><p:outputLabel value="Comments"></p:outputLabel></td>
+										<td align="left" colspan="3"><p:inputText style="width:96%"
+												value="#{lesion.comments}"></p:inputText></td>
+									</tr>
+								</table>
+							</p:fieldset>
+							<br />
+						</ui:repeat></td>
+				</tr>
+			</table>
+			<p:dialog id="modalDialog" header="New Lesion" widgetVar="addDlg"
+				modal="true">
+				<table width="100%" align="center">
+					<tr>
+					<td align="right"><p:outputLabel value="Date"></p:outputLabel></td>
+						<td align="left"><p:calendar effect="slideDown"
+								navigator="true"
+								value="#{lesionBean.lesion.date1stFollowedLCEC}" style="width:110px"></p:calendar>
+						</td>
+					
+						<td align="right"><p:outputLabel
+								value="Lesion&nbsp;Classification"></p:outputLabel></td>
+						<td align="left"><p:selectOneMenu
+								value="#{lesionBean.lesion.lessionClassification}" style="width:110px">
+								<f:selectItems value="#{utilBean.lesionClassificaitonList}" />
+							</p:selectOneMenu></td>
+						<td align="right"><p:outputLabel value="Location"></p:outputLabel></td>
+						<td align="left"><p:selectOneMenu
+								value="#{lesionBean.lesion.location}" style="width:110px">
+								<f:selectItems value="#{utilBean.locationList}" />
+							</p:selectOneMenu></td>
+						<td align="right"><p:outputLabel
+								value="CT&nbsp;Characteristic"></p:outputLabel></td>
+						<td align="left"><p:selectOneMenu
+								value="#{lesionBean.lesion.CTCharacteristic}"
+								style="width:110px">
+								<f:selectItems value="#{utilBean.lesionCtCharacteristic}" />
+							</p:selectOneMenu></td>
+						
+
+					</tr>
+					<tr>
+					<td align="right"><p:outputLabel value="PET&nbsp;SUV"></p:outputLabel></td>
+										<td align="left"><p:inputText value="#{lesionBean.lesion.petSUV}"></p:inputText></td>
+					<td align="right"><p:outputLabel
+								value="Final&nbsp;Diagnosis"></p:outputLabel></td>
+						<td align="left"><p:selectOneMenu
+								value="#{lesionBean.lesion.finalDiagnosis}"
+								style="width:110px">
+								<f:selectItems value="#{utilBean.lesionDignosisList}" />
+							</p:selectOneMenu></td>
+							<td align="right"><p:outputLabel value="Comments"></p:outputLabel></td>
+						<td align="left"><p:inputText
+								value="#{lesionBean.lesion.comments}" style="width:105px"></p:inputText>
+						</td>
+						<td align="right"><p:commandButton value="Add Lesion"
+								ajax="false" type="submit" action="#{lesionBean.addLesion}" />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					</tr>
+
+				</table>
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>
+

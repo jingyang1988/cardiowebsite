@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Add new Insurance</ui:define>
+	<ui:define name="content">
+		<h:form id="addInsurance">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="SearchorAddinsurance.xhtml" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			</table>
+				<h:panelGrid columns="2" width="100%" styleClass="panel-center"
+				style="text-align: center;">
+				Insurance Company:<p:inputText id="insurCo" value="#{insuranceBean.insurCo}" /><br />
+				Phone Number 1:<p:inputText id="phone1" value="#{insuranceBean.phoneNumber1}" /><br />
+				Phone Number 2:<p:inputText id="phone2" value="#{insuranceBean.phoneNumber2}" /><br />
+				Phone Number 3:<p:inputText id="phone3" value="#{insuranceBean.phoneNumber3}" /><br />
+				Comment: <p:inputText id="comment" value="#{insuranceBean.comment}" /><br />
+				CTPrecert:<p:inputText id="ctPrecert" value="#{insuranceBean.ctPrecert}" /><br />
+				PETPrecert:<p:inputText id="petPrecert" value="#{insuranceBean.petPrecert}" /><br />
+				PFTPrecert:<p:inputText id="pftPrecert" value="#{insuranceBean.pftPrecert}" /><br />
+				VisitReferral:<p:inputText id="visitreferral" value="#{insuranceBean.visitReferral}" /><br />
+				
+				<p:commandButton value="Add"  type="submit" ajax="false" action="#{insuranceBean.addInsurance}" style="background-color:#8580b1;" />
+				</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Data Mining Result</ui:define>
+	<ui:define name="content">
+		<h:form id="queryPatient">
+			<br />
+			<table width="80%" align="center">
+				<tr>
+				
+				<ui:repeat var="page" value="Reports.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}"></p:commandButton></td>
+				</ui:repeat>				
+				
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			<tr>
+				<td width="90%" align="left" colspan="2">
+				
+			<br />
+
+			
+			<p>
+	<br><font size = "4">(1) It turns out that pack_years, smoker_status_entry, smoke_status_current attributes have great relationship with personal lung cancer. </font></br>
+	<br><font size = "4">(2) The general result shows that pack_years attribute have relationship with cancer, which is not only lung cancer or personal cancer, actually includes all cancer related with family members including the smoker itself.</font></br>
+	<br><font size = "4">(3) It seems that DLCOAct has relationship with cancer.</font></br>
+	<br><font size = "4">(4) We can conclude that the number of women that have smoke is greater than the number of man. The number of women that have cancer (including lung cancer or overall cancer) is greater than the number of men. Compared with men, women will be easier to have cancer(including lung cancer or overall cancer)  because of smoke. Women are easier to be influenced by other family members who have cancer(including lung cancer or overall cancer).  
+
+Also we could conclude that if someone smoke, probably the family member would be easier to have lung cancer than himself or herself. If someone smoke that his or her family member would have high possibility(44%) to have cancer.</font></br>
+</p>
+			
+			
+				</td>
+				</tr>
+			</table>
+			
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

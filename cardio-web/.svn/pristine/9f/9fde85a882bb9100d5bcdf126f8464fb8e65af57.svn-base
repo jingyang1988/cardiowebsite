@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">User Control</ui:define>
+	<ui:define name="content">
+		<h:form id="userControl">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				<ui:repeat var="page" value="mainMenu.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr>
+					<td width="100%">
+						<c:if test="${loginBean.role=='Webuser'}">
+						<br/>
+						<p:fieldset legend="Current User">
+							<table align="center">
+								<tr>
+									<td align="right" width="8%"><p:outputLabel value="Name: "></p:outputLabel></td>
+									<td align="left" width="12%"><p:outputLabel
+											value="#{loginBean.cur_user.username}"
+											style="color:black;font-weight:bold;"></p:outputLabel></td>
+									<td align="right" width="8%"><p:outputLabel value="Id: "></p:outputLabel></td>
+									<td align="left" width="12%"><p:outputLabel
+											value="#{loginBean.cur_user.userId}"
+											style="color:black;font-weight:bold;"></p:outputLabel></td>
+									<td align="right" width="8%"><p:outputLabel value="Email: "></p:outputLabel></td>
+									<td align="left" width="12%"><p:outputLabel
+											value="#{loginBean.cur_user.email}"
+											style="color:black;font-weight:bold;"></p:outputLabel></td>
+									<td align="left" width="10%"><p:commandButton onclick="addDlg3.show();"
+											actionListener="#{loginBean.setUserId(loginBean.cur_user.userId)}"
+											value="Change&nbsp;Email" immediate="true">
+										</p:commandButton></td>
+									<td width="10%" align="right"><p:commandButton onclick="addDlg.show();"
+										actionListener="#{loginBean.setUserId(loginBean.cur_user.userId)}"
+										immediate="true" value="Change&nbsp;Password"></p:commandButton></td>
+								</tr>
+							</table>
+						</p:fieldset>
+						</c:if>
+					</td>
+				</tr>
+				<tr>
+					<td width="100%" align="left">
+					
+			<c:if test="${loginBean.role=='Administrator'}">
+				<br />
+				<br />
+				<p:fieldset legend="Current User" >
+					<table align="center">
+						<tr>
+							<td align="right" width="8%"><p:outputLabel value="Name: "></p:outputLabel></td>
+							<td align="left" width="12%"><p:outputLabel
+									value="#{loginBean.cur_user.username}"
+									style="color:black;font-weight:bold;"></p:outputLabel></td>
+							<td align="right" width="8%"><p:outputLabel value="Id: "></p:outputLabel></td>
+							<td align="left" width="12%"><p:outputLabel
+									style="color:black;font-weight:bold;"
+									value="#{loginBean.cur_user.userId}"></p:outputLabel></td>
+							<td align="right" width="8%"><p:outputLabel value="Email: "></p:outputLabel></td>
+							<td align="left" width="12%"><p:outputLabel
+									value="#{loginBean.cur_user.email}"
+									style="color:black;font-weight:bold;"></p:outputLabel></td>
+							<td align="left" width="10%"><p:commandButton
+									onclick="addDlg3.show();"
+									actionListener="#{loginBean.setUserId(loginBean.cur_user.userId)}"
+									value="Change&nbsp;Email" immediate="true">
+								</p:commandButton></td>
+							<td align="right" width="10%"><p:commandButton onclick="addDlg.show();"
+									actionListener="#{loginBean.setUserId(loginBean.cur_user.userId)}"
+									value="Change&nbsp;Password" immediate="true">
+								</p:commandButton></td>
+						</tr>
+					</table>
+					</p:fieldset>
+				<br />
+				<br />				
+			    <table align="right" width="100%">
+					<tr >
+						<td align="right"><p:commandButton type="button"
+								onclick="addDlg5.show();" value="Add&nbsp;New&nbsp;User"></p:commandButton></td>
+					</tr>
+				</table>
+				<br />
+				<br />
+				<p:fieldset legend="Other Users">
+				<table align="center">
+				<ui:repeat var="u" value="#{loginBean.usersList}">
+					<tr>
+							<td align="right"><p:outputLabel
+									value="Name: "></p:outputLabel></td>
+							<td align="left"><p:outputLabel
+									value="#{u.username}" style="color:black;font-weight:bold;">
+								</p:outputLabel></td>
+							<td align="right" ><p:outputLabel
+									value="Id: "></p:outputLabel></td>
+							<td align="left" ><p:outputLabel
+									value="#{u.userId}" style="color:black;font-weight:bold;">
+								</p:outputLabel></td>
+							<td align="right" ><p:outputLabel
+									value="Email: "></p:outputLabel></td>
+							<td align="left" ><p:outputLabel value="#{u.email}"
+									style="color:black;font-weight:bold;"></p:outputLabel></td>
+							<td align="center"><p:commandButton
+									onclick="addDlg4.show();"
+									actionListener="#{loginBean.setUserId(u.userId)}"
+									value="Change&nbsp;Email" immediate="true">
+								</p:commandButton></td>
+							<td align="center"><p:commandButton
+									onclick="addDlg2.show();"
+									actionListener="#{loginBean.setUserId(u.userId)}"
+									value="Change&nbsp;Password" immediate="true">
+								</p:commandButton></td>
+							<td align="right" width="10%"><p:commandButton
+									actionListener="#{loginBean.setUserId(u.userId)}"
+									onclick="addDlg6.show();"
+									value="Delete&nbsp;User" immediate="true" /></td>
+					</tr>
+					</ui:repeat>
+				</table>
+				</p:fieldset>
+				</c:if>
+			</td>
+			</tr>
+			</table>
+			<p:dialog id="modalDialog" header="Change Password"
+				widgetVar="addDlg" modal="true">
+				<table>
+					<tr>
+						<td colspan="2">
+							<p:messages id="messages" showDetail="true" autoUpdate="true" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel value="Current Password:" />
+						</td>
+						<td>
+							<p:password label="Current Password" id="password"
+								value="#{loginBean.password1}">
+								<p:ajax update="saveButton" event="keyup"
+									listener="#{loginBean.validateCurrentPassword}" />
+							</p:password>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel value="New Password:" />
+						</td>
+						<td>
+							<p:password label="New Password 1" id="pwd1"
+							value="#{loginBean.password2}">
+							<p:ajax update="saveButton" event="keyup"
+									listener="#{loginBean.validatePassword}" />
+							</p:password>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h:outputLabel value="Confirm Password:" />
+						</td>
+						<td>
+							<p:password label="New Password 2" id="pwd2"
+							value="#{loginBean.password3}">
+							<p:ajax update="saveButton" event="keyup"
+							listener="#{loginBean.validatePassword}" />
+							</p:password>
+						</td>
+					</tr>
+					<tr><td align="right" colspan="2">
+				<p:commandButton
+					disabled="#{(loginBean.correct_pw and loginBean.correct_cpw) eq false}"
+					id="saveButton"
+					action="#{loginBean.savePassword(loginBean.password3)}"
+					ajax="false" immediate="true" type="submit" value="Save" />
+					 </td></tr>
+					 </table>
+			</p:dialog>
+
+			<p:dialog id="modalDialog2" header="Change Password"
+				widgetVar="addDlg2" modal="true">
+				<table>
+					<tr>
+						<td colspan="2">
+							<p:messages id="messages2" showDetail="true" autoUpdate="true" />
+						</td>
+					</tr>
+					<tr>
+					 	<td>
+							<h:outputLabel value="New Password:" />
+						</td>
+						<td>
+							<p:password label="New Password 1" id="pwd3"
+								value="#{loginBean.password2}">
+								<p:ajax update="saveButton2" event="keyup"
+									listener="#{loginBean.validatePasswordbyAdmin}" />
+							</p:password>
+						</td>
+					</tr>
+					<tr>
+					 	<td>
+							<h:outputLabel value="Confirm New Password:" />
+						</td>
+						<td>
+							<p:password label="New Password 2" id="pwd4"
+							value="#{loginBean.password3}">
+							<p:ajax update="saveButton2" event="keyup"
+							listener="#{loginBean.validatePasswordbyAdmin}" />
+						</p:password>
+						</td>
+					</tr>
+					<tr>
+						<td align="right" colspan="2">
+							<p:commandButton disabled="#{loginBean.correct_pw eq false}"
+							immediate="true" id="saveButton2"
+							action="#{loginBean.savePassword}" ajax="false" type="submit"
+							value="Save" />
+						</td>
+					</tr>
+				</table>
+			</p:dialog>
+
+			<p:dialog id="modalDialog3" header="Change Email" widgetVar="addDlg3"
+				modal="true">
+				<table>
+					<tr>
+						<td colspan="2">
+						<p:messages id="messages3" showDetail="true" autoUpdate="true" />
+						</td>
+					</tr>
+					<tr>
+					 <td>
+						<h:outputLabel value="New Email:" />
+					</td>
+					<td>
+					<p:inputText label="New Email 1" id="pwd5"
+						value="#{loginBean.newEmail1}">
+						<p:ajax update="saveButton3" event="keyup"
+							listener="#{loginBean.validateEamil}" />
+					</p:inputText>
+					</td>
+					</tr>
+					<tr>
+					<td>
+					<h:outputLabel value="Confirm Email:"/>
+					</td>
+					<td>
+					<p:inputText label="New Email 2" id="pwd6"
+						value="#{loginBean.newEmail2}">
+						<p:ajax update="saveButton3" event="keyup"
+							listener="#{loginBean.validateEamil}" />
+					</p:inputText>
+					</td>
+					</tr>
+					<tr>
+					<td colspan="2" align="right">
+				<p:commandButton disabled="#{loginBean.correct_email eq false}"
+					immediate="true" id="saveButton3"
+					action="#{loginBean.saveEmail(loginBean.newEmail2)}" ajax="false"
+					type="submit" value="Save" />
+					</td>
+					</tr>
+				</table>
+			</p:dialog>
+
+			<p:dialog id="modalDialog4" header="Change Email" widgetVar="addDlg4"
+				modal="true">
+						<table>
+					<tr>
+						<td colspan="2">
+				<p:messages id="messages4" showDetail="true" autoUpdate="true" />
+				</td>
+					</tr>
+					<tr>
+					 <td>
+						<h:outputLabel value="New Email:" />
+					</td>
+					<td>
+					<p:inputText label="New Email 1" id="pwd7"
+						value="#{loginBean.newEmail1}">
+						<p:ajax update="saveButton4" event="keyup"
+							listener="#{loginBean.validateEamilbyAdmin}" />
+					</p:inputText>
+					</td>
+					</tr>
+					<tr>
+					<td>
+					<h:outputLabel value="Confirm Email:"/>
+					</td>
+					<td>
+					<p:inputText label="New Email 2" id="pwd8"
+						value="#{loginBean.newEmail2}">
+
+						<p:ajax update="saveButton4" event="keyup"
+							listener="#{loginBean.validateEamilbyAdmin}" />
+					</p:inputText>
+					</td>
+					</tr>
+					<tr>
+					<td colspan="2" align="right">
+				<p:commandButton disabled="#{loginBean.correct_email eq false}"
+					immediate="true" id="saveButton4" action="#{loginBean.saveEmail}"
+					ajax="false" type="submit" value="Save" />
+					</td>
+					</tr>
+				</table>
+			</p:dialog>
+
+			<p:dialog id="modalDialog5" header="New User" widgetVar="addDlg5"
+				modal="true">
+				<p:messages id="messages5" showDetail="true" autoUpdate="true" />
+				<table width="100%" align="center">
+					<tr>
+						<td align="right"><p:outputLabel value="User&nbsp;Name:"></p:outputLabel></td>
+						<td align="left"><p:inputText label="User Name"
+								id="newusername" value="#{loginBean.newusername}">
+								<p:ajax update="saveButton5" event="keyup"
+									listener="#{loginBean.validateNewUserbyAdmin}" />
+							</p:inputText></td>
+						<td align="right"><p:outputLabel value="User&nbsp;Id:"></p:outputLabel></td>
+						<td align="left"><p:inputText label="User Id" id="newuserId"
+								value="#{loginBean.newuserId}">
+								<p:ajax update="saveButton5" event="keyup"
+									listener="#{loginBean.validateNewUserbyAdmin}" />
+							</p:inputText></td>
+					</tr>
+					<tr>
+						<td align="right"><h:outputLabel value="New Password:" /></td>
+						<td align="left"><p:password label="New Password 1" id="pwd9"
+								value="#{loginBean.newuserpassword2}">
+								<p:ajax update="saveButton5" event="keyup"
+									listener="#{loginBean.validateNewUserbyAdmin}" />
+							</p:password></td>
+						<td align="right"><h:outputLabel value="Confirm Password:" /></td>
+						<td align="left"><p:password label="New Password 2"
+								id="pwd10" value="#{loginBean.newuserpassword3}">
+								<p:ajax update="saveButton5" event="keyup"
+									listener="#{loginBean.validateNewUserbyAdmin}" />
+							</p:password></td>
+					</tr>
+					<tr>
+						<td align="right"><h:outputLabel value="Email:" /></td>
+						<td align="left"><p:inputText id="newuserEmail"
+								value="#{loginBean.newuserEmail}">
+
+							</p:inputText></td>
+						<td align="right"><h:outputLabel value="Role" /></td>
+						<td align="left"><p:selectOneMenu
+								value="#{loginBean.newuserRole}">
+								<f:selectItems value="#{utilBean.roleList}" />
+							</p:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td colspan="4" align="right"><p:commandButton
+								disabled="#{loginBean.newUserOk eq false}"
+								action="#{loginBean.addUser}" id="saveButton5" ajax="false"
+								type="submit" value="Save" /></td>
+					</tr>
+				</table>
+			</p:dialog>
+
+			<p:dialog  id="modalDialog6"
+				header="Confirm User Deletion" widgetVar="addDlg6" modal="true">
+				<br/>
+				<table>
+					<tr>
+						<td width="50%" align="center"><p:commandButton action="#{loginBean.removeUser}"
+								type="submit" ajax="false" value="Delete&nbsp;this&nbsp;User"
+								immediate="true" />&nbsp;&nbsp;&nbsp;</td>
+						<td width="50%" align="center"><p:commandButton value="Cancel&nbsp;User&nbsp;Deletion"
+								onclick="addDlg6.hide();" /></td>
+					</tr>
+				</table>
+				<br/>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

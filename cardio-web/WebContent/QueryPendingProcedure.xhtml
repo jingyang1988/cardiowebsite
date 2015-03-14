@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Query Pending Procedures</ui:define>
+	<ui:define name="content">
+		<h:form id="queryPendingProcedures">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+					
+					<ui:repeat var="page" value="QueryDatabase.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+					</ui:repeat>	
+							
+							
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+
+				<tr>
+					<td width="90%" align="center" colspan="2"><br /> <p:dataTable
+							var="p" paginator="true" rows="25"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="25,50,100,#{queryBean.queryPendingProceduresList.size()}"
+							value="#{queryBean.queryPendingProceduresList}"
+							filteredValue="#{queryBean.filteredQueryPendingProceduresList}">
+
+							<p:column filterStyle="width:95%;" filterBy="#{p.patientMrn}"
+								headerText="PatientMRN" width="8%" styleClass="wrap">
+								<h:outputText value="#{p.patientMrn}"></h:outputText>
+							</p:column>
+
+							<p:column filterStyle="width:95%;" filterBy="#{p.patientName}"
+								headerText="Name(Last,First)" width="10%" styleClass="wrap">
+								<h:outputText value="#{p.patientName}"></h:outputText>
+							</p:column>
+
+							<p:column filterStyle="width:95%" filterBy="#{p.patientBirthday}"
+								headerText="Date Of Birth" width="8%" styleClass="wrap">
+								<h:outputText value="#{p.patientBirthday}">
+									<f:convertDateTime type="date" pattern="MM-dd-yyyy"></f:convertDateTime>
+								</h:outputText>
+							</p:column>
+
+							<p:column filterStyle="width:95%;"
+								filterBy="#{p.patientPhoneNumber}"
+								headerText="Phone&nbsp;Number" width="10%" styleClass="wrap">
+								<h:outputText value="#{p.patientPhoneNumber}"></h:outputText>
+							</p:column>
+
+							<p:column filterStyle="width:95%;" headerText="ProcedureType"
+								width="7%" styleClass="wrap">
+								<h:outputText value="#{p.procedureType}" />
+									
+							</p:column>
+
+
+							<p:column filterStyle="width:95%;" headerText="PerformedBy"
+								width="8%" styleClass="wrap">
+								<h:outputText value="#{p.performedBy}" />
+								
+							</p:column>
+
+							<p:column filterStyle="width:95%" filterBy="#{p.scheduleDate}"
+								headerText="ScheduleDate" width="8%" styleClass="wrap">
+								<h:outputText value="#{p.scheduleDate}">
+									<f:convertDateTime type="date" pattern="MM-dd-yyyy"></f:convertDateTime>
+								</h:outputText>
+							</p:column>
+
+							<p:column width="8%">
+								<p:commandButton type="submit" ajax="false" value="Update"
+									action="#{mainMenuBean.surBiopsy()}"
+									actionListener="#{mainMenuBean.setSearchedPatient(p.name)}">
+
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable></td>
+				</tr>
+			</table>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

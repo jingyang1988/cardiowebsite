@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Primary List</ui:define>
+	<ui:define name="content">
+		<h:form id="primaryMDReport">
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				
+				<ui:repeat var="page" value="PrimaryMDReport.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}"></p:commandButton></td>
+				</ui:repeat>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;" 
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				
+			<tr>
+				<td width="90%" align="center" colspan="2">
+				
+			<br />		
+					<p:dataTable var="p" paginator="true" rows="25"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="25,#{queryMDReportBean.patientList.size()}"
+						value="#{queryMDReportBean.patientList}" filteredVaule="#{queryMDReportBean.filteredPatientList}"> 
+							  	
+					<p:column filterStyle="width:95%;" filterBy="#{p.mrn}" headerText="MRN" width="8%" styleClass="wrap">
+						<h:outputText value="#{p.mrn}"></h:outputText>
+					</p:column>
+					
+					<p:column filterStyle="width:95%;" filterBy="#{p.name}" headerText="Name (Last,First)" width="5%" styleClass="wrap">
+						<h:outputText value="#{p.name}"></h:outputText>
+					</p:column>	
+					
+					<p:column filterStyle="width:95%;" filterBy="#{p.referralDate}" headerText="Referral Date" width="10%" styleClass="wrap">
+						<h:outputText value="#{p.referralDate}"></h:outputText>
+					</p:column>									
+					
+					<p:column filterStyle="width:95%;" filterBy="#{p.noOfProcedures}" headerText="# of Procedures" width="7%" styleClass="wrap">
+						<h:outputText value="#{p.noOfProcedures}"></h:outputText>
+					</p:column>
+					
+					<p:column filterStyle="width:95%;" filterBy="#{p.referringMD}" headerText="Referring MD" width="8%" styleClass="wrap">
+						<h:outputText value="#{p.referringMD}"></h:outputText>
+					</p:column>					
+
+					<p:column filterStyle="width:95%;" filterBy="#{p.primaryCarePhysician}" headerText="Primary Care Physician" width="5%" styleClass="wrap">
+						<h:outputText value="#{p.primaryCarePhysician}"></h:outputText>
+					</p:column>			
+														
+					</p:dataTable>
+					
+					</td>
+				</tr>
+			</table>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

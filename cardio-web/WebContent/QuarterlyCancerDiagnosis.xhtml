@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Quarterly Cancer Diagnosis Report</ui:define>
+	<ui:define name="content">
+		<h:form id="queryPatient">
+			<br />
+			<table width="100%" align="center">
+			<tr>
+
+				<ui:repeat var="page" value="Reports.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>
+
+				<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;" 	action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+			</tr>
+			</table>
+			<p:barChart id="basic" value="#{charts.getQuartCancerDiagModel()}" legendPosition="ne"  
+            title="Quarterly Cancer Diagnosis" style="height:300px" zoom="True" xaxisAngle="90" yaxisLabel="Patient Count" xaxisLabel="Quarter" animate="False"/>
+
+			<br />
+			
+			<table width="30%" align="center">
+			<tr>
+				<td width="90%" align="center" colspan="2">
+				
+			<br />
+
+			
+			<p:dataTable var="p" paginator="true" rows="25"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="25,50,100,#{queryBean.quartCancerDiag.size()}"
+				value="#{queryBean.quartCancerDiag}" >
+
+				<p:column sortBy="#{p.year}" sortOrder="descending"  headerText="Year" width="3%" styleClass="wrap">
+					<h:outputText value="#{p.year}" />
+				</p:column>
+
+				<p:column sortBy="#{p.quarter}" sortOrder="descending"  headerText="Quarter" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.quarter}" />
+				</p:column>
+
+				<p:column sortBy="#{p.count}" headerText="Count" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.count}"></h:outputText>
+				</p:column>
+
+				
+			</p:dataTable>
+				</td>
+				</tr>
+			</table>
+			
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

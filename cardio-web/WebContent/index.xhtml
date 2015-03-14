@@ -1,0 +1,72 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+    >
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/SpecialMasterPage.xhtml">
+	<ui:define name="title">LCEC DB Stony Brook Cancer Center</ui:define>
+	<ui:define name="content">
+		<h:form id="loginForm">
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<p style="text-align: center;">
+				<h1>Lung Cancer Evaluation Center (LCEC) Quality Database Application</h1>
+			</p>
+			<table width="100%" align="center">
+				<tr align="center">
+					<td width="20%"></td>
+					<td width="25%" style="text-align: right;"><p:outputLabel value="Login:"></p:outputLabel></td>
+					<td width="25%" style="text-align: left;"><p:inputText
+							id="txtLogin" value="#{loginBean.username}" required="true"
+							requiredMessage="Enter a valid login."></p:inputText></td>
+					<td width="30%"></td>
+				</tr>
+				<tr align="center">
+					<td width="20%"></td>
+					<td width="25%" style="text-align: right;"><p:outputLabel
+							value="Password: "></p:outputLabel></td>
+					<td width="25%" style="text-align: left;"><p:password
+							id="txtPassword" value="#{loginBean.password}" required="true"
+							requiredMessage="Enter a valid password."></p:password></td>
+					<td width="30%"></td>
+				</tr>
+			</table>
+			<table width="80%" align="center">
+				<tr align="center">
+					<td width="31%"></td>
+					<td align="left" width="40%" style="text-align: left;"><p:commandButton
+							type="submit" value="Login" action="#{loginBean.login()}"
+							ajax="false"></p:commandButton></td>
+				</tr>
+			</table>
+			<table width="100%" align="center">
+				<tr>
+					<td width="45%"></td>
+					<td style="text-align: left;"><span style="color: red;"><h:messages
+								id="message" /></span></td>
+				</tr>
+			</table>
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />LCEC DB Version 1.11.22 (November 22, 2014), Version name: Norm
+			<br />For problems, please email: <a href="mailto:Sunday.Campolo-Athans@stonybrookmedicine.edu?Subject=LCEC%20Issue%20Report" target="_top">Sunday.Campolo-Athans@stonybrookmedicine.edu</a> and 
+			<a href="mailto:Paul.Fodor@stonybrook.edu?Subject=LCEC%20Issue%20Report" target="_top">Paul.Fodor@stonybrook.edu</a>
+			<br />
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

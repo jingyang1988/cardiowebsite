@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Reports</ui:define>
+	<ui:define name="content">
+		<h:form id="queryDatabase">
+			<br />
+			<br />
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				
+				<ui:repeat var="page" value="mainMenu.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>
+				
+				<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;" action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			</table>
+			<br />
+			<!--  commented by rjosan
+			
+			<h:panelGrid columns="3" width="100%" styleClass="panel-center"
+				style="text-align: center;">
+				<p:commandButton value="Update Cancer Status" ajax="false"
+					type="submit" styleClass="command-button"
+					style="background-color:#C9FFE5;"></p:commandButton>
+				<p:commandButton value="Lesion Without SUV" type="submit"
+					ajax="false" styleClass="command-button"
+					style="background-color:#FF9966;"></p:commandButton>
+				<p:commandButton value="Patients without Scheduled Tests"
+					type="submit" ajax="false" styleClass="command-button"
+					style="background-color:#FFBF00;"></p:commandButton>
+			</h:panelGrid>
+			-->
+			
+			<br />
+			<br />
+			<p:separator style="width:80%;height:5px;background-color: #FF0000;" />
+			<br />
+			<br />
+			<h:panelGrid columns="3" width="100%" styleClass="panel-center"
+				style="text-align: center;">
+				
+				<ui:repeat var="page" value="PatientScheduleForYesterday.xhtml">
+				<p:commandButton value="Patient Appointments Yesterday" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="PatientScheduleForToday.xhtml">
+				<p:commandButton value="Patient Appointments Today" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				
+				
+				
+				<ui:repeat var="page" value="PatientScheduleForTomorrow.xhtml">
+				<p:commandButton value="Patient Appointments Tomorrow" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="PatientScheduleForLastWeek.xhtml">
+				<p:commandButton value="Patient Appointments previous week " ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="PatientScheduleForThisWeek.xhtml">
+				<p:commandButton value="Patient Appointments current Week " ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="PatientScheduleForNextWeek.xhtml">
+				<p:commandButton value="Patient Appointments next Week " ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>				
+				
+				<ui:repeat var="page" value="PatientScheduleForLastMonth.xhtml">
+				<p:commandButton value="Patient Appointments prev Month" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="PatientScheduleForThisMonth.xhtml">
+				<p:commandButton value="Patient Appointments current Month" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>		
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="PatientScheduleForNextMonth.xhtml">
+				<p:commandButton value="Patient Appointments next Month" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>		
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="QuarterlyCancerDiagnosis.xhtml">
+				<p:commandButton value="QuarterlyCancerDiagnosis" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>		
+			    </ui:repeat>
+			    
+			    <ui:repeat var="page" value="QuarterlyNewReferrals.xhtml">
+			    <p:commandButton value="QuarterlyNewReferrals" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="QuarterlyPETScans.xhtml">
+				<p:commandButton value="QuarterlyPETScans" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="QuarterlyNewConsults.xhtml">
+				<p:commandButton value="QuarterlyNewConsults" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="QuaterlyLungResection.xhtml">
+				<p:commandButton value="QuaterlyLungresection" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>		
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="QuarterlyRFACryo.xhtml">
+				<p:commandButton value="QuarterlyRFACryo" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>					
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="QuarterlyProcedures.xhtml">
+				<p:commandButton value="QuarterlyProcedures" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="YearlyNewReferrals.xhtml">
+				<p:commandButton value="YearlyNewReferrals" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>			
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="YearlyPETScans.xhtml">
+				<p:commandButton value="YearlyPETScans" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="YearlyNewConsults.xhtml">
+				<p:commandButton value="YearlyNewConsults" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="YearlyRFACryo.xhtml">
+				<p:commandButton value="YearlyRFACryo" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>					
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="YearlyProcedures.xhtml">
+				<p:commandButton value="YearlyProcedures" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="ClinicScheduleReport.xhtml">
+				<p:commandButton value="Clinic Schedule" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="VisitReport.xhtml">
+				<p:commandButton value="Visit Report" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				
+				<ui:repeat var="page" value="CasesPerTown.xhtml">
+				<p:commandButton value="CasesPerTown" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="GoogleMaps.xhtml">
+				<p:commandButton value="GoogleMaps" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="rptPreOps.xhtml">	
+				<p:commandButton value="rptPreOps" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="rptVisitTesting.xhtml">	
+				<p:commandButton value="rptVisitTesting" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="histo.xhtml">
+				<p:commandButton value="Histogram for Biopsy Procedure" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="correlation_result.xhtml">
+				<p:commandButton value="Correlation Analysis Result" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="data_mining_result.xhtml">
+				<p:commandButton value="Data Mining Result" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="statisitcs_result.xhtml">
+				<p:commandButton value="Statisitcs Result" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="width:250px;height:50px;background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>
+				
+			</h:panelGrid>
+			<br />
+			<br />
+			<p:separator style="width:80%;height:5px;background-color: #FF0000;" />
+			<br />
+			<br />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

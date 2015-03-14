@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Schedule Test</ui:define>
+	<ui:define name="content">
+		<h:form id="scheduleForm">
+			<table width="90%" align="center">
+				<tr>
+				
+				
+				<ui:repeat var="page" value="mainMenu.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>
+
+					<td align="center"><p:commandButton value="Save&nbsp;Changes" style="background-color:#FF9966;"
+							action="#{testBean.saveTestData}" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			</table>
+			<br />
+
+			<br />
+			<table width="90%" align="center">
+
+				<tr>
+					
+				</tr>
+
+			</table>
+
+			<br />
+			<p:panel id="patientData" style="border:0;">
+				<table align="center" width="80%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Patient&nbsp;Name:"></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="MRN:"></p:outputLabel></td>
+						<td align="left" width="7%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="10%"><h:outputLabel
+								value="WorkUp&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu
+								rendered="#{mainMenuBean.selectedPatient!=null}"
+								value="#{mainMenuBean.selectedPatient.workUpId}">
+								<f:selectItems value="#{utilBean.workupList}" />
+								<f:ajax event="change"
+									listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+						<td align="right" width="7%"><h:outputLabel
+								value="LCEC&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu
+								rendered="#{mainMenuBean.selectedPatient!=null}"
+								value="#{mainMenuBean.selectedPatient.lcecId}">
+								<f:selectItems value="#{utilBean.lcecStatusList}" />
+								<f:ajax event="change"
+									listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+					</tr>
+				</table>
+			</p:panel>
+			<br />
+			<table width="90%" align="center">
+				<tr>
+					<td width="10%"></td>
+					<td width="80%"><p:dataTable var="lesion"
+							value="#{testBean.testData.lesionList}" scrollable="true"
+							
+							
+							
+							
+							scrollHeight="60" emptyMessage="No data found."
+							style="text-align: center;">
+							<p:column headerText="Date&nbsp;LCEC" rendered="true"
+								style="text-align: center;">
+								<h:outputText value="#{lesion.lesionDate}" />
+							</p:column>
+							<p:column headerText="LCEC&nbsp;Classification" rendered="true"
+								style="text-align: center;">
+								<h:outputText value="#{lesion.leasionClassification}" />
+							</p:column>
+							<p:column headerText="Location" rendered="true"
+								style="text-align: center;">
+								<h:outputText value="#{lesion.location}" />
+							</p:column>
+						</p:dataTable></td>
+					<td width="10%"></td>
+
+				</tr>
+			</table>
+
+
+
+
+
+			<br />
+			<table width="90%" align="center">
+				<tr>
+
+					<td align="right"><p:outputLabel value="Insurance:"></p:outputLabel></td>
+
+
+
+
+
+					<td align="left"><p:selectOneMenu
+							value="#{testBean.patientData.insuranceCompany}">
+
+
+							<f:selectItems value="#{utilBean.insuranceList}" />
+						</p:selectOneMenu></td>
+					<td align="right"><p:outputLabel
+							value="Precerts Needed for:   "></p:outputLabel></td>
+
+					<td align="right"><p:outputLabel value="CT ?"></p:outputLabel></td>
+					<td align="left"><p:selectOneMenu
+							value="#{testBean.patientData.CT}">
+							<f:selectItem itemLabel="All" itemValue="Alll" />
+							<f:selectItem itemLabel="Some" itemValue="Some" />
+							<f:selectItem itemLabel="Never" itemValue="Never" />
+						</p:selectOneMenu></td>
+
+					<td align="right"><p:outputLabel value="PET ?"></p:outputLabel></td>
+
+					<td align="left"><p:selectOneMenu
+							value="#{testBean.patientData.PET}">
+							<f:selectItem itemLabel="All" itemValue="Alll" />
+							<f:selectItem itemLabel="Some" itemValue="Some" />
+							<f:selectItem itemLabel="Never" itemValue="Never" />
+						</p:selectOneMenu></td>
+
+					<td align="right"><p:outputLabel value="PFT ?     "></p:outputLabel></td>
+
+					<td align="left"><p:selectOneMenu
+							value="#{testBean.patientData.PFT}">
+							<f:selectItem itemLabel="All" itemValue="Alll" />
+							<f:selectItem itemLabel="Some" itemValue="Some" />
+							<f:selectItem itemLabel="Never" itemValue="Never" />
+						</p:selectOneMenu></td>
+				</tr>
+			</table>
+			<br />
+			<table width="90%" align="center">
+
+
+				<tr>
+				
+					<td align="right"><p:commandButton onclick="addDlg.show();"
+							type="button" value="Add&nbsp;New&nbsp;Schedule"></p:commandButton></td>
+				</tr>
+
+
+
+
+
+			</table>
+
+
+			<br />
+
+
+
+
+
+			<table width="90%" align="center" id="scheduleTable">
+				<tr>
+					<td><ui:repeat var="o" value="#{testBean.testData.testList}">
+
+							<p:fieldset id = "fieldset" legend="#{o.requiredDate}">
+								<table width="100%" align="center" id="nestedTable">
+
+									<tr>
+										<td align="right"><p:outputLabel value="Required Date"></p:outputLabel></td>
+										<td align="left"><p:calendar effect="slideDown"
+												navigator="true" id="popupCal11"
+												value="#{o.requiredDate}" style="width:110px">
+											</p:calendar></td>
+										<td align="right"><p:outputLabel value="TestType"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu id="type"
+												value="#{o.testType}" style="width:110px">
+												<f:selectItems value="#{utilBean.testTypeList}" />
+												<p:ajax event="change"
+													listener="#{testBean.onTestTypePFT(o)}" update=":scheduleForm"></p:ajax>
+											</p:selectOneMenu></td>
+
+
+
+
+
+
+										<td align="right"><p:outputLabel value="Date Scheduled"></p:outputLabel></td>
+										<td align="left"><p:calendar effect="slideDown"
+												navigator="true" id="popupCal212"
+												value="#{o.scheduledDate}" style="width:110px"></p:calendar></td>
+										<td align="right"><p:outputLabel value="Date Performed"></p:outputLabel></td>
+										<td align="left"><p:calendar effect="slideDown"
+												navigator="true" id="popupCal21"
+												value="#{o.testingDate}" style="width:110px"></p:calendar></td>
+
+
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel value="Result:" rendered="#{!o.isTypePFT()}"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu id="result"
+												value="#{o.testingResult}" style="width:110px" rendered="#{!o.isTypePFT()}">
+												<f:selectItems value="#{utilBean.getTestResultListByType(o.testType)}" />
+											</p:selectOneMenu></td>
+
+										<td align="right"><p:outputLabel value="Comment"></p:outputLabel></td>
+										<td align="left"><p:inputText size="50"
+												value="#{o.comment}" style="width:110px"></p:inputText></td>
+
+										<td align="right"><p:outputLabel value="Percert Num"></p:outputLabel></td>
+										<td align="left"><p:inputText size="50"
+												value="#{o.precertNumber}" style="width:110px"></p:inputText></td>
+										<td align="right"><p:outputLabel value="radiology places"></p:outputLabel></td>
+										<td align="left"><p:selectOneMenu style="width:110px">
+												<f:selectItem itemLabel="SB" itemValue="SB" />
+												<f:selectItem itemLabel="ZP" itemValue="ZP" />
+												<f:selectItem itemLabel="BAB" itemValue="BAB" />
+												<f:selectItem itemLabel="BMH" itemValue="BMH" />
+												<f:selectItem itemLabel="ELIH" itemValue="ELIH" />
+												<f:selectItem itemLabel="GOOD SAM" itemValue="GOOD SAM" />
+												<f:selectItem itemLabel="HUNTINGTON HOSP"
+													itemValue="HUNTINGTON HOSP" />
+												<f:selectItem itemLabel="Mather" itemValue="Mather" />
+												<f:selectItem itemLabel="MAR" itemValue="MAR" />
+												<f:selectItem itemLabel="MSK" itemValue="MSK" />
+												<f:selectItem itemLabel="NFR" itemValue="NFR" />
+												<f:selectItem itemLabel="SHH" itemValue="SHH" />
+												<f:selectItem itemLabel="Stand Up MRI"
+													itemValue="Stand Up MRI" />
+												<f:selectItem itemLabel="St Cath" itemValue="St Cath" />
+												<f:selectItem itemLabel="St Charles" itemValue="St Charles" />
+												<f:selectItem itemLabel="Suffolk MRI"
+													itemValue="Suffolk MRI" />
+												<f:selectItem itemLabel="PBMC" itemValue="PBMC" />
+												<f:selectItem itemLabel="Zilkha" itemValue="Zilkha" />
+												<f:selectItem itemLabel="other" itemValue="other" />
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel value="Ordered By LCEC?"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{o.orderByLCEC}" style="width:110px" /></td>
+										<td align="right"><p:outputLabel
+												value="Schedule F/U with MD"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{o.FUwithMD}" style="width:110px" /></td>
+										<td align="right"><p:outputLabel
+												value="Refused/Deferred?"></p:outputLabel></td>
+										<td align="left"><p:selectBooleanCheckbox
+												value="#{o.cancelled}" style="width:110px" /></td>
+
+									</tr>
+									
+										<tr> 
+										<td align="left"><p:outputLabel value="FEV-1" rendered="#{o.isTypePFT()}"></p:outputLabel></td>
+										<td align="right"><p:inputText
+											value="#{o.fev1}" style="width:105px" rendered="#{o.isTypePFT()}"></p:inputText> </td>
+										
+										<td align="left"><p:outputLabel value="FVC" rendered="#{o.isTypePFT()}"></p:outputLabel></td>
+										<td align="right"><p:inputText
+											value="#{o.fvc}" style="width:105px" rendered="#{o.isTypePFT()}"></p:inputText> </td>
+										<td align="left"><p:outputLabel value="DLCO:" rendered="#{o.isTypePFT()}"></p:outputLabel></td>
+										<td align="right"><p:inputText
+											value="#{o.dlco}" style="width:105px" rendered="#{o.isTypePFT()}"></p:inputText></td>
+										</tr>
+										<tr> 
+										<td align="left"><p:outputLabel value="FEV-%" rendered="#{o.isTypePFT()}"></p:outputLabel></td>
+										<td align="right"><p:inputText
+											value="#{o.fevPer}" style="width:105px" rendered="#{o.isTypePFT()}"></p:inputText> </td>
+										
+										<td align="left"><p:outputLabel value="FVC-%" rendered="#{o.isTypePFT()}"></p:outputLabel></td>
+										<td align="right"><p:inputText
+											value="#{o.fvcPer}" style="width:105px" rendered="#{o.isTypePFT()}"></p:inputText> </td>
+										<td align="left"><p:outputLabel value="DLCO-%:" rendered="#{o.isTypePFT()}"></p:outputLabel></td>
+										<td align="right"><p:inputText
+											value="#{o.dlcoPer}" style="width:105px" rendered="#{o.isTypePFT()}"></p:inputText></td>
+										</tr>
+										<tr>
+										<td align="left"><p:outputLabel value="FEV1/FVC" rendered="#{o.isTypePFT()}"></p:outputLabel></td>
+										<td align="right"><p:inputText
+											value="#{o.fev1OrFvc}" style="width:105px" rendered="#{o.isTypePFT()}"></p:inputText></td>
+										<td align="left"><p:outputLabel value="Interpretation" rendered="#{o.isTypePFT()}"></p:outputLabel></td>
+										<!-- <td align="right"><p:inputText
+											value="#{o.interpretation}" style="width:105px" rendered="#{o.isTypePFT()}"></p:inputText></td> -->
+										<td><p:selectOneMenu id="interpretationMenu" value="#{o.testingResult}" style="width:150px"
+															rendered="#{o.isTypePFT()}">
+												<f:selectItem itemLabel="Normal" itemValue="1" />
+												<f:selectItem itemLabel="obstructed" itemValue="2" />
+												<f:selectItem itemLabel="COPD - Normal Diffusion" itemValue="3" />
+												<f:selectItem itemLabel="COPD - Emphysema" itemValue="4" />
+												<f:selectItem itemLabel="restricted" itemValue="5" />
+												<f:selectItem itemLabel="other" itemValue="6" />
+											</p:selectOneMenu>
+										</td>
+										 
+										</tr>
+										<tr>
+										<td align="left"><p:commandButton value="Delete Schedule"
+											ajax="false" type="submit" action="#{testBean.deleteTest(o)}" />
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+										</tr>
+										
+								</table>
+							</p:fieldset>
+							<br />
+						</ui:repeat></td>
+				</tr>
+			</table>
+			<p:dialog id="modalDialog" header="New Schedule" widgetVar="addDlg"
+				modal="true">
+				<table width="100%" align="center">
+					<tr>
+						<td align="right"><p:outputLabel value="Date&nbsp;Required:"></p:outputLabel></td>
+						<td align="left"><p:calendar effect="slideDown"
+								navigator="true"
+								value="#{testBean.test.requiredDate}" style="width:110px"></p:calendar>
+						</td>
+						<td align="right"><p:outputLabel value="Test&nbsp;Type:"></p:outputLabel></td>
+						<td align="left">
+							<p:selectOneMenu
+								value="#{testBean.test.testType}" style="width:110px">
+								<f:selectItems value="#{utilBean.testTypeList}" />
+							</p:selectOneMenu> 
+						
+						
+						</td>
+						<td align="right"><p:outputLabel value="Date&nbsp;Scheduled:"></p:outputLabel></td>
+						<td align="left"><p:calendar effect="slideDown"
+								navigator="true"
+								value="#{testBean.test.scheduledDate}" style="width:110px"></p:calendar>
+						</td>
+						<td align="right"><p:outputLabel value="Precert&nbsp;Number:"></p:outputLabel></td>
+						<td align="left"><p:inputText
+								value="#{testBean.test.precertNumber}" style="width:105px"></p:inputText>
+						</td>
+					</tr>
+
+
+					<tr>
+						<td align="right"><p:outputLabel value="OrderByLCEC:"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{testBean.test.orderByLCEC}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						<td align="right"><p:outputLabel
+								value="Schedule&nbsp;FUwithMD"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{testBean.test.FUwithMD}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						<td align="right"><p:outputLabel value="Refused/Deferred?"></p:outputLabel></td>
+						<td align="left"><p:selectBooleanCheckbox
+								value="#{testBean.test.cancelled}" style="width:110px"></p:selectBooleanCheckbox>
+						</td>
+						<td align="right"></td>
+						<td align="left"><p:commandButton value="Add Schedule"
+								ajax="false" type="submit" action="#{testBean.addTest}" />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					</tr>
+
+				</table>
+			</p:dialog>
+			<table width="90%" align="center">
+				<tr>
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							action="mainMenu.xhtml" ajax="false"></p:commandButton></td>
+					<td align="center"><p:commandButton value="Save&nbsp;Changes" style="background-color:#FF9966;"
+							action="#{testBean.saveTestData}" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				
+			</table>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

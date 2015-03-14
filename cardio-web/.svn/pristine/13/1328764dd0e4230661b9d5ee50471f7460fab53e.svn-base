@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Query Database</ui:define>
+	<ui:define name="content">
+		<h:form id="queryDatabase">
+			<br />
+			<br />
+			<br />
+			<table width="90%" align="center">
+				<tr>
+				<ui:repeat var="page" value="mainMenu.xhtml">
+				<td  align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+								ajax="false" action="#{pageLogBean.logger(page)}" immediate="true"></p:commandButton></td>
+				</ui:repeat>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			</table>
+			<br />
+			<!--  commented by rjosan
+			
+			<h:panelGrid columns="3" width="100%" styleClass="panel-center"
+				style="text-align: center;">
+				<p:commandButton value="Update Cancer Status" ajax="false"
+					type="submit" styleClass="command-button"
+					style="background-color:#C9FFE5;"></p:commandButton>
+				<p:commandButton value="Lesion Without SUV" type="submit"
+					ajax="false" styleClass="command-button"
+					style="background-color:#FF9966;"></p:commandButton>
+				<p:commandButton value="Patients without Scheduled Tests"
+					type="submit" ajax="false" styleClass="command-button"
+					style="background-color:#FFBF00;"></p:commandButton>
+			</h:panelGrid>
+			-->
+			
+			<br />
+			<br />
+			<p:separator style="width:80%;height:5px;background-color: #FF0000;" />
+			<br />
+			<br />
+			<h:panelGrid columns="3" width="100%" styleClass="panel-center"
+				style="text-align: center;">
+				
+				<ui:repeat var="page" value="QueryPatient.xhtml">
+				<p:commandButton value="Query Patient" ajax="false" type="submit" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="background-color:#C9FFE5;"></p:commandButton>
+				</ui:repeat>	
+					
+				<ui:repeat var="page" value="queryProcedure.xhtml">
+				<p:commandButton value="Query Procedure" type="submit" ajax="false" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="background-color:#FF9966;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="QueryTesting.xhtml">
+				<p:commandButton value="Query Testing" type="submit" ajax="false" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="background-color:#A1CAF1;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="QueryCancers.xhtml">
+				<p:commandButton value="Query Cancers" type="submit" ajax="false" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="background-color:#BCD4E6;"></p:commandButton>
+				</ui:repeat>
+				
+				<ui:repeat var="page" value="queryVisits.xhtml">
+				<p:commandButton value="Query Visits" type="submit" ajax="false" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="background-color:#FBCEB1;"></p:commandButton>
+				</ui:repeat>
+				
+				
+				<ui:repeat var="page" value="QueryPendingProcedure.xhtml">
+				<p:commandButton value="Pending Procedures" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="background-color:#EDA9AF;"
+					type="submit" ajax="false"></p:commandButton>
+				</ui:repeat>
+				
+				
+				<ui:repeat var="page" value="QueryLesions.xhtml">
+				<p:commandButton value="Query Lesions" type="submit" ajax="false" action="#{pageLogBean.logger(page)}"
+					styleClass="command-button" style="background-color:#8580b1;"></p:commandButton>
+				</ui:repeat>
+				
+				<!-- commented by rjosan
+				<p:commandButton value="Query STS Database" type="submit"
+					ajax="false" styleClass="command-button"
+					style="background-color:#FF9966;"></p:commandButton>
+				<p:commandButton value="Priority Patients" type="submit"
+					ajax="false" styleClass="command-button"
+					style="background-color:#FFBF00;"></p:commandButton> -->
+					
+			</h:panelGrid>
+			<br />
+			<br />
+			<p:separator style="width:80%;height:5px;background-color: #FF0000;" />
+			<br />
+			<br />
+
+			<h:panelGrid columns="2" width="100%" styleClass="panel-center"
+				style="text-align: center;">
+				
+				<ui:repeat var="page" value="PrimaryMDReport.xhtml">
+				<p:commandButton  value="Primary MD Report" type="submit"
+					ajax="false" action="#{pageLogBean.logger(page)}" styleClass="command-button"
+					 style="background-color:#22A2AF;"></p:commandButton>
+				</ui:repeat>
+				<ui:repeat var="page" value="ReferringMDReport.xhtml">
+				<p:commandButton value="Referring MD Report" type="submit"
+					ajax="false" action="#{pageLogBean.logger(page)}" styleClass="command-button"
+					style="background-color:#7261A2;"></p:commandButton>
+				</ui:repeat>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

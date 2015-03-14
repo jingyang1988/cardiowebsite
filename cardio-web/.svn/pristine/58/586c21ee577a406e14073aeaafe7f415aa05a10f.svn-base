@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Medical History</ui:define>
+	<ui:define name="content">
+		<h:form>
+
+			<br />
+<table width="90%" align="center">
+				<tr>
+				
+				
+				<ui:repeat var="page" value="mainMenu.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+							ajax="false" action="#{pageLogBean.logger(page)}" immediate="true"></p:commandButton></td>
+				</ui:repeat>	
+				
+
+				    <td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;" action="#{medicalHistoryBean.saveHistoryData}" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			</table>
+			<br />
+			
+
+		<!-- <table width="90%" align="center">
+	    		<tr>
+	    			<td align="right"><p:commandButton value="Save Changes" action="#{medicalHistoryBean.saveHistoryData()}" ajax="false"></p:commandButton></td>
+	    		</tr>
+	    		</table>   -->	
+	    		
+	    	<p:panel id="patientData" style="border:0;">
+				<table align="center" width="90%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Patient&nbsp;Name:"></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="MRN:"></p:outputLabel></td>
+						<td align="left" width="7%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="10%"><h:outputLabel
+								value="WorkUp&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu  rendered="#{mainMenuBean.selectedPatient!=null}" value="#{mainMenuBean.selectedPatient.workUpId}" style="width:90%">
+								<f:selectItems value="#{utilBean.workupList}"/>
+								<f:ajax event="change" listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+						<td align="right" width="7%"><h:outputLabel
+								value="LCEC&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu rendered="#{mainMenuBean.selectedPatient!=null}" value="#{mainMenuBean.selectedPatient.lcecId}" style="width:90%">
+								<f:selectItems value="#{utilBean.lcecStatusList}"/>
+								<f:ajax event="change" listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+						<td align="right"><p:outputLabel value="Date of Entry: "></p:outputLabel></td>
+					<td align="left"><p:calendar effect="slideDown"
+												navigator="true" id="popupCal212"
+												value="#{medicalHistoryBean.historyData.dateofDataEntry}"></p:calendar></td>
+						
+					</tr>
+				</table>
+			</p:panel>
+			<br />
+			
+		
+			<br />
+			<table width="90%" align="center">
+				<tr>
+					<td width="50%"><p:fieldset legend="Tobacco History">
+							<br />
+							<table width="100%" align="center">
+								<tr>
+									<td align="right" width="10%"><h:outputLabel
+											value="At 1st visit:"></h:outputLabel></td>
+									<td align="left" width="15%"><p:selectOneMenu
+											value="#{medicalHistoryBean.historyData.smokeStatusEntry}"
+											style="width:50%">
+											<f:selectItem itemLabel="Smoker" itemValue="1" />
+											<f:selectItem itemLabel="Smoker trying to quit" itemValue="2" />
+											<f:selectItem itemLabel="Ex-smoker" itemValue="3" />
+											<f:selectItem itemLabel="Never smoker" itemValue="4" />
+										</p:selectOneMenu></td>
+									<td align="right" width="10%"><h:outputLabel
+											value="Pack Years"></h:outputLabel></td>
+									<td align="left" width="10%"><p:inputText id="txtCity2"
+											value="#{medicalHistoryBean.historyData.packYears}"></p:inputText></td>
+								</tr>
+								<tr>
+									<td align="right" width="10%"><h:outputLabel
+											value="Current:"></h:outputLabel></td>
+									<td align="left" width="15%"><p:selectOneMenu
+											value="#{medicalHistoryBean.historyData.smokeStatusCurrent}"
+											style="width:50%">
+											<f:selectItem itemLabel="Smoker" itemValue="1" />
+											<f:selectItem itemLabel="Smoker trying to quit" itemValue="2" />
+											<f:selectItem itemLabel="Ex-smoker" itemValue="3" />
+											<f:selectItem itemLabel="Never smoker" itemValue="4" />
+										</p:selectOneMenu></td>
+									<td align="right" width="10%"><h:outputLabel
+											value="Year&nbsp;quit"></h:outputLabel></td>
+									<td align="left" width="10%"><p:inputText
+											id="txtPostalCode"
+											value="#{medicalHistoryBean.historyData.yearQuit}"></p:inputText></td>
+								</tr>
+								<tr >
+								<td align="right" width="10%"><h:outputLabel
+											value="Start&nbsp;Year"></h:outputLabel></td>
+									<td align="left" width="10%"><p:inputText
+											id="startYear"
+											value="#{medicalHistoryBean.historyData.startYear}"></p:inputText>
+									</td>
+											
+								</tr>
+								
+								<tr >
+								<td align="right" width="10%"><h:outputLabel
+											value="End&nbsp;Year"></h:outputLabel></td>
+									<td align="left" width="10%"><p:inputText
+											id="endYear"
+											value="#{medicalHistoryBean.historyData.endYear}"></p:inputText>
+									</td>
+											
+								</tr>
+								
+
+							</table>
+							<br />
+						</p:fieldset> <br /></td>
+					<!-- <td><p:fieldset
+							legend="Major Surgery. Enter date and comment if either box checked">
+							<br />
+							<table width="100%" align="center">
+								<tr>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.cabg}" itemLabel="CABG/Valve?" /></td>
+
+
+									<td align="left" rowspan="2" width="35%"><p:inputTextarea
+											style="width:92%;" value="#{medicalHistoryBean.historyData.majorSurgeryComment}"></p:inputTextarea></td>
+								</tr>
+								<tr>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.majorSurgery}" itemLabel="Major&nbsp;Surgery?" /></td>
+								</tr>
+							</table>
+						</p:fieldset></td> -->
+				</tr>
+				<tr>
+					<!-- <td><p:fieldset legend="PFT&nbsp;Data">
+							<br />
+							<table width="100%" align="center">
+								<tr>
+									<td align="right" width="10%"><h:outputLabel
+											value="FEV-1&nbsp;(L)"></h:outputLabel></td>
+									<td align="left" width="10%"><h:outputLabel value="#{medicalHistoryBean.historyData.fev1l}"
+											style="width:90%;">
+
+										</h:outputLabel></td>
+									<td align="right" width="10%"><h:outputLabel
+											value="FVC&nbsp;(L)"></h:outputLabel></td>
+									<td align="left" width="10%"><h:outputLabel value="#{medicalHistoryBean.historyData.fvcl}"
+											style="width:90%;">
+
+										</h:outputLabel></td>
+								</tr>
+								<tr>
+									<td align="right" width="10%"><h:outputLabel
+											value="FEV-1&nbsp;(%Pred)"></h:outputLabel></td>
+									<td align="left" width="10%"><h:outputLabel value="#{medicalHistoryBean.historyData.fev1pred}"
+											style="width:90%;">
+
+										</h:outputLabel></td>
+									<td align="right" width="10%"><h:outputLabel
+											value="FVC&nbsp;(%Pred)"></h:outputLabel></td>
+									<td align="left" width="10%"><h:outputLabel value="#{medicalHistoryBean.historyData.fvcpred}"
+											style="width:90%;">
+
+										</h:outputLabel></td>
+								</tr>
+								<tr>
+									<td align="right" width="10%"><h:outputLabel
+											value="FEV-1/FVC&nbsp;(%)"></h:outputLabel></td>
+									<td align="left" width="10%"><h:outputLabel value="#{medicalHistoryBean.historyData.fev1Fvc}"
+											style="width:90%;">
+
+										</h:outputLabel></td>
+									<td align="right" width="10%"><h:outputLabel
+											value="DLCO&nbsp;(%Pred)"></h:outputLabel></td>
+									<td align="left" width="10%"><h:outputLabel value="#{medicalHistoryBean.historyData.dlcopred}"
+											style="width:90%;">
+
+										</h:outputLabel></td>
+								</tr>
+								<tr>
+									<td align="right" width="10%"><h:outputLabel
+											value="VO2max&nbsp;(ml/kg/min)"></h:outputLabel></td>
+									<td align="left" width="10%"><p:inputText value="#{medicalHistoryBean.historyData.vo2max}"
+											style="width:90%;">
+
+										</p:inputText></td>
+									<td align="right" width="10%"><h:outputLabel
+											value="DLCOAct:"></h:outputLabel></td>
+									<td align="left" width="10%"><h:outputLabel value="#{medicalHistoryBean.historyData.dlcoAct}"
+											style="width:90%;">
+
+										</h:outputLabel></td>
+								</tr>
+							</table>
+							<br />
+						</p:fieldset> <br /></td> -->
+					<td><p:fieldset
+							legend="Lung Cancer: Personal of Family History. Enter Comments, if any box checked">
+							<br />
+							<table width="100%" align="center">
+								<tr>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.personalLungCancer}" itemLabel="Personal&nbsp;Hx" /></td>
+
+
+									<td align="left" width="35%"><p:inputText
+											style="width:50%;" value="#{medicalHistoryBean.historyData.personalLungCancerComment}"></p:inputText></td>
+								</tr>
+								<tr>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.fatherMotherLungCancer}" itemLabel="Father/Mother" /></td>
+
+
+									<td align="left" rowspan="2" width="35%"><p:inputTextarea
+											style="width:50%;" value="#{medicalHistoryBean.historyData.commentFamilyLungCancer}"></p:inputTextarea></td>
+								</tr>
+								<tr>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.otherFamilyLungCancer}" itemLabel="Other&nbsp;Family" /></td>
+								</tr>
+							</table>
+						</p:fieldset></td>
+				</tr>
+				<tr>
+					<!-- <td><p:fieldset legend="Cardiac History">
+							<br />
+							<table width="100%" align="center">
+								<tr>
+
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.cad}" itemLabel="Coronary&nbsp;Disease?:" /></td>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.lvef}" itemLabel="LVEF&nbsp;less&nbsp;than&nbsp;40%" /></td>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.cva}" itemLabel="Prior&nbsp;stroke?" /></td>
+
+								</tr>
+							</table>
+							<br />
+						</p:fieldset> <br /></td> -->
+					<td><p:fieldset
+							legend="Other Cancer: Personal of Family History. Enter Comments, if any box checked">
+							<br />
+							<table width="100%" align="center">
+								<tr>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.otherCancer}" itemLabel="Personal&nbsp;Hx" /></td>
+
+
+									<td align="left" width="35%"><p:inputText
+											style="width:50%;" value="#{medicalHistoryBean.historyData.otherCancerComment}"></p:inputText></td>
+								</tr>
+								<tr>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.fatherMotherOtherCancer}" itemLabel="Father/Mother" /></td>
+
+
+									<td align="left" rowspan="2" width="35%"><p:inputTextarea
+											style="width:50%;" value="#{medicalHistoryBean.historyData.commentFamilyOtherCancer}"></p:inputTextarea></td>
+								</tr>
+								<tr>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.otherFamilyOtherCancer}" itemLabel="Other&nbsp;Family" /></td>
+								</tr>
+							</table>
+						</p:fieldset></td>
+				</tr>
+				<tr>
+					<td><p:fieldset legend="Environmental Exposures">
+							<br />
+							<table width="100%" align="center">
+								<tr>
+
+									<td align="right" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.asbestosExposure}" itemLabel="Asbestos&nbsp;Exposure" /></td>
+										
+									<td align="right" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.silicaExposure}" itemLabel="Silica&nbsp;Exposure" /></td>
+										
+									<td align="right" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.wtc}" itemLabel="WTC/9-11:" /></td>
+										
+									<td align="right" width="10%"><p:outputLabel
+											value="TB/PPD&nbsp;History"></p:outputLabel></td>
+									<td align="left" width="10%"><p:selectOneMenu
+											value="#{medicalHistoryBean.historyData.TBPPD}"
+											style="width:100%">
+											<f:selectItem itemLabel="Not Tested" itemValue="Not Tested" />
+											<f:selectItem itemLabel="PPD-" itemValue="PPD-" />
+											<f:selectItem itemLabel="PPD+ Treated" itemValue="PPD+ Treated" />
+											<f:selectItem itemLabel="PPD+ NotTreated" itemValue="PPD+ NotTreated" />
+											<f:selectItem itemLabel="Prior TB" itemValue="Prior TB" />
+											<f:selectItem itemLabel="Active TB" itemValue="Active TB" />
+										</p:selectOneMenu></td>
+
+								</tr>
+							</table>
+							<br />
+						</p:fieldset> <br /></td>
+					<!-- <td rowspan="2"><p:fieldset legend="Medications">
+							<br />
+							<table width="100%" align="center">
+								<tr>
+
+
+
+
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.aspirin}" itemLabel="Aspirin" /></td>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.coumadin}" itemLabel="Coumadin" /></td>
+								</tr>
+								<tr>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.plavix}" itemLabel="Plavix" /></td>
+									<td align="center" width="15%"><p:selectBooleanCheckbox
+											value="#{medicalHistoryBean.historyData.otherAntiCoag}" itemLabel="OtherAntiCoag" /></td>
+
+
+								</tr>
+
+								<tr>
+
+									<td align="center" width="15%"><p:outputLabel
+											value="Medications:"></p:outputLabel></td>
+									<td align="left" width="35%"><p:inputTextarea
+											style="width:92%;"
+											value="#{medicalHistoryBean.historyData.medications}"></p:inputTextarea></td>
+
+								</tr>
+
+								<tr>
+
+									<td align="center" width="15%"><p:outputLabel
+											value="Allergies:"></p:outputLabel></td>
+									<td align="left" width="35%"><p:inputTextarea
+											style="width:92%;"
+											value="#{medicalHistoryBean.historyData.allegies}"></p:inputTextarea></td>
+
+								</tr>
+							</table>
+						</p:fieldset></td> -->
+				</tr>
+				<tr>
+					<td><p:fieldset legend="History (free-text)">
+							<br />
+							<table width="100%" align="center">
+								<tr>
+
+
+
+									<td align="center" rowspan="2" width="35%"><p:inputTextarea
+											style="width:70%;"
+											value="#{medicalHistoryBean.historyData.comment}"></p:inputTextarea></td>
+								</tr>
+							</table>
+						</p:fieldset></td>
+
+				</tr>
+
+			</table>
+			<table width="90%" align="center">
+				<tr>
+				    <td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;"
+								ajax="false" action="mainMenu.xhtml" immediate="true"></p:commandButton></td>
+				    <td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;" action="#{medicalHistoryBean.saveHistoryData}" ajax="false"></p:commandButton></td>
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut}" ajax="false"></p:commandButton></td>
+				</tr>
+				
+			</table>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,10 @@
+INSERT INTO `list - medicationStrengthUnit` (`StrengthUnitID`,`Strength Unit`) VALUES (0,'Colony forming units per milliliter (cfu/ml)');
+INSERT INTO `list - medicationStrengthUnit` (`StrengthUnitID`,`Strength Unit`) VALUES (1,'International unit (iu)');
+INSERT INTO `list - medicationStrengthUnit` (`StrengthUnitID`,`Strength Unit`) VALUES (3,'Milliequivalent (meq)');
+INSERT INTO `list - medicationStrengthUnit` (`StrengthUnitID`,`Strength Unit`) VALUES (4,'Milliequivalent per milliliter (meq/ml)');
+INSERT INTO `list - medicationStrengthUnit` (`StrengthUnitID`,`Strength Unit`) VALUES (5,'Milligram (mg)');
+INSERT INTO `list - medicationStrengthUnit` (`StrengthUnitID`,`Strength Unit`) VALUES (6,'Milligram per milliliter (mg/ml)');
+INSERT INTO `list - medicationStrengthUnit` (`StrengthUnitID`,`Strength Unit`) VALUES (7,'Milliliter (ml)');
+INSERT INTO `list - medicationStrengthUnit` (`StrengthUnitID`,`Strength Unit`) VALUES (8,'Percent (%)');
+INSERT INTO `list - medicationStrengthUnit` (`StrengthUnitID`,`Strength Unit`) VALUES (9,'Unit (unt)');
+INSERT INTO `list - medicationStrengthUnit` (`StrengthUnitID`,`Strength Unit`) VALUES (10,'Units per milliliter (unt/ml)');

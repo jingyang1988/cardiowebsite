@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Appointments Last week </ui:define>
+	<ui:define name="content">
+		<h:form id="queryPatient">
+			<br />
+			<table width="30%" align="center">
+				<tr>
+
+				<ui:repeat var="page" value="Reports.xhtml">
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="#{pageLogBean.logger(page)}" ajax="false"></p:commandButton></td>
+				</ui:repeat>
+					
+
+
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+			<tr>
+				<td width="90%" align="center" colspan="2">
+				
+			<br />
+
+			<p:dataTable var="p" paginator="true" rows="25"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="25,50,100,#{queryBean.clinicSchedRepForLastWeek.size()}"
+				value="#{queryBean.clinicSchedRepForLastWeek}" >
+				<p:column width="8%">
+					<p:commandButton type="submit" ajax="false" value="Select"
+					  action="mainMenu.xhtml" actionListener="#{mainMenuBean.setSearchedPatient(p.name)}"></p:commandButton>
+				</p:column>
+				<p:column  headerText="MRN" width="3%" styleClass="wrap">
+					<h:outputText value="#{p.mrn}" />
+				</p:column>
+
+				<p:column headerText="Name" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.name}" />
+				</p:column>
+
+				<p:column headerText="SmokerStatusEntry" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.smokerStatusEntry}"></h:outputText>
+				</p:column>
+				
+				<p:column  headerText="SmokerStatusCurrent" width="3%" styleClass="wrap">
+					<h:outputText value="#{p.smokerStatusCurrent}" />
+				</p:column>
+
+				<p:column headerText="AlternativePhone" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.alternativePhone}" />
+				</p:column>
+
+				<p:column headerText="PhoneNumber" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.phoneNumber}"></h:outputText>
+				</p:column>
+				
+				<p:column  headerText="DOB" width="3%" styleClass="wrap">
+					<h:outputText value="#{p.dob}" />
+				</p:column>
+
+				<p:column headerText="Insurance" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.insurance}" />
+				</p:column>
+
+				<p:column headerText="InsurancePhone" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.insurancePhone}"></h:outputText>
+				</p:column>
+				
+				<p:column  headerText="insuranceID" width="3%" styleClass="wrap">
+					<h:outputText value="#{p.insuranceID}" />
+				</p:column>
+
+				<p:column headerText="Secondary Insurance" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.secInsurance}" />
+				</p:column>
+
+				<p:column headerText="Secondary Insurance ID" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.secInsurID}"></h:outputText>
+				</p:column>
+
+
+				<p:column headerText="ReferralNeeded" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.referralNeeded}"></h:outputText>
+				</p:column>
+				
+				<p:column  headerText="Date Required" width="3%" styleClass="wrap">
+					<h:outputText value="#{p.dateRequired}" />
+				</p:column>
+
+				<p:column headerText="Date Scheduled" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.dateScheduled}" />
+				</p:column>
+
+				<p:column headerText="To See" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.toSee}"></h:outputText>
+				</p:column>
+				
+				<p:column headerText="Referral No" width="2%" styleClass="wrap">
+					<h:outputText value="#{p.refNo}"></h:outputText>
+				</p:column>
+				
+			</p:dataTable>
+				</td>
+				</tr>
+			</table>
+			
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

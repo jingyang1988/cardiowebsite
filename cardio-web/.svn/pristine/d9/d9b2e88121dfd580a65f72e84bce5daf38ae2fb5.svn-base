@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+<ui:composition template="/WEB-INF/templates/MasterPage.xhtml">
+	<ui:define name="title">Procedures and Treatments</ui:define>
+	<ui:define name="content">
+	    <h:form id="surBiopsy">
+	    <ui:param name="patient" value="#{mainMenuBean.selectedPatient}" />
+	    
+	    	    
+	    <table width="90%" align="center">
+				<tr>
+					<td align="left">
+						<p:commandButton value="Back" style="background-color:#A1CAF1;" action="mainMenu.xhtml" ajax="false" immediate="true" ></p:commandButton></td>
+					
+				   <td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;"
+							action="#{surBiposyDataBean.saveSurBiopsyData()}" ajax="false"></p:commandButton></td> 
+							
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				<tr> 
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> </tr>
+			</table>
+			<br/>
+
+			<p:panel id="patientData" style="border:0;">
+				<table align="center" width="80%">
+					<tr>
+						<td align="right" width="10%"><p:outputLabel
+								value="Patient&nbsp;Name:"></p:outputLabel></td>
+						<td align="left" width="10%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.name}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="7%"><p:outputLabel value="MRN:"></p:outputLabel></td>
+						<td align="left" width="7%"><p:outputLabel
+								value="#{mainMenuBean.selectedPatient.mrn}"
+								style="color:black;font-weight:bold;"></p:outputLabel></td>
+						<td align="right" width="10%"><h:outputLabel
+								value="WorkUp&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu  rendered="#{mainMenuBean.selectedPatient!=null}" value="#{mainMenuBean.selectedPatient.workUpId}">
+								<f:selectItems value="#{utilBean.workupList}"/>
+								<f:ajax event="change" listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+						<td align="right" width="7%"><h:outputLabel
+								value="LCEC&nbsp;Status:"></h:outputLabel></td>
+						<td align="left" width="7%"><p:selectOneMenu rendered="#{mainMenuBean.selectedPatient!=null}" value="#{mainMenuBean.selectedPatient.lcecId}">
+								<f:selectItems value="#{utilBean.lcecStatusList}"/>
+								<f:ajax event="change" listener="#{mainMenuBean.updateSeachedPatient}"></f:ajax>
+							</p:selectOneMenu></td>
+					</tr>
+				</table>
+			</p:panel>
+		
+	    	<!-- 
+	    	<table width="100%" align="center">
+	    		<tr>
+	    			<td width="10%"></td>
+	    			<td width="80%">
+	    				 <p:dataTable var="lesion" value="#{surBiposyDataBean.surBiopsyData.lesionList}" scrollable="true" scrollHeight="60" emptyMessage="No data found." style="text-align: center;">    					
+ 					       <p:column headerText="Date&nbsp;LCEC" rendered="true" style="text-align: center;">  
+  					          <h:outputText value="#{lesion.lesionDate}" />  
+ 					       </p:column> 
+ 					       <p:column headerText="LCEC&nbsp;Classification" rendered="true" style="text-align: center;">  
+  					          <h:outputText value="#{lesion.leasionClassification}" />  
+ 					       </p:column> 
+ 					       <p:column headerText="Location" rendered="true" style="text-align: center;">  
+  					          <h:outputText value="#{lesion.location}" />  
+ 					       </p:column>  
+	    				</p:dataTable> 
+	    			</td>
+	    			<td width="10%"></td>
+	    		</tr>
+	    	</table> 
+	    	-->
+	 		
+	    	<br/>	
+	    	<table width="80%" align="center">
+	    		<tr>
+	    			<td align="right" width="15%"><p:selectBooleanCheckbox value="#{surBiposyDataBean.surBiopsyData.aspirin}" itemLabel="Aspirin:" /></td>
+	    			<td align="right" width="15%"><p:selectBooleanCheckbox value="#{surBiposyDataBean.surBiopsyData.plavix}" itemLabel="Plavix:" /></td>
+	    			<td align="right" rowspan="2" width="15%"><p:outputLabel value="Medication&nbsp;List:"></p:outputLabel></td>
+	    			<td align="left" rowspan="2" width="35%"><p:inputTextarea style="width:92%;" value="#{surBiposyDataBean.surBiopsyData.medicationlist}"></p:inputTextarea></td>
+	    		</tr>
+	    		<tr>
+	    			<td align="right"><p:selectBooleanCheckbox value="#{surBiposyDataBean.surBiopsyData.coumadin}" itemLabel="Coumadin:" /></td>
+	   				<td align="right"><p:selectBooleanCheckbox value="#{surBiposyDataBean.surBiopsyData.otheranticoag}" itemLabel="Other&nbsp;Anti&nbsp;Coag:"/></td>
+	    		</tr>
+	    	</table>
+	    <table width="90%" align="center">
+	    	<tr><td><br/></td></tr>
+	    	<tr>
+	    	 
+	    	 <td align="right"><p:commandButton onclick="addDlg.show();" type="button" value="Add New Procedure"></p:commandButton></td> 
+	        </tr>
+	    </table>
+	    	
+	   <table id="plist" width="90%" align="center" >
+	     <tr>
+	       <td>
+			<ui:repeat var="biopsy" value="#{surBiposyDataBean.surBiopsyData.biopsyList}">
+				<p:fieldset> 
+					<table width="100%" align="center"> 
+						<tr>
+							<td align="right" width="10%"><p:outputLabel value="Surgery&nbsp;/&nbsp;Biopsy:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{biopsy.procedureTypeId}" style="width:80%">
+									<f:selectItems value="#{utilBean.biopsyTypesList}"/>
+								</p:selectOneMenu>
+							</td>
+							<td align="right" width="10%"><p:outputLabel value="Schedule&nbsp;Date:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:calendar effect="slideDown" navigator="true"  value="#{biopsy.scheduleDate}"></p:calendar>
+							</td>
+							<td align="right" width="10%"><p:outputLabel value="Procedure&nbsp;Date:"></p:outputLabel> </td>
+							<td align="left" width="20%">
+								<p:calendar effect="slideDown" navigator="true"  value="#{biopsy.procedureDate}"></p:calendar>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" width="10%"><p:outputLabel value="Performed&nbsp;By:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{biopsy.performedBy}" style="width:80%">
+									<f:selectItems value="#{utilBean.lcecPhysiciansList}" />
+								</p:selectOneMenu>
+							</td>
+							<td align="right" width="10%"><p:outputLabel value="Location:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{biopsy.biopsyLocation}" style="width:85%">
+									<f:selectItems value="#{utilBean.locationList}" />
+								</p:selectOneMenu>
+							</td>
+							<td align="right" width="10%"><p:outputLabel value="Location&nbsp;Comment:"></p:outputLabel> </td>
+							<td align="left" width="20%"><p:inputText value="#{biopsy.locationComment}" style="width:80%;"></p:inputText></td>
+						</tr>
+						<tr>
+							<td align="right" width="10%"><p:outputLabel value="Complication:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{biopsy.complication}" style="width:80%">
+									<f:selectItems value="#{utilBean.complicationList}" />
+								</p:selectOneMenu>
+							</td>
+							<td align="right" width="10%"><p:outputLabel value="Biopsy&nbsp;Result:"></p:outputLabel></td>
+							<td align="left" width="20%"><p:inputText value="#{biopsy.biopsyResult}" style="width:80%;"></p:inputText></td>
+							<td align="right" width="10%"><p:outputLabel value="Diagnostic:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{biopsy.diagnostic}" style="width:85%">
+										<f:selectItems value="#{utilBean.resultDiagnosticList}" />
+								</p:selectOneMenu>
+							</td>
+						</tr>
+						<tr>
+							<!-- 
+							<td align="right" width="10%"><p:outputLabel value="Accuracy:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{biopsy.accuracy}" style="width:80%;">
+									<f:selectItems value="#{utilBean.biopsyAccuracyList}" />
+								</p:selectOneMenu>
+							</td>
+							-->
+							<td align="right" width="10%"><p:outputLabel value="Comment:"></p:outputLabel></td>
+							<td align="left" width="20%"><p:inputText value="#{biopsy.comment}" style="width:80%"></p:inputText></td>
+							<td align="right" width="10%"><p:commandButton value="If&nbsp;bronch" action="#{surBiposyDataBean.ifBronch(biopsy)}" ajax="false">
+							</p:commandButton></td>
+							
+							<td align="right" width="10%"><p:commandButton value="Delete" action="#{surBiposyDataBean.deleteSurBiopsyData(biopsy)}" ajax="false"></p:commandButton></td>
+							<!-- <td align="left" width="20%"><p:commandButton value="STS&nbsp;Data"></p:commandButton></td>	 -->
+						</tr>
+					</table>
+				</p:fieldset>
+				<br/>
+			</ui:repeat>
+			</td>
+	      </tr>
+	    </table>
+	    <br />
+		<br />
+	    
+	    <p:dialog id="modalDialog" header="Add Procedure" widgetVar="addDlg" modal="true">
+	    		<table width="100%" align="center"> 
+						<tr>
+							<td align="right" width="10%"><p:outputLabel value="Surgery&nbsp;/&nbsp;Biopsy:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{surBiposyDataBean.biopsy.procedureTypeId}" style="width:80%">
+									<f:selectItems value="#{utilBean.biopsyTypesList}"/>
+								</p:selectOneMenu>
+							</td>
+							<td align="right" width="10%"><p:outputLabel value="Schedule&nbsp;Date:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:calendar effect="slideDown" navigator="true"  value="#{surBiposyDataBean.biopsy.scheduleDate}"></p:calendar>
+							</td>
+							<td align="right" width="10%"><p:outputLabel value="Procedure&nbsp;Date:"></p:outputLabel> </td>
+							<td align="left" width="20%">
+								<p:calendar effect="slideDown" navigator="true"  value="#{surBiposyDataBean.biopsy.procedureDate}"></p:calendar>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" width="10%"><p:outputLabel value="Performed&nbsp;By:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{surBiposyDataBean.biopsy.performedBy}" style="width:80%">
+									<f:selectItems value="#{utilBean.lcecPhysiciansList}" />
+								</p:selectOneMenu>
+							</td>
+							<td align="right" width="10%"><p:outputLabel value="Location:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{surBiposyDataBean.biopsy.biopsyLocation}" style="width:85%">
+									<f:selectItems value="#{utilBean.locationList}" />
+								</p:selectOneMenu>
+							</td>
+							<td align="right" width="10%"><p:outputLabel value="Location&nbsp;Comment:"></p:outputLabel> </td>
+							<td align="left" width="20%"><p:inputText value="#{surBiposyDataBean.biopsy.locationComment}" style="width:80%;"></p:inputText></td>
+						</tr>
+						<tr>
+							<td align="right" width="10%"><p:outputLabel value="Complication:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{surBiposyDataBean.biopsy.complication}" style="width:80%">
+									<f:selectItems value="#{utilBean.complicationList}" />
+								</p:selectOneMenu>
+							</td>
+							<td align="right" width="10%"><p:outputLabel value="Biopsy&nbsp;Result:"></p:outputLabel></td>
+							<td align="left" width="20%"><p:inputText value="#{surBiposyDataBean.biopsy.biopsyResult}" style="width:80%;"></p:inputText></td>
+							<td align="right" width="10%"><p:outputLabel value="Diagnostic:"></p:outputLabel></td>
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{surBiposyDataBean.biopsy.diagnostic}" style="width:85%">
+										<f:selectItems value="#{utilBean.resultDiagnosticList}" />
+								</p:selectOneMenu>
+							</td>
+						</tr>
+						<tr>
+							<!--  <td align="right" width="10%"><p:outputLabel value="Accuracy:"></p:outputLabel></td>  
+							<td align="left" width="20%">
+								<p:selectOneMenu value="#{surBiposyDataBean.biopsy.accuracy}" style="width:80%;">
+									<f:selectItems value="#{utilBean.biopsyAccuracyList}" />
+								</p:selectOneMenu>
+							</td> -->
+							<td align="right" width="10%"><p:outputLabel value="Comment:"></p:outputLabel></td>
+							<td align="left" width="20%"><p:inputText value="#{surBiposyDataBean.biopsy.comment}" style="width:80%"></p:inputText></td>
+							<td width="30%" align="right" colspan="2"><p:commandButton value="Add Procedure" ajax="false" type="submit" action="#{surBiposyDataBean.addSurBiopsy()}" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>	
+						</tr>
+					</table>
+		</p:dialog>
+
+<table width="90%" align="center">
+				<tr>
+					<td align="left"><p:commandButton value="Back" style="background-color:#A1CAF1;" action="mainMenu.xhtml" immediate="true" ></p:commandButton></td>
+					
+				   <td align="center"><p:commandButton value="Save Changes" style="background-color:#FF9966;"
+							action="#{surBiposyDataBean.saveSurBiopsyData()}" ajax="false"></p:commandButton></td> 
+							
+					<td align="right"><p:commandButton value="Log Out" style="background-color:#FFBF00;"
+							action="#{loginBean.logOut()}" ajax="false"></p:commandButton></td>
+				</tr>
+				
+			</table>
+	    </h:form>
+	</ui:define>
+</ui:composition>
+</html>
